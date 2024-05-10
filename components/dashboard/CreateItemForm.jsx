@@ -63,8 +63,8 @@ export default function CreateItemForm({
       onSubmit={handleSubmit(onSubmit)}
       className="w-full bg-white border border-gray-200 rounded-md shadow md:p-8 dark:bg-gray-800 dark:border-gray-700 mx-auto my-3"
     >
-      {/* <div className="grid gap-4 sm:grid-cols-2 sm:gap-6"> */}
-      <div className="">
+      <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
+        {/* <div className=""> */}
         <TextInput
           label="Rack #"
           name="title"
@@ -115,32 +115,34 @@ export default function CreateItemForm({
           options={units}
         />
 
-        <TextInput
-          label="Thickness"
-          name="thickness"
-          register={register}
-          errors={errors}
-          type="number"
-          className="w-full mt-4"
-        />
+        <div className="grid gap-4 sm:grid-cols-3 sm:gap-6">
+          <TextInput
+            label="Thickness"
+            name="thickness"
+            register={register}
+            errors={errors}
+            type="number"
+            className="w-full mt-4"
+          />
 
-        <TextInput
-          label="Width"
-          name="width"
-          register={register}
-          errors={errors}
-          type="number"
-          className="w-full mt-4"
-        />
+          <TextInput
+            label="Width"
+            name="width"
+            register={register}
+            errors={errors}
+            type="number"
+            className="w-full mt-4"
+          />
 
-        <TextInput
-          label="Length"
-          name="length"
-          register={register}
-          errors={errors}
-          type="number"
-          className="w-full mt-4"
-        />
+          <TextInput
+            label="Length"
+            name="length"
+            register={register}
+            errors={errors}
+            type="number"
+            className="w-full mt-4"
+          />
+        </div>
 
         <TextareaInput
           label="Item Notes"
