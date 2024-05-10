@@ -2,22 +2,25 @@
 
 import ImageInput from "@/components/FormInputs/ImageInput";
 import SelectInput from "@/components/FormInputs/SelectInput";
+import SelectInputWithSearch from "../FormInputs/SelectInputWithSearch";
 import SubmitButton from "@/components/FormInputs/SubmitButton";
 import TextInput from "@/components/FormInputs/TextInput";
 import TextareaInput from "@/components/FormInputs/TextareaInput";
 import FormHeader from "@/components/dashboard/FormHeader";
 import {makePostRequest, makePutRequest} from "@/lib/apiRequest";
 import {getData} from "@/lib/getData";
+import {Pencil} from "lucide-react";
 
 import Image from "next/image";
 import Link from "next/link";
 import {useRouter} from "next/navigation";
 import React, {useState} from "react";
 import {useForm} from "react-hook-form";
+import {customerList, items, units} from "@/utils/constant";
 
 export default function CreateItemForm({
   categories,
-  units,
+  // units,
   brands,
   warehouses,
   suppliers,
@@ -58,143 +61,104 @@ export default function CreateItemForm({
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="w-full max-w-4xl p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700 mx-auto my-3"
+      className="w-full bg-white border border-gray-200 rounded-md shadow md:p-8 dark:bg-gray-800 dark:border-gray-700 mx-auto my-3"
     >
-      <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
+      {/* <div className="grid gap-4 sm:grid-cols-2 sm:gap-6"> */}
+      <div className="">
         <TextInput
-          label="Item Title"
+          label="Rack #"
           name="title"
           register={register}
           errors={errors}
-          className="w-full"
+          className="w-full mt-4"
         />
-        <SelectInput
+
+        <SelectInputWithSearch
           name="categoryId"
-          label="Select the Item Category"
+          label="Customer Name"
           register={register}
-          className="w-full"
-          options={categories}
+          className="w-full mt-4"
+          options={customerList}
+        />
+
+        <SelectInputWithSearch
+          name="categoryId"
+          label="Description"
+          register={register}
+          className="w-full mt-4"
+          options={items}
         />
 
         <TextInput
-          label="Item SKU"
-          name="sku"
-          register={register}
-          errors={errors}
-          className="w-full"
-        />
-        <TextInput
-          label="Item Barcode"
-          name="barcode"
+          label="TPI Number"
+          name="TPI Number"
           register={register}
           errors={errors}
           // isRequired='false'
-          className="w-full"
+          className="w-full mt-4"
         />
+
         <TextInput
           label="Item Quantity"
           name="qty"
           register={register}
           errors={errors}
-          className="w-full"
+          type="number"
+          className="w-full mt-4"
         />
-        <SelectInput
+
+        <SelectInputWithSearch
           name="unitId"
           label="Select the Item Unit"
           register={register}
-          className="w-full"
+          className="w-full mt-4"
           options={units}
         />
-        <SelectInput
-          name="brandId"
-          label="Select the Item Brand"
-          register={register}
-          className="w-full"
-          options={brands}
-        />
+
         <TextInput
-          label="Buying Price"
-          name="buyingPrice"
+          label="Thickness"
+          name="thickness"
           register={register}
           errors={errors}
           type="number"
-          className="w-full"
+          className="w-full mt-4"
         />
+
         <TextInput
-          label="Selling Price"
-          name="sellingPrice"
+          label="Width"
+          name="width"
+          register={register}
+          errors={errors}
           type="number"
+          className="w-full mt-4"
+        />
+
+        <TextInput
+          label="Length"
+          name="length"
           register={register}
           errors={errors}
-          className="w-full"
-        />
-        <SelectInput
-          name="supplierId"
-          label="Select the Item Supplier"
-          register={register}
-          className="w-full"
-          options={suppliers}
-        />
-        <TextInput
-          label="Re-Order Point"
-          name="reOrderPoint"
           type="number"
-          register={register}
-          errors={errors}
-          className="w-full"
+          className="w-full mt-4"
         />
-        <SelectInput
-          name="warehouseId"
-          label="Select the Item Warehouse"
-          register={register}
-          className="w-full"
-          options={warehouses}
-        />
-        <TextInput
-          label="Item Weight in Kgs"
-          name="weight"
-          type="number"
-          register={register}
-          errors={errors}
-          className="w-full"
-        />
-        <TextInput
-          label="Item Dimensions in cm (20 x 30 x 100)"
-          name="dimensions"
-          register={register}
-          errors={errors}
-          className="w-full"
-        />
-        <TextInput
-          label="Item Tax Rate in %"
-          name="taxRate"
-          type="number"
-          register={register}
-          errors={errors}
-          className="w-full"
-        />
-        <TextareaInput
-          label="Item Description"
-          name="description"
-          register={register}
-          errors={errors}
-        />
+
         <TextareaInput
           label="Item Notes"
           name="notes"
           register={register}
           errors={errors}
+          className="w-full mt-4"
         />
-        <ImageInput
+        {/* <ImageInput
           label="Item Image"
           imageUrl={imageUrl}
           setImageUrl={setImageUrl}
           endpoint="imageUploader"
-        />
+        /> */}
       </div>
       <SubmitButton
         isLoading={loading}
-        title={isUpdate ? "Updated Item" : " New Item"}
+        title={isUpdate ? "Updated Item" : " New Order"}
       />
     </form>
   );

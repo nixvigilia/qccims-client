@@ -5,8 +5,8 @@ export default function TextInput({
   errors,
   isRequired = true,
   type = "text",
-  className = "sm:col-span-2",
-  defaultValue=""
+  className = "sm:col-span-2 ",
+  defaultValue = "",
 }) {
   return (
     <div className={className}>
@@ -18,7 +18,7 @@ export default function TextInput({
       </label>
       <div className="mt-2">
         <input
-          {...register(`${name}`, { required: isRequired })}
+          {...register(`${name}`, {required: isRequired})}
           type={type}
           name={name}
           id={name}
