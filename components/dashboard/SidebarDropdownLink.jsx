@@ -5,7 +5,7 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
-import { BaggageClaim, ChevronRight } from "lucide-react";
+import {BaggageClaim, ChevronRight} from "lucide-react";
 import CollapsibleLink from "./CollapsibleLink";
 export default function SidebarDropdownLink({
   title,

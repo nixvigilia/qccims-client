@@ -30,20 +30,15 @@ export default function Header({setShowSidebar}) {
 
   return (
     <div className="bg-gray-100 h-12 flex items-center justify-between p-10 border-b border-slate-200">
-      <div className="flex gap-3">
-        {/* Recent activities */}
-
-        {/* Search */}
-        <SearchInput />
-      </div>
+      <div className="flex gap-3">{/* Recent activities */}</div>
       <div className="items-center gap-3 hidden lg:flex">
         {/*Plus Icon  */}
         <div className="pr-2 border-r border-gray-300">
           <Link
-            href="/raw-materials/create"
+            href="/tpi/create"
             className="flex h-10 items-center rounded-lg bg-blue-600 px-4 text-sm font-medium text-white transition-colors hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
           >
-            <span className="hidden md:block">Create Order</span>{" "}
+            <span className="hidden md:block">Create TPI</span>{" "}
             <Plus className="h-5 md:ml-4" />
           </Link>
         </div>

@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import RawMaterialsTable from "@/components/raw-materials/tables/RawMaterialsTable";
+import RawMaterialsTable from "@/components/RawMaterials/tables/RawMaterialsTable";
 import useSWR from "swr";
 import {fetchWithToken} from "@/lib/actions/data/getData";
 
@@ -13,11 +13,7 @@ const RawMaterialsLayout = () => {
   if (error) return <div className="p-6">Failed to load</div>;
   if (!customerOrders) return <div className="p-6">Loading...</div>;
 
-  return (
-    <div className="p-6">
-      <RawMaterialsTable data={customerOrders} />
-    </div>
-  );
+  return <RawMaterialsTable data={customerOrders} />;
 };
 
 export default RawMaterialsLayout;

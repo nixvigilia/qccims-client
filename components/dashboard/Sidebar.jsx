@@ -1,56 +1,34 @@
 "use client";
-import {
-  BaggageClaim,
-  BarChart4,
-  Cable,
-  ChevronLeft,
-  Files,
-  Home,
-  PlusCircle,
-  ShoppingBag,
-  ShoppingBasket,
-  ShoppingCart,
-  X,
-} from "lucide-react";
+
+// import {Home, Anvil, X} from "lucide-react";
 import Link from "next/link";
 import React from "react";
 import {usePathname} from "next/navigation";
 
-import CollapsibleLink from "./CollapsibleLink";
-import SidebarDropdownLink from "./SidebarDropdownLink";
-
 export default function Sidebar({showSidebar, setShowSidebar}) {
   const pathname = usePathname();
-
-  // const inventoryLinks = [
-  //   {
-  //     title: "Raw Materials",
-  //     href: "/raw-materials",
-  //   },
-  // ];
 
   return (
     <div
       className={`${
         showSidebar
-          ? "w-60 min-h-screen bg-slate-800 text-slate-50 fixed lg:block z-50"
-          : "w-60 min-h-screen bg-slate-800 text-slate-50 fixed hidden lg:block z-50"
+          ? "w-60 min-h-screen bg-white text-slate-50 fixed lg:block z-50"
+          : "w-60 min-h-screen bg-white text-slate-50 fixed hidden lg:block z-50"
       }`}
     >
       {/* Top Part */}
 
-      <div className="flex flex-col">
+      <div className="flex flex-col m-2">
         {/* Logo */}
-        <div className="flex justify-between">
+
+        <div className="mb-2 flex h-20 items-end justify-start rounded-md bg-blue-600 p-4 md:h-40">
           <Link
-            href="/dashboard/home/overview"
-            className="flex space-x-2 items-center p-6 w-full"
+            href="/dashboard"
+            className="flex space-x-2 items-center w-full"
           >
-            <div className="flex flex-col">
-              {" "}
-              {/* Wrap both h1 and span in a flex column */}
-              <h1 className="text-4xl font-bold text-gray-100">QCCIMS</h1>
-              <span className="text-md font-semibold text-gray-400 p-1">
+            <div className="flex flex-col bg-blue-600">
+              <h1 className="text-4xl font-bold text-white">QCCIMS</h1>
+              <span className="text-md font-semibold text-white p-1">
                 Production
               </span>
             </div>
@@ -59,29 +37,44 @@ export default function Sidebar({showSidebar, setShowSidebar}) {
             className="bg-slate-950 py-3 px-4 lg:hidden"
             onClick={() => setShowSidebar(false)}
           >
-            <X className="h-6 w-6 text-white" />
+            {/* <X className="h-6 w-6 text-blue-800" /> */}
           </button>
         </div>
 
         {/* Links */}
 
-        <nav className="flex flex-col gap-3 px-3 py-6">
+        <nav className="flex flex-col gap-3 px-3 ">
           <Link
             href="/dashboard"
-            className={`flex items-center space-x-2 text-slate-50 px-4 py-3 rounded-md  ${
-              pathname === "/dashboard" ? "bg-gray-700" : ""
+            className={`flex items-center space-x-2 px-4 py-3 rounded-md text-sm ${
+              pathname === "/dashboard"
+                ? "bg-blue-100 text-blue-600 font-medium"
+                : "text-gray-900"
             } `}
           >
-            <Home className="w-4 h-4" />
+            {/* <Home className="w-5 h-5" /> */}
             <span>Home</span>
           </Link>
           <Link
             href="/raw-materials"
-            className={`flex items-center space-x-2 text-slate-50 px-4 py-3 rounded-md  ${
-              pathname === "/raw-materials" ? "bg-gray-700" : ""
+            className={`flex items-center space-x-2 px-4 py-3 rounded-md text-sm ${
+              pathname === "/raw-materials"
+                ? "bg-blue-100 text-blue-600 font-medium"
+                : "text-gray-900"
             } `}
           >
-            <Home className="w-4 h-4" />
+            {/* <Anvil className="w-5 h-5" /> */}
+            <span>Raw Materials</span>
+          </Link>
+          <Link
+            href="/raw-materials"
+            className={`flex items-center space-x-2 px-4 py-3 rounded-md text-sm ${
+              pathname === "/raw-materials"
+                ? "bg-blue-100 text-blue-600 font-medium"
+                : "text-gray-900"
+            } `}
+          >
+            {/* <Anvil className="w-5 h-5" /> */}
             <span>Raw Materials</span>
           </Link>
           {/* <SidebarDropdownLink
@@ -101,15 +94,6 @@ export default function Sidebar({showSidebar, setShowSidebar}) {
           </Link> */}
         </nav>
       </div>
-
-      {/* Bottom */}
-      {/* <div className="flex flex-col ">
-        <button className="bg-slate-950 flex space-x-2 items-center justify-center py-3 px-2">
-          <ChevronLeft />
-        </button>
-      </div> */}
-      {/* Subscrption Card */}
-      {/* Footer Icon */}
     </div>
   );
 }

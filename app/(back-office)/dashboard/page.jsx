@@ -1,15 +1,15 @@
 import React from "react";
 import dynamic from "next/dynamic";
-import ChartLayout from "@/components/dashboard/ChartLayout";
-import RawMaterialsLayout from "@/components/raw-materials/RawMaterialsLayout";
+import ChartLayout from "@/components/Dashboard/ChartLayout";
+import RawMaterialsLayout from "@/components/RawMaterials/RawMaterialsLayout";
 const LineChart = dynamic(
-  () => import("@/components/raw-materials/charts/LineChart"),
+  () => import("@/components/RawMaterials/charts/LineChart"),
   {
     ssr: false, // This will only render the component client-side
   }
 );
 
-import MonthlyRevenueChart from "@/components/raw-materials/charts/MonthlyRevenueChart";
+import MonthlyRevenueChart from "@/components/RawMaterials/charts/MonthlyRevenueChart";
 
 export default async function Page() {
   return (
