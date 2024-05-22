@@ -1,17 +1,18 @@
 "use client";
-import { Trash2 } from "lucide-react";
-import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import {Trash2} from "lucide-react";
+import {useRouter} from "next/navigation";
+import React, {useState} from "react";
 import toast from "react-hot-toast";
 import Swal from "sweetalert2";
+import {serverApi} from "@/lib/config/axios";
+import Cookies from "js-cookie";
 
-export default function DeleteBtn({ id, endpoint }) {
+export default function DeleteBtn({id, endpoint, mutate}) {
   const [loading, setLoading] = useState(false);
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
   const router = useRouter();
-  // const confirmed = confirm("Are you sure?");
+  const token = Cookies.get("__qcc_session") || "";
+
   async function handleDelete() {
-    setLoading(true);
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -22,20 +23,35 @@ export default function DeleteBtn({ id, endpoint }) {
       confirmButtonText: "Yes, delete it!",
     }).then(async (result) => {
       if (result.isConfirmed) {
-        const res = await fetch(`${baseUrl}/api/${endpoint}?id=${id}`, {
-          method: "DELETE",
-        });
+        setLoading(true);
+        try {
+          const res = await serverApi.patch(
+            `api/${endpoint}/${id}/status`,
+            {
+              status: "INACTIVE",
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
 
-        if (res.ok) {
-          router.refresh();
+          if (res.status === 200) {
+            toast.success("Deleted Successfully");
+            mutate();
+          } else {
+            toast.error("Failed to delete");
+          }
+        } catch (error) {
+          toast.error("Failed to delete");
+        } finally {
           setLoading(false);
-          toast.success("Deleted Successfully");
         }
-      } else {
-        setLoading(false);
       }
     });
   }
+
   return (
     <>
       {loading ? (
@@ -69,7 +85,7 @@ export default function DeleteBtn({ id, endpoint }) {
           className="font-medium text-red-600 dark:text-red-500 flex items-center space-x-1"
         >
           <Trash2 className="w-4 h-4" />
-          <span>Delete</span>
+          {/* <span>Delete</span> */}
         </button>
       )}
     </>

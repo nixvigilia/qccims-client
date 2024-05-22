@@ -4,7 +4,7 @@ import ImageInput from "@/components/FormInputs/ImageInput";
 import SelectInput from "@/components/FormInputs/SelectInput";
 import SelectInputWithSearch from "../FormInputs/SelectInputWithSearch";
 import SubmitButton from "@/components/FormInputs/SubmitButton";
-import TextInput from "@/components/FormInputs/TextInput";
+import TextInput from "@/components/FormInputs/TextInputRequired";
 import TextareaInput from "@/components/FormInputs/TextareaInput";
 import FormHeader from "@/components/dashboard/FormHeader";
 import {makePostRequest, makePutRequest} from "@/lib/apiRequest";
@@ -59,10 +59,7 @@ export default function CreateItemForm({
     }
   }
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className="w-full bg-white border border-gray-200 rounded-md shadow md:p-8 dark:bg-gray-800 dark:border-gray-700 mx-auto my-3"
-    >
+    <form onSubmit={handleSubmit(onSubmit)} className="">
       <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
         {/* <div className=""> */}
         <TextInput

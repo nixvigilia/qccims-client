@@ -1,17 +1,17 @@
 "use client";
 
 import SubmitButton from "@/components/FormInputs/SubmitButton";
-import TextInput from "@/components/FormInputs/TextInput";
+import TextInput from "@/components/FormInputs/TextInputRequired";
 import TextareaInput from "@/components/FormInputs/TextareaInput";
 import FormHeader from "@/components/dashboard/FormHeader";
-import { makePostRequest, makePutRequest } from "@/lib/apiRequest";
-import { Plus, X } from "lucide-react";
-import { useRouter } from "next/navigation";
+import {makePostRequest, makePutRequest} from "@/lib/apiRequest";
+import {Plus, X} from "lucide-react";
+import {useRouter} from "next/navigation";
 
-import { useState } from "react";
-import { useForm } from "react-hook-form";
+import {useState} from "react";
+import {useForm} from "react-hook-form";
 
-export default function NewSupplier({ initialData = {}, isUpdate = false }) {
+export default function NewSupplier({initialData = {}, isUpdate = false}) {
   const router = useRouter();
   const selectOptions = [
     {
@@ -27,8 +27,8 @@ export default function NewSupplier({ initialData = {}, isUpdate = false }) {
     register,
     handleSubmit,
     reset,
-    formState: { errors },
-  } = useForm({ defaultValues: initialData });
+    formState: {errors},
+  } = useForm({defaultValues: initialData});
   const [loading, setLoading] = useState(false);
   function redirect() {
     router.push("/dashboard/inventory/suppliers");

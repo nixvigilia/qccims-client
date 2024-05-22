@@ -1,12 +1,13 @@
 "use client";
-import Header from "@/components/dashboard/Header";
-import Sidebar from "@/components/dashboard/Sidebar";
+import Header from "@/components/Dashboard/Header";
+import Sidebar from "@/components/Dashboard/Sidebar";
 import React, {useState} from "react";
-import Login from "../login/page";
 import {StoreProvider} from "@/utils/context/store";
+import {usePathname} from "next/navigation";
 
 export default function DashboardLayout({children}) {
   const [showSidebar, setShowSidebar] = useState(false);
+  const pathname = usePathname();
 
   return (
     <div className="flex">

@@ -2,19 +2,19 @@
 
 import SelectInput from "@/components/FormInputs/SelectInput";
 import SubmitButton from "@/components/FormInputs/SubmitButton";
-import TextInput from "@/components/FormInputs/TextInput";
+import TextInput from "@/components/FormInputs/TextInputRequired";
 import TextareaInput from "@/components/FormInputs/TextareaInput";
-import { makePostRequest } from "@/lib/apiRequest";
+import {makePostRequest} from "@/lib/apiRequest";
 
-import { useState } from "react";
-import { useForm } from "react-hook-form";
+import {useState} from "react";
+import {useForm} from "react-hook-form";
 
-export default function AddInventoryForm({ items, warehouses, suppliers }) {
+export default function AddInventoryForm({items, warehouses, suppliers}) {
   const {
     register,
     handleSubmit,
     reset,
-    formState: { errors },
+    formState: {errors},
   } = useForm();
   const [loading, setLoading] = useState(false);
   async function onSubmit(data) {

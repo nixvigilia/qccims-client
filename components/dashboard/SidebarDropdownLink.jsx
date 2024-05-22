@@ -17,11 +17,11 @@ export default function SidebarDropdownLink({
   return (
     <Collapsible>
       <CollapsibleTrigger className="flex justify-between items-center w-full">
-        <div className="p-2 flex items-center space-x-2">
+        <div className="flex items-center space-x-2 px-4 py-3">
           <Icon className="w-4 h-4" />
-          <span>{title}</span>
+          <span className="text-sm">{title}</span>
         </div>
-        <ChevronRight className="w-4 h-4" />
+        <ChevronRight className="w-5 h-5" />
       </CollapsibleTrigger>
       <CollapsibleContent>
         {items?.map((item, i) => {

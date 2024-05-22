@@ -3,7 +3,7 @@ export default function TextInput({
   name,
   register,
   errors,
-  isRequired = true,
+  isRequired,
   type = "text",
   className = "sm:col-span-2 ",
   defaultValue = "",

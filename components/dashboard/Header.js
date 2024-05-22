@@ -33,7 +33,7 @@ export default function Header({setShowSidebar}) {
       <div className="flex gap-3">{/* Recent activities */}</div>
       <div className="items-center gap-3 hidden lg:flex">
         {/*Plus Icon  */}
-        <div className="pr-2 border-r border-gray-300">
+        {/* <div className="pr-2 border-r border-gray-300">
           <Link
             href="/tpi/create"
             className="flex h-10 items-center rounded-lg bg-blue-600 px-4 text-sm font-medium text-white transition-colors hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
@@ -41,7 +41,7 @@ export default function Header({setShowSidebar}) {
             <span className="hidden md:block">Create TPI</span>{" "}
             <Plus className="h-5 md:ml-4" />
           </Link>
-        </div>
+        </div> */}
         <div className="flex border-r border-gray-300 space-x-2">
           <button className="p-1 rounded-lg hover:bg-slate-200">
             <Users className="text-slate-900 w-4 h-4" />

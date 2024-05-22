@@ -2,19 +2,19 @@
 
 import SelectInput from "@/components/FormInputs/SelectInput";
 import SubmitButton from "@/components/FormInputs/SubmitButton";
-import TextInput from "@/components/FormInputs/TextInput";
+import TextInput from "@/components/FormInputs/TextInputRequired";
 import TextareaInput from "@/components/FormInputs/TextareaInput";
 import FormHeader from "@/components/dashboard/FormHeader";
-import { makePostRequest, makePutRequest } from "@/lib/apiRequest";
-import { Plus, X } from "lucide-react";
-import { revalidatePath } from "next/cache";
+import {makePostRequest, makePutRequest} from "@/lib/apiRequest";
+import {Plus, X} from "lucide-react";
+import {revalidatePath} from "next/cache";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import React, { useState } from "react";
-import { useForm } from "react-hook-form";
+import {useRouter} from "next/navigation";
+import React, {useState} from "react";
+import {useForm} from "react-hook-form";
 import toast from "react-hot-toast";
 
-export default function NewWarehouse({ initialData = {}, isUpdate = false }) {
+export default function NewWarehouse({initialData = {}, isUpdate = false}) {
   const router = useRouter();
   const selectOptions = [
     {
@@ -30,8 +30,8 @@ export default function NewWarehouse({ initialData = {}, isUpdate = false }) {
     register,
     handleSubmit,
     reset,
-    formState: { errors },
-  } = useForm({ defaultValues: initialData });
+    formState: {errors},
+  } = useForm({defaultValues: initialData});
   const [loading, setLoading] = useState(false);
   function redirect() {
     router.push("/dashboard/inventory/warehouse");
@@ -70,6 +70,7 @@ export default function NewWarehouse({ initialData = {}, isUpdate = false }) {
             register={register}
             className="w-full"
             options={selectOptions}
+            isRequired="true"
           />
           <TextInput
             label="Warehouse Title"
@@ -77,12 +78,14 @@ export default function NewWarehouse({ initialData = {}, isUpdate = false }) {
             register={register}
             errors={errors}
             className="w-full"
+            isRequired="true"
           />
           <TextInput
             label="Warehouse Location"
             name="location"
             register={register}
             errors={errors}
+            isRequired="false"
           />
 
           <TextareaInput
@@ -90,6 +93,7 @@ export default function NewWarehouse({ initialData = {}, isUpdate = false }) {
             name="description"
             register={register}
             errors={errors}
+            isRequired="false"
           />
         </div>
         <SubmitButton

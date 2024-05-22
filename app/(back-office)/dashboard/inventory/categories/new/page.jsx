@@ -1,23 +1,23 @@
 "use client";
 import SubmitButton from "@/components/FormInputs/SubmitButton";
-import TextInput from "@/components/FormInputs/TextInput";
+import TextInput from "@/components/FormInputs/TextInputRequired";
 import TextareaInput from "@/components/FormInputs/TextareaInput";
 import FormHeader from "@/components/dashboard/FormHeader";
-import { makePostRequest, makePutRequest } from "@/lib/apiRequest";
-import { Plus, X } from "lucide-react";
+import {makePostRequest, makePutRequest} from "@/lib/apiRequest";
+import {Plus, X} from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import React, { useState } from "react";
-import { useForm } from "react-hook-form";
+import {useRouter} from "next/navigation";
+import React, {useState} from "react";
+import {useForm} from "react-hook-form";
 import toast from "react-hot-toast";
 
-export default function NewCategory({ initialData = {}, isUpdate = false }) {
+export default function NewCategory({initialData = {}, isUpdate = false}) {
   const router = useRouter();
   const {
     register,
     handleSubmit,
     reset,
-    formState: { errors },
+    formState: {errors},
   } = useForm({
     defaultValues: initialData,
   });

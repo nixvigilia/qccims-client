@@ -1,5 +1,5 @@
 import React from "react";
-import RawMaterialsPagination from "./RawMaterialsPagination";
+import Pagination from "../../Pagination";
 import {Pencil, Trash2} from "lucide-react";
 import Link from "next/link";
 import {usePathname} from "next/navigation";
