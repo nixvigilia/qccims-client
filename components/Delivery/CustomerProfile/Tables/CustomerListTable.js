@@ -1,37 +1,109 @@
 "use client";
-import Link from "next/link";
-import Pagination from "@/components/Pagination";
-import ProductRow from "./ProductRow";
+
+import CustomPagination from "@/components/CustomPagination";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+import {styled} from "@mui/material/styles";
+import Chip from "@mui/material/Chip";
+import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
+import BlockIcon from "@mui/icons-material/Block";
+import Typography from "@mui/material/Typography";
+import EditIcon from "@mui/icons-material/Edit";
+import NextLink from "next/link";
+import Link from "@mui/material/Link";
+import Fab from "@mui/material/Fab";
+import Box from "@mui/material/Box";
+
+const StyledTableRow = styled(TableRow)(({theme}) => ({
+  "&:nth-of-type(odd)": {
+    backgroundColor: theme.palette.action.hover,
+  },
+  // hide last border
+  "&:last-child td, &:last-child th": {
+    border: 0,
+  },
+}));
+
+const StyledTableCell = styled(TableCell)(({theme}) => ({
+  fontSize: "14px",
+}));
 
 function CustomerListTable({data, mutate}) {
   return (
-    <div className="relative overflow-x-auto shadow-md sm:rounded-sm">
-      <table className="w-full text-xs text-left rtl:text-right text-gray-900 dark:text-gray-400">
-        <thead className="text-xs text-gray-900 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-          <tr>
-            <th scope="col" className="p-4">
-              Customer
-            </th>
-
-            <th scope="col" className="p-4">
-              Address
-            </th>
-            <th scope="col" className="p-4"></th>
-          </tr>
-        </thead>
-        <tbody>
-          {data?.map((customer, index) => (
-            <ProductRow
-              key={index}
-              customerId={customer.id}
-              companyName={customer.companyName}
-              address={customer.address}
-              mutate={mutate}
-            />
-          ))}
-        </tbody>
-      </table>
-      <Pagination />
+    <div
+      style={{display: "flex", flexDirection: "column", alignItems: "center"}}
+    >
+      <TableContainer
+        component={Paper}
+        variant="outlined"
+        sx={{borderRadius: "sm", overflow: "auto", width: "100%", minHeight: 0}}
+      >
+        <Table sx={{minWidth: 650}} size="small" aria-label="customer table">
+          <TableHead>
+            <TableRow>
+              <StyledTableCell>Customer</StyledTableCell>
+              <StyledTableCell>Address</StyledTableCell>
+              <StyledTableCell>Status</StyledTableCell>
+              <StyledTableCell align="center">Action</StyledTableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {data?.map((customer, index) => (
+              <StyledTableRow key={customer.id || index}>
+                <StyledTableCell component="th" scope="row">
+                  <Typography fontSize={"0.8rem"}>
+                    {customer.companyName}
+                  </Typography>
+                </StyledTableCell>
+                <StyledTableCell>
+                  <Typography fontSize={"0.8rem"}>
+                    {customer.address}{" "}
+                  </Typography>
+                </StyledTableCell>
+                <TableCell>
+                  <Chip
+                    size="small"
+                    icon={
+                      customer.status === "ACTIVE" ? (
+                        <CheckRoundedIcon />
+                      ) : (
+                        <BlockIcon />
+                      )
+                    }
+                    label={customer.status.toLowerCase()}
+                    color={customer.status === "ACTIVE" ? "success" : "default"}
+                  />
+                </TableCell>
+                <TableCell align="center">
+                  <Link
+                    href={`customer/profile/${customer.id}`}
+                    component={NextLink}
+                    color="inherit"
+                    variant="body2"
+                    key={index}
+                    style={{textDecoration: "none"}}
+                    passHref
+                  >
+                    <Box>
+                      <Fab size="small" color="primary" aria-label="edit">
+                        <EditIcon />
+                      </Fab>
+                    </Box>
+                  </Link>
+                </TableCell>
+              </StyledTableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <div style={{marginTop: "20px"}}>
+        <CustomPagination />
+      </div>
     </div>
   );
 }

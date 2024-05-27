@@ -2,14 +2,15 @@
 
 import useSWR from "swr";
 import {getCustomerInfoById} from "@/lib/actions/data/getData";
-import CustomerProfileForm from "@/components/Delivery/CustomerProfile/Forms/CustomerProfileForm";
+import DeliveryForm from "@/components/Delivery/DeliverReceipt/Forms/DeliveryForm";
 
-export default function EditCustomerPage({params}) {
+export default function Page({params}) {
   const {id} = params;
   const fetcher = (url) => getCustomerInfoById(url);
-  const {data, error} = useSWR(id ? `/api/customer/${id}` : null, fetcher);
+  const {data, error} = useSWR(id ? `/api/delivery/${id}` : null, fetcher);
 
   console.log(data);
+  
 
   if (error) return <div className="p-6">Failed to load</div>;
   if (!data) return <div className="p-6">Loading...</div>;
@@ -20,7 +21,7 @@ export default function EditCustomerPage({params}) {
         <h1 className="pb-2 text-2xl font-bold text-gray-800">
           Update Customer Profile
         </h1>
-        <CustomerProfileForm initialData={data} isUpdate />
+        <DeliveryForm initialData={data} isUpdate />
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
 import SearchInput from "@/components/Dashboard/SearchInput";
-import CustomerProfile from "@/components/Delivery/CustomerProfile";
+import DeliverReceipt from "@/components/Delivery/DeliverReceipt";
 import Link from "next/link";
 import {Plus} from "lucide-react";
 
@@ -10,7 +10,7 @@ const Page = () => {
         <SearchInput placeholder="Search customers..." searchWidth="w-full" />
         <div className="pr-2 border-r border-gray-300">
           <Link
-            href="customer-profile/new"
+            href="customer/new"
             className="flex h-10 items-center rounded-lg bg-blue-600 px-4 text-sm font-medium text-white transition-colors hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
           >
             <span className="hidden md:block">Add Customer</span>{" "}
@@ -18,7 +18,7 @@ const Page = () => {
           </Link>
         </div>
       </div>
-      <CustomerProfile />
+      <DeliverReceipt />
     </div>
   );
 };

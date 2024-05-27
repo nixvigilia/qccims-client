@@ -1,8 +1,8 @@
 "use client";
-import React from "react";
 import CustomerListTable from "./Tables/CustomerListTable";
 import useSWR from "swr";
 import {fetchWithToken} from "@/lib/actions/data/getData";
+import FilterForm from "./Forms/FilterForm";
 
 const CustomerProfile = () => {
   const {data, error, mutate} = useSWR("/api/customer/list", fetchWithToken);
@@ -12,6 +12,7 @@ const CustomerProfile = () => {
 
   return (
     <div className="mt-4">
+      <FilterForm />
       <CustomerListTable data={data} mutate={mutate} />
     </div>
   );

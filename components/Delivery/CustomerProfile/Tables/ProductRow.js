@@ -1,25 +1,37 @@
 "use client";
+
 import DeleteBtn from "@/components/Dashboard/DeleteBtn";
 import {Pencil, Trash2} from "lucide-react";
 import Link from "next/link";
+import TableRow from "@mui/material/TableRow";
+import TableCell from "@mui/material/TableCell";
+import {IconButton} from "@mui/material";
 
 function ProductRow({customerId, companyName, address, mutate}) {
   return (
-    <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-      <td className="p-4">{companyName}</td>
-      <td className="p-4">{address}</td>
-      <td className="p-4">
-        <div className="flex justify-end gap-3">
-          <Link
-            href={`customer-profile/${customerId}`}
-            className=" p-1 hover:bg-gray-100"
-          >
-            <Pencil className="w-4" />
+    <TableRow
+      sx={{
+        bgcolor: "background.paper",
+        "&:hover": {
+          bgcolor: "action.hover",
+        },
+        borderBottom: "1px solid",
+        borderColor: "divider",
+      }}
+    >
+      <TableCell>{companyName}</TableCell>
+      <TableCell>{address}</TableCell>
+      <TableCell>
+        <div style={{display: "flex", justifyContent: "flex-end", gap: "8px"}}>
+          <Link href={`customer/${customerId}`} passHref>
+            <IconButton component="a" size="small">
+              <Pencil className="w-4" />
+            </IconButton>
           </Link>
           <DeleteBtn id={customerId} endpoint="customer" mutate={mutate} />
         </div>
-      </td>
-    </tr>
+      </TableCell>
+    </TableRow>
   );
 }
 

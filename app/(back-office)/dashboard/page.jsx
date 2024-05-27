@@ -14,7 +14,7 @@ import MonthlyRevenueChart from "@/components/RawMaterials/charts/MonthlyRevenue
 export default async function Page() {
   return (
     <div>
-      <ChartLayout />
+      {/* <ChartLayout />
       <div className="flex w-full px-5 mx-auto mt-8">
         <div className=" w-full">
           <LineChart />
@@ -24,7 +24,8 @@ export default async function Page() {
         </div>
       </div>
 
-      <RawMaterialsLayout />
+      <RawMaterialsLayout /> */}
+      Dashboard
     </div>
   );
 }

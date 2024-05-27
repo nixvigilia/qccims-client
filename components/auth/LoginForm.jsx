@@ -1,9 +1,37 @@
 "use client";
 import {useState, useEffect} from "react";
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
+import Link from "@mui/material/Link";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import Typography from "@mui/material/Typography";
+import Container from "@mui/material/Container";
+import {createTheme, ThemeProvider} from "@mui/material/styles";
 import {useRouter} from "next/navigation";
 import {signIn} from "@/lib/actions/auth";
+import ThemeToggleButton from "../ThemeToggleButton";
 
-export default function LoginForm() {
+function Copyright(props) {
+  return (
+    <Typography
+      variant="body2"
+      color="text.secondary"
+      align="center"
+      {...props}
+    >
+      {"Copyright © "}
+      Quality Container Corporation {new Date().getFullYear()}
+      {"."}
+    </Typography>
+  );
+}
+
+export default function SignIn() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
@@ -54,60 +82,90 @@ export default function LoginForm() {
     if (isAuthenticated) {
       setTimeout(() => {
         router.push("/dashboard");
-      }, 2000);
+      }, 1500);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
-      <div>
-        <label
-          htmlFor="email"
-          className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-        >
-          Your email
-        </label>
-        <input
-          type="email"
-          name="email"
-          id="email"
-          placeholder="name@company.com"
-          value={formData.email}
-          onChange={handleChange}
-          className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-        />
-        {errors.email && (
-          <small className="text-red-600 text-sm">{errors.email}</small>
-        )}
-      </div>
-      <div>
-        <label
-          htmlFor="password"
-          className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-        >
-          Password
-        </label>
-        <input
-          type="password"
-          name="password"
-          id="password"
-          placeholder="••••••••"
-          value={formData.password}
-          onChange={handleChange}
-          className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-        />
-        {errors.password && (
-          <small className="text-red-600 text-sm">{errors.password}</small>
-        )}
-      </div>
-
-      <button
-        type="submit"
-        disabled={isLoading}
-        className="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+    <Container component="main" maxWidth="xs">
+      {/* <ThemeToggleButton /> */}
+      <Box
+        sx={{
+          marginTop: 8,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
       >
-        {isLoading ? "Logging in..." : "Login"}
-      </button>
-    </form>
+        {/* <Avatar sx={{m: 1, bgcolor: "secondary.main"}}>
+          <LockOutlinedIcon />
+        </Avatar> */}
+        <Typography component="h1" variant="h5">
+          Sign in
+        </Typography>
+        <Box component="form" onSubmit={handleSubmit} noValidate sx={{mt: 1}}>
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            id="email"
+            label="Email Address"
+            name="email"
+            autoComplete="email"
+            autoFocus
+            value={formData.email}
+            onChange={handleChange}
+          />
+          {errors.email && (
+            <Typography color="error" variant="body2">
+              {errors.email}
+            </Typography>
+          )}
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            name="password"
+            label="Password"
+            type="password"
+            id="password"
+            autoComplete="current-password"
+            value={formData.password}
+            onChange={handleChange}
+          />
+          {errors.password && (
+            <Typography color="error" variant="body2">
+              {errors.password}
+            </Typography>
+          )}
+          <FormControlLabel
+            control={<Checkbox value="remember" color="primary" />}
+            label="Remember me"
+          />
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            sx={{mt: 3, mb: 2}}
+            disabled={isLoading}
+          >
+            {isLoading ? "Logging in..." : "Sign In"}
+          </Button>
+          <Grid container>
+            <Grid item xs>
+              <Link href="#" variant="body2">
+                Forgot password?
+              </Link>
+            </Grid>
+            <Grid item>
+              <Link href="#" variant="body2">
+                {"Don't have an account? Sign Up"}
+              </Link>
+            </Grid>
+          </Grid>
+        </Box>
+      </Box>
+      <Copyright sx={{mt: 8, mb: 4}} />
+    </Container>
   );
 }

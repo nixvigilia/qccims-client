@@ -1,14 +1,19 @@
 "use client";
 
+import * as React from "react";
+import {useState} from "react";
 import SubmitButton from "@/components/FormInputs/SubmitButton";
-import TextInput from "@/components/FormInputs/TextInput";
-import TextareaInput from "@/components/FormInputs/TextareaInput";
-import FormHeader from "@/components/dashboard/FormHeader";
 import {createCustomer, updateCustomer} from "@/lib/apiRequest";
 import {useRouter} from "next/navigation";
-import React, {useState} from "react";
 import {useForm, useFieldArray} from "react-hook-form";
 import Swal from "sweetalert2";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import Grid from "@mui/material/Grid";
+import Divider from "@mui/material/Divider";
+import TextField from "@mui/material/TextField";
+import Link from "next/link";
 
 export default function CustomerProfileForm({
   initialData = {},
@@ -75,115 +80,204 @@ export default function CustomerProfileForm({
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="">
-      {/* <FormHeader title={isUpdate ? "Update Customer" : "Create New Customer"} /> */}
-      <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
-        <TextInput
-          label="Company Name"
-          name="companyName"
-          register={register}
-          errors={errors}
-          className="w-full mt-4"
-          isRequired="true"
-        />
-        <TextInput
-          label="Address"
-          name="address"
-          register={register}
-          errors={errors}
-          className="w-full mt-4"
-          isRequired="true"
-        />
-        <TextInput
-          label="Contact"
-          name="contact"
-          register={register}
-          errors={errors}
-          className="w-full mt-4"
-        />
-        <TextInput
-          label="TIN Number"
-          name="tinNumber"
-          register={register}
-          errors={errors}
-          className="w-full mt-4"
-        />
-        <TextInput
-          label="Delivery Recipient"
-          name="deliveryRecipient"
-          register={register}
-          errors={errors}
-          className="w-full mt-4"
-        />
-        <TextInput
-          label="Delivery Address"
-          name="deliveryAddress"
-          register={register}
-          errors={errors}
-          className="w-full mt-4"
-        />
-        <TextareaInput
-          label="Notes"
-          name="notes"
-          register={register}
-          errors={errors}
-          className="w-full mt-4"
-        />
-      </div>
+    <>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+        mt={6}
+      >
+        <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                required
+                fullWidth
+                id="companyName"
+                label="Company Name"
+                name="companyName"
+                autoComplete="company-name"
+                {...register("companyName", {
+                  required: "Company Name is required",
+                })}
+                error={!!errors.companyName}
+                helperText={errors.companyName?.message}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                required
+                fullWidth
+                id="address"
+                label="Address"
+                name="address"
+                autoComplete="address"
+                {...register("address", {required: "Address is required"})}
+                error={!!errors.address}
+                helperText={errors.address?.message}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                fullWidth
+                id="contact"
+                label="Contact"
+                name="contact"
+                autoComplete="contact"
+                {...register("contact")}
+                error={!!errors.contact}
+                helperText={errors.contact?.message}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                fullWidth
+                id="tinNumber"
+                label="TIN Number"
+                name="tinNumber"
+                autoComplete="tin-number"
+                {...register("tinNumber")}
+                error={!!errors.tinNumber}
+                helperText={errors.tinNumber?.message}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                fullWidth
+                id="deliveryRecipient"
+                label="Delivery Recipient"
+                name="deliveryRecipient"
+                autoComplete="delivery-recipient"
+                {...register("deliveryRecipient")}
+                error={!!errors.deliveryRecipient}
+                helperText={errors.deliveryRecipient?.message}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                fullWidth
+                id="deliveryAddress"
+                label="Delivery Address"
+                name="deliveryAddress"
+                autoComplete="delivery-address"
+                {...register("deliveryAddress")}
+                error={!!errors.deliveryAddress}
+                helperText={errors.deliveryAddress?.message}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                id="notes"
+                label="Notes"
+                name="notes"
+                autoComplete="notes"
+                multiline
+                rows={4}
+                {...register("notes")}
+                error={!!errors.notes}
+                helperText={errors.notes?.message}
+              />
+            </Grid>
+          </Grid>
 
-      <div className="mt-6">
-        <h3 className="text-lg font-semibold">Contact Information</h3>
-        {fields.map((field, index) => (
-          <div
-            key={field.id}
-            className="flex flex-col sm:flex-row sm:items-end gap-4 mt-4"
-          >
-            <TextInput
-              label="Contact Person"
-              name={`contactInfos[${index}].contactPerson`}
-              register={register}
-              errors={errors}
-              className="w-full"
-            />
-            <TextInput
-              label="Contact Position"
-              name={`contactInfos[${index}].contactPosition`}
-              register={register}
-              errors={errors}
-              className="w-full"
-            />
-            <TextInput
-              label="Contact Tel"
-              name={`contactInfos[${index}].contactTel`}
-              register={register}
-              errors={errors}
-              className="w-full"
-            />
-            <button
-              type="button"
-              onClick={() => handleRemove(index)}
-              className="self-end px-4 py-2 text-red-600 bg-red-100 rounded hover:bg-red-200"
+          <Box mt={4} width="100%">
+            <Typography variant="h6">Contact Information</Typography>
+            {fields.map((field, index) => (
+              <Grid container spacing={2} key={field.id} mt={2}>
+                <Grid item xs={12} sm={4}>
+                  <TextField
+                    required
+                    fullWidth
+                    id={`contactInfos[${index}].contactPerson`}
+                    label="Contact Person"
+                    name={`contactInfos[${index}].contactPerson`}
+                    autoComplete="contact-person"
+                    {...register(`contactInfos[${index}].contactPerson`, {
+                      required: "Contact Person is required",
+                    })}
+                    error={!!errors.contactInfos?.[index]?.contactPerson}
+                    helperText={
+                      errors.contactInfos?.[index]?.contactPerson?.message
+                    }
+                  />
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                  <TextField
+                    required
+                    fullWidth
+                    id={`contactInfos[${index}].contactPosition`}
+                    label="Contact Position"
+                    name={`contactInfos[${index}].contactPosition`}
+                    autoComplete="contact-position"
+                    {...register(`contactInfos[${index}].contactPosition`, {
+                      required: "Contact Position is required",
+                    })}
+                    error={!!errors.contactInfos?.[index]?.contactPosition}
+                    helperText={
+                      errors.contactInfos?.[index]?.contactPosition?.message
+                    }
+                  />
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                  <TextField
+                    required
+                    fullWidth
+                    id={`contactInfos[${index}].contactTel`}
+                    label="Contact Tel"
+                    name={`contactInfos[${index}].contactTel`}
+                    autoComplete="contact-tel"
+                    {...register(`contactInfos[${index}].contactTel`, {
+                      required: "Contact Tel is required",
+                    })}
+                    error={!!errors.contactInfos?.[index]?.contactTel}
+                    helperText={
+                      errors.contactInfos?.[index]?.contactTel?.message
+                    }
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <Button
+                    variant="outlined"
+                    color="error"
+                    onClick={() => handleRemove(index)}
+                  >
+                    Remove
+                  </Button>
+                </Grid>
+              </Grid>
+            ))}
+            <Button
+              variant="outlined"
+              color="primary"
+              onClick={() =>
+                append({contactPerson: "", contactPosition: "", contactTel: ""})
+              }
+              sx={{mt: 2}}
             >
-              Remove
-            </button>
-          </div>
-        ))}
-        <button
-          type="button"
-          onClick={() =>
-            append({contactPerson: "", contactPosition: "", contactTel: ""})
-          }
-          className="mt-4 px-4 py-2 text-blue-600 bg-blue-100 rounded hover:bg-blue-200"
-        >
-          Add Contact Info
-        </button>
-      </div>
+              Add Contact Info
+            </Button>
+          </Box>
 
-      <SubmitButton
-        isLoading={loading}
-        title={isUpdate ? "Update Customer" : "Create Customer"}
-        className="mt-6"
-      />
-    </form>
+          <Divider sx={{mt: 4, mb: 4}} />
+
+          <div
+            style={{display: "flex", justifyContent: "flex-end", gap: "10px"}}
+          >
+            <Link href={`/delivery/customer`} passHref>
+              <Button variant="outlined" color="primary">
+                Cancel
+              </Button>
+            </Link>
+            <SubmitButton
+              isLoading={loading}
+              title={isUpdate ? "Update Customer" : "Create Customer"}
+            />
+          </div>
+        </Box>
+      </Box>
+    </>
   );
 }
