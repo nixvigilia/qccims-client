@@ -6,7 +6,6 @@ import {fetchWithToken} from "@/lib/actions/data/getData";
 
 const DeliverReceipt = () => {
   const {data, error, mutate} = useSWR("/api/delivery/list", fetchWithToken);
-  console.log(data);
 
   if (error) return <div className="p-6">Failed to load</div>;
   if (!data) return <div className="p-6">Loading...</div>;

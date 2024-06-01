@@ -13,7 +13,7 @@ const CustomerProfile = () => {
   return (
     <div className="mt-4">
       <FilterForm />
-      <CustomerListTable data={data} mutate={mutate} />
+      {/* <CustomerListTable data={data} mutate={mutate} /> */}
     </div>
   );
 };

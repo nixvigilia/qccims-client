@@ -14,6 +14,10 @@ const lightTheme = createTheme({
   },
   palette: {
     mode: "light",
+    pending: {
+      main: "rgba(255, 171, 0, 0.16)",
+      contrastText: "rgb(183, 110, 0)",
+    },
   },
 });
 
@@ -23,6 +27,10 @@ const darkTheme = createTheme({
   },
   palette: {
     mode: "dark",
+    pending: {
+      main: "rgba(255, 171, 0, 0.16)",
+      contrastText: "rgb(255, 214, 102)",
+    },
   },
 });
 

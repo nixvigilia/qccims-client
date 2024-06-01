@@ -1,49 +1,61 @@
 "use client";
+
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import Typography from "@mui/material/Typography";
 import Link from "@mui/material/Link";
 import Stack from "@mui/material/Stack";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
-import LocalShippingIcon from "@mui/icons-material/LocalShipping";
+import {usePathname} from "next/navigation";
 
 function handleClick(event) {
   event.preventDefault();
-  console.info("You clicked a breadcrumb.");
 }
 
-export default function PageBreadCrumbs() {
+const MAX_LENGTH = 50;
+
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+function truncateString(str, maxLength) {
+  if (str.length > maxLength) {
+    return str.slice(0, maxLength) + "...";
+  }
+  return str;
+}
+
+export default function PageBreadCrumbs({lastPathName}) {
+  const pathname = usePathname();
+  const pathnames = pathname.split("/").filter((x) => x);
+
   const breadcrumbs = [
-    <Link
-      underline="hover"
-      key="1"
-      color="inherit"
-      href="/"
-      onClick={handleClick}
-      sx={{display: "flex", alignItems: "center"}}
-    >
-      <LocalShippingIcon fontSize="small" sx={{marginRight: 0.5}} />
-    </Link>,
-    <Link
-      underline="hover"
-      key="2"
-      color="inherit"
-      href="/delivery/customer"
-      onClick={handleClick}
-      sx={{fontSize: "0.9rem"}}
-    >
-      Customers
-    </Link>,
-    <Typography key="3" color="primary" sx={{fontSize: "0.9rem"}}>
-      All
-    </Typography>,
+    ...pathnames.map((value, index) => {
+      const to = `/${pathnames.slice(0, index + 1).join("/")}`;
+      const isLast = index === pathnames.length - 1;
+      const text = capitalizeFirstLetter(value);
+
+      return isLast ? (
+        <Typography key={to} color="primary" sx={{fontSize: "0.9rem"}}>
+          {lastPathName ? truncateString(lastPathName, MAX_LENGTH) : text}
+        </Typography>
+      ) : (
+        <Link
+          underline="hover"
+          key={to}
+          color="inherit"
+          href={to}
+          onClick={handleClick}
+          sx={{fontSize: "0.9rem"}}
+        >
+          {text}
+        </Link>
+      );
+    }),
   ];
 
   return (
-    <Stack spacing={2}>
-      <Breadcrumbs
-        separator={<NavigateNextIcon fontSize="small" />}
-        aria-label="breadcrumb"
-      >
+    <Stack>
+      <Breadcrumbs separator="•" aria-label="breadcrumb">
         {breadcrumbs}
       </Breadcrumbs>
     </Stack>

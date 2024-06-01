@@ -3,7 +3,7 @@ import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
 import {styled} from "@mui/system";
-import {usePathname} from "next/navigation";
+import {useSearchParams} from "next/navigation";
 import Link from "next/link";
 
 const CustomTab = styled(Tab)(({theme}) => ({
@@ -14,19 +14,15 @@ const CustomTab = styled(Tab)(({theme}) => ({
   },
 }));
 
-const ProfileNav = ({customerId}) => {
-  const pathname = usePathname();
+const HorizontalNav = ({totalCount, pendingCount, receivedCount}) => {
+  const searchParams = useSearchParams();
+  const status = searchParams.get("status");
 
   const getTabValue = () => {
-    const pathSegments = pathname.split("/");
-    if (pathSegments.includes("profile")) {
-      return 0;
-    } else if (pathSegments.includes("orders")) {
+    if (status === "pending") {
       return 1;
-    } else if (pathSegments.includes("invoice")) {
+    } else if (status === "received") {
       return 2;
-    } else if (pathSegments.includes("settings")) {
-      return 3;
     } else {
       return 0;
     }
@@ -36,24 +32,20 @@ const ProfileNav = ({customerId}) => {
     <Box mb={4}>
       <Tabs value={getTabValue()} aria-label="profile navigation">
         <CustomTab
-          label="Profile"
+          label="all"
           component={Link}
-          href={`/delivery/customer/profile/${customerId}`}
+          href={`purchase`}
+          iconPosition="end"
         />
         <CustomTab
-          label="Orders"
+          label="Pending"
           component={Link}
-          href={`/delivery/customer/orders/${customerId}`}
+          href={`purchase?count=${pendingCount}&status=pending`}
         />
         <CustomTab
-          label="Invoice"
+          label="Received"
           component={Link}
-          href={`/delivery/customer/invoice/${customerId}`}
-        />
-        <CustomTab
-          label="Settings"
-          component={Link}
-          href={`/delivery/customer/settings/${customerId}`}
+          href={`purchase?count=${receivedCount}&status=received`}
         />
       </Tabs>
       <Divider />
@@ -61,4 +53,4 @@ const ProfileNav = ({customerId}) => {
   );
 };
 
-export default ProfileNav;
+export default HorizontalNav;

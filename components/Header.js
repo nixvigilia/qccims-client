@@ -6,26 +6,10 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Box from "@mui/material/Box";
 import ThemeToggleButton from "./ThemeToggleButton";
 
-function MyAppBar({open, handleDrawerOpen}) {
+function Header() {
   return (
-    <AppBar
-      position="fixed"
-      open={open}
-      sx={{backgroundColor: "transparent", boxShadow: "none"}}
-    >
+    <AppBar position="fixed" color="default" sx={{boxShadow: 1}}>
       <Toolbar sx={{display: "flex", justifyContent: "space-between"}}>
-        <IconButton
-          color="inherit"
-          aria-label="open drawer"
-          onClick={handleDrawerOpen}
-          edge="start"
-          sx={{
-            marginRight: 5,
-            ...(open && {display: "none"}),
-          }}
-        >
-          <MenuIcon />
-        </IconButton>
         <Box sx={{flexGrow: 1}} />
         <ThemeToggleButton />
       </Toolbar>
@@ -33,4 +17,4 @@ function MyAppBar({open, handleDrawerOpen}) {
   );
 }
 
-export default MyAppBar;
+export default Header;

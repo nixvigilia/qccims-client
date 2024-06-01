@@ -1,16 +1,13 @@
 "use client";
 
 import useSWR from "swr";
-import {getCustomerInfoById} from "@/lib/actions/data/getData";
+import {getData} from "@/lib/actions/data/getData";
 import DeliveryForm from "@/components/Delivery/DeliverReceipt/Forms/DeliveryForm";
 
 export default function Page({params}) {
   const {id} = params;
-  const fetcher = (url) => getCustomerInfoById(url);
+  const fetcher = (url) => getData(url);
   const {data, error} = useSWR(id ? `/api/delivery/${id}` : null, fetcher);
-
-  console.log(data);
-  
 
   if (error) return <div className="p-6">Failed to load</div>;
   if (!data) return <div className="p-6">Loading...</div>;

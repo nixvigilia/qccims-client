@@ -1,25 +1,10 @@
 "use client";
 import {useState} from "react";
-import {styled, useTheme} from "@mui/material/styles";
 import Box from "@mui/material/Box";
-import MuiDrawer from "@mui/material/Drawer";
-
-import List from "@mui/material/List";
-import Typography from "@mui/material/Typography";
-import Divider from "@mui/material/Divider";
-import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
 import Header from "@/components/Header";
 import {StoreProvider} from "@/utils/context/store";
 import Sidebar from "@/components/Sidebar";
+import {useTheme} from "@mui/material/styles";
 
 const drawerWidth = 240;
 
@@ -46,29 +31,23 @@ const closedMixin = (theme) => ({
 
 export default function DashboardLayout({children}) {
   const [open, setOpen] = useState(true);
+  const theme = useTheme();
 
   const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-
-  const handleDrawerClose = () => {
-    setOpen(false);
+    setOpen(!open);
   };
 
   return (
     <StoreProvider>
       <Box sx={{display: "flex"}}>
-        <Header
-          open={open}
-          handleDrawerOpen={handleDrawerOpen}
-          drawerWidth={drawerWidth}
-        />
+        <Header />
         <Sidebar
-          handleDrawerClose={handleDrawerClose}
+          handleDrawerOpen={handleDrawerOpen}
           drawerWidth={drawerWidth}
           openedMixin={openedMixin}
           closedMixin={closedMixin}
           open={open}
+          theme={theme}
         />
         <Box component="main" sx={{flexGrow: 1, p: 3}}>
           {children}
