@@ -42,7 +42,7 @@ export default function SupplierForm({initialData = {}, isUpdate = false}) {
       // Update request
       updateSupplier(
         setLoading,
-        `api/procurement/supplier/${initialData.id}`,
+        `api/procurement/suppliers/${initialData.id}`,
         data,
         "Supplier",
         redirect,
@@ -51,7 +51,7 @@ export default function SupplierForm({initialData = {}, isUpdate = false}) {
     } else {
       createSupplier(
         setLoading,
-        "api/procurement/supplier/new",
+        "api/procurement/suppliers/new",
         data,
         "Supplier",
         reset

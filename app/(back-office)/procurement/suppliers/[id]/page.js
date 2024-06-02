@@ -13,7 +13,7 @@ export default function Page({params}) {
   const {id} = params;
   const fetcher = (url) => getData(url);
   const {data, error} = useSWR(
-    id ? `/api/procurement/supplier/${id}` : null,
+    id ? `/api/procurement/suppliers/${id}` : null,
     fetcher
   );
 

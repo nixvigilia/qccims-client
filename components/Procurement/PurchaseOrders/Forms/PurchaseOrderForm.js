@@ -16,8 +16,11 @@ import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import Divider from "@mui/material/Divider";
 import TextField from "@mui/material/TextField";
+import SearchAsync from "./SearchAsync";
 
 export default function PurchaseOrderForm({
+  supplierList,
+  onSearchChange,
   initialData = {},
   isUpdate = false,
 }) {
@@ -126,32 +129,7 @@ export default function PurchaseOrderForm({
                 helperText={errors.requestor?.message}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                required
-                fullWidth
-                id="reviewedBy"
-                label="Reviewed By"
-                name="reviewedBy"
-                {...register("reviewedBy", {
-                  required: "Reviewed By is required",
-                })}
-                error={!!errors.reviewedBy}
-                helperText={errors.reviewedBy?.message}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                required
-                fullWidth
-                id="approver"
-                label="Approver"
-                name="approver"
-                {...register("approver", {required: "Approver is required"})}
-                error={!!errors.approver}
-                helperText={errors.approver?.message}
-              />
-            </Grid>
+
             <Grid item xs={12} sm={6}>
               <TextField
                 required
@@ -165,18 +143,7 @@ export default function PurchaseOrderForm({
               />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextField
-                required
-                fullWidth
-                id="supplierId"
-                label="Supplier ID"
-                name="supplierId"
-                {...register("supplierId", {
-                  required: "Supplier ID is required",
-                })}
-                error={!!errors.supplierId}
-                helperText={errors.supplierId?.message}
-              />
+              <SearchAsync supplierList={supplierList} />
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
@@ -238,7 +205,7 @@ export default function PurchaseOrderForm({
                   <TextField
                     fullWidth
                     id={`items[${index}].charge`}
-                    label="Charge"
+                    label="Warehouse"
                     name={`items[${index}].charge`}
                     {...register(`items[${index}].charge`)}
                     error={!!errors.items?.[index]?.charge}

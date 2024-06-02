@@ -6,7 +6,7 @@ import useSWR from "swr";
 
 const SupplierList = () => {
   const {data, error, mutate} = useSWR(
-    "/api/procurement/supplier/list",
+    "/api/procurement/suppliers/list",
     fetchWithToken
   );
 
