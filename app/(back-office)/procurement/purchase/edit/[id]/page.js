@@ -4,8 +4,7 @@ import {getData} from "@/lib/actions/data/getData";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import PageBreadCrumbs from "@/components/Delivery/CustomerProfile/PageBreadCrumbs";
-
-import PurchaseOrderDetails from "@/components/Procurement/PurchaseOrders/PurchaseOrderDetails";
+import PurchaseOrderForm from "@/components/Procurement/PurchaseOrders/Forms/PurchaseOrderForm";
 
 export default function Page({params}) {
   const {id} = params;
@@ -23,8 +22,21 @@ export default function Page({params}) {
   return (
     <>
       <PageBreadCrumbs lastPathName={data?.supplierName} />
+      <Grid
+        container
+        alignItems="center"
+        justifyContent="space-between"
+        mt={1}
+        mb={5}
+      >
+        <Grid item>
+          <Typography variant="h5" fontWeight="bold" component="div">
+            PO{data?.id}
+          </Typography>
+        </Grid>
+      </Grid>
 
-      <PurchaseOrderDetails initialData={data} />
+      <PurchaseOrderForm initialData={data} isUpdate />
     </>
   );
 }

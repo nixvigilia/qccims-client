@@ -1,12 +1,13 @@
-"use client";
-
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
+import Link from "next/link";
+import Button from "@mui/material/Button";
+import AddIcon from "@mui/icons-material/Add";
+import Box from "@mui/material/Box";
 import PageBreadCrumbs from "@/components/Delivery/CustomerProfile/PageBreadCrumbs";
+import PurchaseItems from "@/components/Procurement/Items";
 
-import PurchaseOrderForm from "@/components/Procurement/PurchaseOrders/Forms/PurchaseOrderForm";
-
-export default function Page() {
+const Page = () => {
   return (
     <>
       <PageBreadCrumbs />
@@ -15,16 +16,17 @@ export default function Page() {
         alignItems="center"
         justifyContent="space-between"
         mt={1}
-        mb={5}
+        mb={4}
       >
         <Grid item>
           <Typography variant="h5" fontWeight="bold" component="div">
-            Create a purchase order
+            Purchase Items
           </Typography>
         </Grid>
       </Grid>
-
-      <PurchaseOrderForm />
+      <PurchaseItems />
     </>
   );
-}
+};
+
+export default Page;

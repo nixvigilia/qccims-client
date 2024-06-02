@@ -73,6 +73,7 @@ const Sidebar = ({
       options: [
         {name: "Suppliers", path: "/procurement/suppliers"},
         {name: "Purchase Orders", path: "/procurement/purchase"},
+        {name: "Purchase Items", path: "/procurement/items"},
       ],
     },
     {
@@ -93,8 +94,8 @@ const Sidebar = ({
       icon: <Build />,
       dropdown: true,
       options: [
+        {name: "Customers", path: "/production/customers"},
         {name: "Job Orders", path: "/production/job-orders"},
-        {name: "Customers", path: "/production/job-order-customers"},
         {name: "Products", path: "/production/job-order-products"},
         {name: "Classification", path: "/production/product-classification"},
         {name: "Prod-Customers", path: "/production/product-customers"},
@@ -133,16 +134,16 @@ const Sidebar = ({
       dropdown: true,
       options: [{name: "Manage", path: "/user-management/users"}],
     },
-    {
-      text: "Reference",
-      icon: "",
-      dropdown: true,
-      options: [
-        {name: "Customer Profile", path: "/delivery/customer"},
-        {name: "Deliver Receipt", path: "/delivery/receipt"},
-        {name: "Job Order", path: "/delivery/job-order"},
-      ],
-    },
+    // {
+    //   text: "Reference",
+    //   icon: "",
+    //   dropdown: true,
+    //   options: [
+    //     {name: "Customer Profile", path: "/production/customer"},
+    //     {name: "Deliver Receipt", path: "/delivery/receipt"},
+    //     {name: "Job Order", path: "/delivery/job-order"},
+    //   ],
+    // },
   ];
 
   return (

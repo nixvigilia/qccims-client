@@ -1,6 +1,7 @@
 "use client";
 
-import {useState, useEffect} from "react";
+import * as React from "react";
+import {useState} from "react";
 import SubmitButton from "@/components/FormInputs/SubmitButton";
 import {
   createPurchase,
@@ -16,52 +17,25 @@ import Grid from "@mui/material/Grid";
 import Divider from "@mui/material/Divider";
 import TextField from "@mui/material/TextField";
 import SearchAsync from "./SearchAsync";
-import dayjs from "dayjs";
 
-export default function PurchaseOrderForm({
+export default function PurchaseItemsForm({
   initialData = {},
   isUpdate = false,
 }) {
   const router = useRouter();
-
-  // Function to format date to YYYY-MM-DD
-  const formatDate = (date) => (date ? dayjs(date).format("YYYY-MM-DD") : "");
-
-  // Preprocess initialData to format dates correctly
-  const formattedInitialData = {
-    ...initialData,
-    orderDate: formatDate(initialData.orderDate),
-    items:
-      initialData.items?.map((item) => ({
-        ...item,
-        deliveryDate: formatDate(item.deliveryDate),
-      })) || [],
-  };
-
   const {
     register,
     handleSubmit,
     control,
     reset,
     formState: {errors},
-  } = useForm({defaultValues: formattedInitialData});
-
+  } = useForm({defaultValues: initialData});
   const {fields, append, remove} = useFieldArray({
     control,
     name: "items",
   });
-
   const [loading, setLoading] = useState(false);
   const [selectedSupplier, setSelectedSupplier] = useState(null);
-
-  useEffect(() => {
-    if (isUpdate) {
-      setSelectedSupplier({
-        id: initialData.supplier.id,
-        name: initialData.supplier.supplierName,
-      });
-    }
-  }, []);
 
   function redirect() {
     router.push("/dashboard/purchases");
@@ -72,7 +46,7 @@ export default function PurchaseOrderForm({
 
     if (isUpdate) {
       // Update request
-      await updatePurchase(
+      updatePurchase(
         setLoading,
         `api/procurement/purchase/${initialData.id}`,
         data,
@@ -81,7 +55,7 @@ export default function PurchaseOrderForm({
         reset
       );
     } else {
-      await createPurchase(
+      createPurchase(
         setLoading,
         "api/procurement/purchase/new",
         data,
@@ -188,19 +162,6 @@ export default function PurchaseOrderForm({
                 })}
                 error={!!errors.totalAmount}
                 helperText={errors.totalAmount?.message}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                fullWidth
-                id="remarks"
-                label="Remarks"
-                name="remarks"
-                multiline
-                rows={4}
-                {...register("remarks")}
-                error={!!errors.remarks}
-                helperText={errors.remarks?.message}
               />
             </Grid>
           </Grid>
@@ -339,19 +300,6 @@ export default function PurchaseOrderForm({
                     helperText={errors.items?.[index]?.referenceCode?.message}
                   />
                 </Grid>
-                <Grid item xs={12} sm={12}>
-                  <TextField
-                    fullWidth
-                    id={`items[${index}].remarks`}
-                    label="Remarks"
-                    name={`items[${index}].remarks`}
-                    multiline
-                    rows={2}
-                    {...register(`items[${index}].remarks`)}
-                    error={!!errors.items?.[index]?.remarks}
-                    helperText={errors.items?.[index]?.remarks?.message}
-                  />
-                </Grid>
                 <Grid item xs={12}>
                   <Button
                     variant="outlined"
@@ -378,7 +326,6 @@ export default function PurchaseOrderForm({
                   unitPrice: "",
                   amount: "",
                   referenceCode: "",
-                  remarks: "",
                 })
               }
               sx={{mt: 2}}

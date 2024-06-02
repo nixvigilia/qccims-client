@@ -34,8 +34,6 @@ const StyledTableCell = styled(TableCell)(({theme}) => ({
 }));
 
 function CustomerOrderListTable({data, mutate}) {
-  console.log("data", data);
-
   return (
     <div
       style={{display: "flex", flexDirection: "column", alignItems: "center"}}

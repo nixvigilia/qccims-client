@@ -34,7 +34,7 @@ const StyledTableCell = styled(TableCell)(({theme}) => ({
   fontSize: "14px",
 }));
 
-function PurchaseOrdersTable({
+function PurchaseItemsTable({
   tableHeaders,
   data,
   totalCount,
@@ -62,38 +62,40 @@ function PurchaseOrdersTable({
             </TableRow>
           </TableHead>
           <TableBody>
-            {data?.map((order, index) => (
-              <StyledTableRow key={order.id || index}>
-                <StyledTableCell component="th" scope="row">
-                  <Typography fontSize={"0.9rem"}>PO{order.id}</Typography>
-                </StyledTableCell>
+            {data?.map((item, index) => (
+              <StyledTableRow key={item.id || index}>
                 <StyledTableCell component="th" scope="row">
                   <Typography fontSize={"0.9rem"}>
-                    PO{order.supplier.supplierName}
+                    {item.description}
                   </Typography>
                 </StyledTableCell>
                 <StyledTableCell>
                   <Typography fontSize={"0.9rem"}>
-                    {formatISODateToReadable(order.orderDate)}
+                    {formatISODateToReadable(item.purchase.orderDate)}
                   </Typography>
                 </StyledTableCell>
                 <StyledTableCell>
                   <Typography fontSize={"0.9rem"}>
-                    {order.items[0].deliveryDate
-                      ? formatISODateToReadable(order.items[0].deliveryDate)
+                    {item.deliveryDate
+                      ? formatISODateToReadable(item.deliveryDate)
                       : null}
+                  </Typography>
+                </StyledTableCell>
+                <StyledTableCell component="th" scope="row">
+                  <Typography fontSize={"0.9rem"}>
+                    {item.quantity} {item.unit}
                   </Typography>
                 </StyledTableCell>
                 <TableCell>
                   <Chip
                     size="small"
-                    label={order.status.toLowerCase()}
-                    color={order.status === "APPROVED" ? "success" : "pending"}
+                    label={item.status.toLowerCase()}
+                    color={item.status === "RECEIVED" ? "success" : "pending"}
                   />
                 </TableCell>
                 <TableCell align="center">
                   <Link
-                    href={`purchase/${order.id}`}
+                    href={`purchase/${item.id}`}
                     component={NextLink}
                     color="inherit"
                     variant="body2"
@@ -125,4 +127,4 @@ function PurchaseOrdersTable({
   );
 }
 
-export default PurchaseOrdersTable;
+export default PurchaseItemsTable;

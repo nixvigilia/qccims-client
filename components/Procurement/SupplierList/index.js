@@ -1,5 +1,5 @@
 "use client";
-import FilterForm from "@/components/Delivery/CustomerProfile/Forms/FilterForm";
+import FilterForm from "./Forms/FilterForm";
 import SupplierListTable from "./Tables/SupplierListTable";
 import {fetchWithToken} from "@/lib/actions/data/getData";
 import useSWR from "swr";

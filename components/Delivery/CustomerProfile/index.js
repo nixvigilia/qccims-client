@@ -10,10 +10,12 @@ const CustomerProfile = () => {
   if (error) return <div className="p-6">Failed to load</div>;
   if (!data) return <div className="p-6">Loading...</div>;
 
+  console.log(data);
+
   return (
     <div className="mt-4">
       <FilterForm />
-      {/* <CustomerListTable data={data} mutate={mutate} /> */}
+      <CustomerListTable data={data} mutate={mutate} />
     </div>
   );
 };

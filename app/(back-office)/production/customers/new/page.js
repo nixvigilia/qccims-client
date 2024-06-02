@@ -1,30 +1,28 @@
-"use client";
-
+import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
+import CustomerProfileForm from "@/components/Delivery/CustomerProfile/Forms/CustomerProfileForm";
 import PageBreadCrumbs from "@/components/Delivery/CustomerProfile/PageBreadCrumbs";
 
-import PurchaseOrderForm from "@/components/Procurement/PurchaseOrders/Forms/PurchaseOrderForm";
-
-export default function Page() {
+export default async function Page() {
   return (
-    <>
+    <Box p={4} mt={4}>
       <PageBreadCrumbs />
       <Grid
         container
         alignItems="center"
         justifyContent="space-between"
-        mt={1}
-        mb={5}
+        mt={4}
+        mb={4}
       >
         <Grid item>
-          <Typography variant="h5" fontWeight="bold" component="div">
-            Create a purchase order
+          <Typography variant="h4" fontWeight="bold" component="div">
+            Create New Customer
           </Typography>
         </Grid>
       </Grid>
 
-      <PurchaseOrderForm />
-    </>
+      <CustomerProfileForm />
+    </Box>
   );
 }

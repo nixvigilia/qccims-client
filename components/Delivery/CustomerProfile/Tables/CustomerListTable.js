@@ -81,7 +81,7 @@ function CustomerListTable({data, mutate}) {
                 </TableCell>
                 <TableCell align="center">
                   <Link
-                    href={`customer/profile/${customer.id}`}
+                    href={`customers/profile/${customer.id}`}
                     component={NextLink}
                     color="inherit"
                     variant="body2"
