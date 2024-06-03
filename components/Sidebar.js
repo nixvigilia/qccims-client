@@ -16,12 +16,12 @@ import ExpandMore from "@mui/icons-material/ExpandMore";
 import Typography from "@mui/material/Typography";
 import NextLink from "next/link";
 import Link from "@mui/material/Link";
-import LocalShipping from "@mui/icons-material/LocalShipping";
-import DirectionsBoatIcon from "@mui/icons-material/DirectionsBoat";
-import Inventory from "@mui/icons-material/Inventory";
-import Build from "@mui/icons-material/Build";
-import CheckCircle from "@mui/icons-material/CheckCircle";
-import Person from "@mui/icons-material/Person";
+import LocalShippingTwoToneIcon from "@mui/icons-material/LocalShippingTwoTone";
+import ShoppingBasketTwoToneIcon from "@mui/icons-material/ShoppingBasketTwoTone";
+import PrecisionManufacturingTwoToneIcon from "@mui/icons-material/PrecisionManufacturingTwoTone";
+import CheckCircleTwoToneIcon from "@mui/icons-material/CheckCircleTwoTone";
+import DescriptionTwoToneIcon from "@mui/icons-material/DescriptionTwoTone";
+import GroupAddTwoToneIcon from "@mui/icons-material/GroupAddTwoTone";
 
 const Sidebar = ({
   handleDrawerOpen,
@@ -67,46 +67,43 @@ const Sidebar = ({
 
   const menuItems = [
     {
-      text: "Procurement",
-      icon: <DirectionsBoatIcon />,
+      text: "Delivery",
+      icon: <LocalShippingTwoToneIcon />,
       dropdown: true,
       options: [
-        {name: "Suppliers", path: "/procurement/suppliers"},
-        {name: "Purchase Orders", path: "/procurement/purchase"},
-        {name: "Purchase Items", path: "/procurement/items"},
+        {name: "Customer Profile", path: "/delivery/customers"},
+        {name: "Delivery Receipt", path: "/delivery/receipt"},
+        {name: "Job Order", path: "/delivery/orders"},
       ],
     },
     {
-      text: "Inventory",
-      icon: <Inventory />,
+      text: "Purchasing",
+      icon: <ShoppingBasketTwoToneIcon />,
       dropdown: true,
       options: [
-        {name: "Tinplate Suppliers", path: "/inventory/tinplate-suppliers"},
-        {name: "Receipts", path: "/inventory/receipt-records"},
-        {name: "Tinplate Coils", path: "/inventory/tinplate-coils"},
-        {name: "Cutting", path: "/inventory/coil-cutting"},
-        {name: "Consumption", path: "/inventory/tinplate-consumption"},
-        {name: "Coil Usage", path: "/inventory/coil-consumption"},
+        {name: "Supplier", path: "/purchasing/suppliers"},
+        {name: "Purchase Orders", path: "/purchasing/purchase"},
+        {name: "P.O. Receiving", path: "/purchasing/items"},
       ],
     },
+
     {
       text: "Production",
-      icon: <Build />,
+      icon: <PrecisionManufacturingTwoToneIcon />,
       dropdown: true,
       options: [
-        {name: "Customers", path: "/production/customers"},
         {name: "Job Orders", path: "/production/job-orders"},
-        {name: "Products", path: "/production/job-order-products"},
+        {name: "Components", path: "/production/components"},
+        {name: "Formed Cans", path: "/production/job-order-products"},
         {name: "Classification", path: "/production/product-classification"},
-        {name: "Prod-Customers", path: "/production/product-customers"},
-        {name: "Prod Details", path: "/production/product-details"},
-        {name: "Salesmen", path: "/production/product-salesmen"},
-        {name: "Inventory Org", path: "/production/inventory-organization"},
+        {name: "Monitoring", path: "/production/product-customers"},
+        {name: "Lithography", path: "/production/product-details"},
+        {name: "Inventory Status", path: "/production/product-salesmen"},
       ],
     },
     {
       text: "Quality",
-      icon: <CheckCircle />,
+      icon: <CheckCircleTwoToneIcon />,
       dropdown: true,
       options: [
         {
@@ -119,31 +116,30 @@ const Sidebar = ({
       ],
     },
     {
-      text: "Sales & Delivery",
-      icon: <LocalShipping />,
+      text: "Invoice",
+      icon: <DescriptionTwoToneIcon />,
       dropdown: true,
       options: [
-        {name: "Customers", path: "/sales/customer-information"},
-        {name: "Invoices", path: "/sales/invoices"},
-        {name: "Deliveries", path: "/sales/delivery-details"},
+        {name: "Invoice Entry", path: "/sales/customer-information"},
+        {name: "Statement", path: "/sales/invoices"},
       ],
     },
     {
       text: "Users",
-      icon: <Person />,
+      icon: <GroupAddTwoToneIcon />,
       dropdown: true,
       options: [{name: "Manage", path: "/user-management/users"}],
     },
-    // {
-    //   text: "Reference",
-    //   icon: "",
-    //   dropdown: true,
-    //   options: [
-    //     {name: "Customer Profile", path: "/production/customer"},
-    //     {name: "Deliver Receipt", path: "/delivery/receipt"},
-    //     {name: "Job Order", path: "/delivery/job-order"},
-    //   ],
-    // },
+    {
+      text: "Reference",
+      icon: "",
+      dropdown: true,
+      options: [
+        {name: "Customer Profile", path: "/delivery/customer"},
+        {name: "Deliver Receipt", path: "/delivery/receipt"},
+        {name: "Job Order", path: "/delivery/job-order"},
+      ],
+    },
   ];
 
   return (

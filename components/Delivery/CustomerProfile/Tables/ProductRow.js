@@ -23,7 +23,7 @@ function ProductRow({customerId, companyName, address, mutate}) {
       <TableCell>{address}</TableCell>
       <TableCell>
         <div style={{display: "flex", justifyContent: "flex-end", gap: "8px"}}>
-          <Link href={`customer/${customerId}`} passHref>
+          <Link href={`customers/${customerId}`} passHref>
             <IconButton component="a" size="small">
               <Pencil className="w-4" />
             </IconButton>

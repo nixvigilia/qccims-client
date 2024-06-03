@@ -24,7 +24,7 @@ const Page = () => {
           </Typography>
         </Grid>
         <Grid item>
-          <Link href="customer/new" passHref>
+          <Link href="customers/new" passHref>
             <Button
               variant="contained"
               color="primary"

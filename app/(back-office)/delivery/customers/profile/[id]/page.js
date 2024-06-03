@@ -9,6 +9,7 @@ import Button from "@mui/material/Button";
 import Divider from "@mui/material/Divider";
 import Grid from "@mui/material/Grid";
 import PageBreadCrumbs from "@/components/Delivery/CustomerProfile/PageBreadCrumbs";
+import CustomerDetails from "@/components/Delivery/CustomerProfile/CustomerDetails";
 import ProfileNav from "@/components/Delivery/CustomerProfile/ProfileNav";
 import {styled, alpha} from "@mui/material/styles";
 import Menu from "@mui/material/Menu";
@@ -18,8 +19,6 @@ import BlockIcon from "@mui/icons-material/Block";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import NextLink from "next/link";
 import Link from "@mui/material/Link";
-import CustomerOrderListTable from "@/components/Delivery/CustomerProfile/CustomerOrders/Tables/CustomerOrderListTable";
-import FilterForm from "@/components/Delivery/CustomerProfile/Forms/FilterForm";
 
 const StyledMenu = styled((props) => (
   <Menu
@@ -76,7 +75,7 @@ export default function Page({params}) {
     setAnchorEl(null);
   };
   const fetcher = (url) => getData(url);
-  const {data, error} = useSWR(id ? `/api/job-order/${id}` : null, fetcher);
+  const {data, error} = useSWR(id ? `/api/customer/${id}` : null, fetcher);
 
   if (error) return <div>Failed to load</div>;
   if (!data) return <div>Loading...</div>;
@@ -132,7 +131,7 @@ export default function Page({params}) {
               onClose={handleClose}
             >
               <Link
-                href={`/delivery/customer/edit/${id}`}
+                href={`/delivery/customers/edit/${id}`}
                 component={NextLink}
                 color="inherit"
                 variant="body2"
@@ -155,11 +154,7 @@ export default function Page({params}) {
       </Grid>
 
       <ProfileNav customerId={data?.id} />
-
-      <Box mt={4}>
-        <FilterForm />
-        <CustomerOrderListTable data={data} />
-      </Box>
+      <CustomerDetails data={data} />
     </Box>
   );
 }

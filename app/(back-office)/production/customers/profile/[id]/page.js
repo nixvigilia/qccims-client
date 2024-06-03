@@ -131,7 +131,7 @@ export default function Page({params}) {
               onClose={handleClose}
             >
               <Link
-                href={`/delivery/customer/edit/${id}`}
+                href={`/delivery/customers/edit/${id}`}
                 component={NextLink}
                 color="inherit"
                 variant="body2"

@@ -38,22 +38,22 @@ const ProfileNav = ({customerId}) => {
         <CustomTab
           label="Profile"
           component={Link}
-          href={`/delivery/customer/profile/${customerId}`}
+          href={`/delivery/customers/profile/${customerId}`}
         />
         <CustomTab
           label="Orders"
           component={Link}
-          href={`/delivery/customer/orders/${customerId}`}
+          href={`/delivery/customers/orders/${customerId}`}
         />
         <CustomTab
           label="Invoice"
           component={Link}
-          href={`/delivery/customer/invoice/${customerId}`}
+          href={`/delivery/customers/invoice/${customerId}`}
         />
         <CustomTab
           label="Settings"
           component={Link}
-          href={`/delivery/customer/settings/${customerId}`}
+          href={`/delivery/customers/settings/${customerId}`}
         />
       </Tabs>
       <Divider />
