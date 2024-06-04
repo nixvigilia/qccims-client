@@ -1,15 +1,15 @@
-import CustomerProfile from "@/components/Delivery/CustomerProfile";
-import PageBreadCrumbs from "@/components/Delivery/CustomerProfile/PageBreadCrumbs";
-import Link from "next/link";
-import {Plus} from "lucide-react";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
+import Link from "next/link";
+import Button from "@mui/material/Button";
+import AddIcon from "@mui/icons-material/Add";
+import Box from "@mui/material/Box";
+import PageBreadCrumbs from "@/components/Delivery/CustomerProfile/PageBreadCrumbs";
+import JobOrders from "@/components/Delivery/JobOrders";
 
 const Page = () => {
   return (
-    <Box>
+    <>
       <PageBreadCrumbs />
       <Grid
         container
@@ -20,15 +20,15 @@ const Page = () => {
       >
         <Grid item>
           <Typography variant="h5" fontWeight="bold" component="div">
-            Customer List
+            Job Orders
           </Typography>
         </Grid>
         <Grid item>
-          <Link href="customers/new" passHref>
+          <Link href="job-orders/new" passHref>
             <Button
               variant="contained"
               color="primary"
-              startIcon={<Plus className="h-5" />}
+              startIcon={<AddIcon />}
               sx={{
                 height: 40,
                 textTransform: "none",
@@ -40,15 +40,14 @@ const Page = () => {
               }}
             >
               <Box component="span" sx={{display: {xs: "none", md: "block"}}}>
-                Add Customer
+                Create Job Order
               </Box>
             </Button>
           </Link>
         </Grid>
       </Grid>
-
-      <CustomerProfile />
-    </Box>
+      <JobOrders />
+    </>
   );
 };
 

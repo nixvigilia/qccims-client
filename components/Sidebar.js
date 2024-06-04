@@ -72,8 +72,8 @@ const Sidebar = ({
       dropdown: true,
       options: [
         {name: "Customer Profile", path: "/delivery/customers"},
-        {name: "Delivery Receipt", path: "/delivery/receipt"},
-        {name: "Job Order", path: "/delivery/orders"},
+        // {name: "Delivery Receipt", path: "/delivery/receipt"},
+        {name: "Job Orders", path: "/delivery/job-orders"},
       ],
     },
     {
@@ -107,12 +107,9 @@ const Sidebar = ({
       dropdown: true,
       options: [
         {
-          name: "Specifications",
-          path: "/quality-control/product-specifications",
+          name: "Tin Can Specification",
+          path: "/quality/tin-can-specification",
         },
-        {name: "Spec Details", path: "/quality-control/specification-details"},
-        {name: "Rejected Items", path: "/quality-control/rejected-items"},
-        {name: "Logs", path: "/quality-control/quality-logs"},
       ],
     },
     {
@@ -129,16 +126,6 @@ const Sidebar = ({
       icon: <GroupAddTwoToneIcon />,
       dropdown: true,
       options: [{name: "Manage", path: "/user-management/users"}],
-    },
-    {
-      text: "Reference",
-      icon: "",
-      dropdown: true,
-      options: [
-        {name: "Customer Profile", path: "/delivery/customer"},
-        {name: "Deliver Receipt", path: "/delivery/receipt"},
-        {name: "Job Order", path: "/delivery/job-order"},
-      ],
     },
   ];
 

@@ -34,7 +34,7 @@ const StyledTableCell = styled(TableCell)(({theme}) => ({
   fontSize: "14px",
 }));
 
-function PurchaseItemsTable({
+function JobOrdersTable({
   tableHeaders,
   data,
   totalCount,
@@ -51,7 +51,7 @@ function PurchaseItemsTable({
         variant="outlined"
         sx={{borderRadius: "sm", overflow: "auto", width: "100%", minHeight: 0}}
       >
-        <Table sx={{minWidth: 650}} size="small" aria-label="customer table">
+        <Table sx={{minWidth: 650}} size="small" aria-label="job order table">
           <TableHead>
             <TableRow>
               {tableHeaders.map((header, index) => (
@@ -62,45 +62,40 @@ function PurchaseItemsTable({
             </TableRow>
           </TableHead>
           <TableBody>
-            {data?.map((item, index) => (
-              <StyledTableRow key={item.id || index}>
+            {data?.map((order, index) => (
+              <StyledTableRow key={order.id || index}>
                 <StyledTableCell component="th" scope="row">
-                  <Typography fontSize={"0.9rem"}>
-                    PO{item.purchase.id}
-                  </Typography>
+                  <Typography fontSize={"0.9rem"}>{order.jobNumber}</Typography>
                 </StyledTableCell>
                 <StyledTableCell component="th" scope="row">
                   <Typography fontSize={"0.9rem"}>
-                    {item.description}
+                    {order.customer?.companyName}
                   </Typography>
                 </StyledTableCell>
                 <StyledTableCell>
                   <Typography fontSize={"0.9rem"}>
-                    {formatISODateToReadable(item.purchase.orderDate)}
+                    {formatISODateToReadable(order.jobDate)}
                   </Typography>
                 </StyledTableCell>
                 <StyledTableCell>
                   <Typography fontSize={"0.9rem"}>
-                    {item.deliveryDate
-                      ? formatISODateToReadable(item.deliveryDate)
+                    {order.jobOrderItems[0]?.deliveryDate
+                      ? formatISODateToReadable(
+                          order.jobOrderItems[0].deliveryDate
+                        )
                       : null}
-                  </Typography>
-                </StyledTableCell>
-                <StyledTableCell component="th" scope="row">
-                  <Typography fontSize={"0.9rem"}>
-                    {item.quantity} {item.unit}
                   </Typography>
                 </StyledTableCell>
                 <TableCell>
                   <Chip
                     size="small"
-                    label={item.status.toLowerCase()}
-                    color={item.status === "RECEIVED" ? "success" : "pending"}
+                    label={order.status.toLowerCase()}
+                    color={order.status === "APPROVED" ? "success" : "pending"}
                   />
                 </TableCell>
                 <TableCell align="center">
                   <Link
-                    href={`purchase/${item.id}`}
+                    href={`job-orders/${order.id}`}
                     component={NextLink}
                     color="inherit"
                     variant="body2"
@@ -132,4 +127,4 @@ function PurchaseItemsTable({
   );
 }
 
-export default PurchaseItemsTable;
+export default JobOrdersTable;

@@ -14,7 +14,11 @@ function handleClick(event) {
 const MAX_LENGTH = 50;
 
 function capitalizeFirstLetter(string) {
-  return string.charAt(0).toUpperCase() + string.slice(1);
+  return string
+    .replace(/(?:^\w|[A-Z]|\b\w)/g, function (word, index) {
+      return index == 0 ? word.toUpperCase() : word.toUpperCase();
+    })
+    .replace(/\s+/g, "");
 }
 
 function truncateString(str, maxLength) {
@@ -32,7 +36,7 @@ export default function PageBreadCrumbs({lastPathName}) {
     ...pathnames.map((value, index) => {
       const to = `/${pathnames.slice(0, index + 1).join("/")}`;
       const isLast = index === pathnames.length - 1;
-      const text = capitalizeFirstLetter(value);
+      const text = capitalizeFirstLetter(value).replace(/[^\w\s]/gi, " ");
 
       return isLast ? (
         <Typography key={to} color="primary" sx={{fontSize: "0.9rem"}}>

@@ -34,11 +34,11 @@ const PurchaseOrders = () => {
   }, []);
 
   const tableHeaders = [
-    {label: "Order ID"},
+    {label: "P.O. ID"},
     {label: "Supplier"},
     {label: "Order Date"},
     {label: "Delivery Date"},
-    {label: "Quantity"},
+    {label: "Status"},
     {label: "Action", align: "center"},
   ];
 
