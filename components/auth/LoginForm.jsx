@@ -31,7 +31,7 @@ function Copyright(props) {
   );
 }
 
-export default function SignIn() {
+export default function LoginForm() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
