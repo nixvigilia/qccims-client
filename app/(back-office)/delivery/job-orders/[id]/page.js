@@ -1,17 +1,14 @@
 "use client";
 import useSWR from "swr";
 import {getData} from "@/lib/actions/data/getData";
-import Typography from "@mui/material/Typography";
-import Grid from "@mui/material/Grid";
 import PageBreadCrumbs from "@/components/Delivery/CustomerProfile/PageBreadCrumbs";
-
-import PurchaseOrderDetails from "@/components/Procurement/PurchaseOrders/PurchaseOrderDetails";
+import JobOrderDetails from "@/components/Delivery/JobOrders/JobOrderDetails";
 
 export default function Page({params}) {
   const {id} = params;
   const fetcher = (url) => getData(url);
   const {data, error} = useSWR(
-    id ? `/api/procurement/purchase/orders/${id}` : null,
+    id ? `/api/delivery/job/orders/${id}` : null,
     fetcher
   );
 
@@ -22,9 +19,9 @@ export default function Page({params}) {
 
   return (
     <>
-      <PageBreadCrumbs lastPathName={data?.supplierName} />
+      <PageBreadCrumbs lastPathName={data?.jobNumber} />
 
-      <PurchaseOrderDetails initialData={data} />
+      <JobOrderDetails initialData={data} />
     </>
   );
 }

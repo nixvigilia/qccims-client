@@ -26,7 +26,7 @@ import Swal from "sweetalert2";
 import NextLink from "next/link";
 import Link from "@mui/material/Link";
 
-export default function PurchaseOrderView({initialData = {}}) {
+export default function PurchaseOrderDetails({initialData = {}}) {
   // Function to format date to YYYY-MM-DD
   const formatDate = (date) => (date ? dayjs(date).format("YYYY-MM-DD") : "");
 
@@ -47,15 +47,6 @@ export default function PurchaseOrderView({initialData = {}}) {
     control,
     name: "items",
   });
-
-  const [selectedSupplier, setSelectedSupplier] = useState(null);
-
-  useEffect(() => {
-    setSelectedSupplier({
-      id: initialData.supplier.id,
-      name: initialData.supplier.supplierName,
-    });
-  }, [initialData.supplier]);
 
   // State for managing the dropdown menu
   const [anchorEl, setAnchorEl] = useState(null);
@@ -109,7 +100,7 @@ export default function PurchaseOrderView({initialData = {}}) {
               />
             </Box>
             <Typography variant="h4" fontWeight="bold" component="div">
-              PO{initialData.id}
+              {initialData.jobNumber}
             </Typography>
           </Grid>
           <Grid item>
@@ -185,7 +176,7 @@ export default function PurchaseOrderView({initialData = {}}) {
             </Grid>
             <Grid item xs={12} sm={6}>
               <Typography variant="body1">
-                <strong>Supplier:</strong> {selectedSupplier?.name}
+                {/* <strong>Supplier:</strong> {selectedSupplier?.name} */}
               </Typography>
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -232,7 +223,7 @@ export default function PurchaseOrderView({initialData = {}}) {
 
           <Divider sx={{mt: 4, mb: 4}} />
           <Button variant="contained" color="primary" onClick={handleApprove}>
-            Approve
+            Approve (Note:function in progress)
           </Button>
         </Box>
       </Box>

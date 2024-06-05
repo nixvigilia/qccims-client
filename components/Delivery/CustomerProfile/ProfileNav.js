@@ -40,7 +40,7 @@ const ProfileNav = ({customerId}) => {
           component={Link}
           href={`/delivery/customers/profile/${customerId}`}
         />
-        <CustomTab
+        {/* <CustomTab
           label="Orders"
           component={Link}
           href={`/delivery/customers/orders/${customerId}`}
@@ -54,7 +54,7 @@ const ProfileNav = ({customerId}) => {
           label="Settings"
           component={Link}
           href={`/delivery/customers/settings/${customerId}`}
-        />
+        /> */}
       </Tabs>
       <Divider />
     </Box>

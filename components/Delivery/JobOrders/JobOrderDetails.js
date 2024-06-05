@@ -25,8 +25,9 @@ import Button from "@mui/material/Button";
 import Swal from "sweetalert2";
 import NextLink from "next/link";
 import Link from "@mui/material/Link";
+import formatISODateToReadable from "@/utils/helpers/formatISODateToReadable";
 
-export default function PurchaseOrderView({initialData = {}}) {
+export default function JobOrderDetails({initialData = {}}) {
   // Function to format date to YYYY-MM-DD
   const formatDate = (date) => (date ? dayjs(date).format("YYYY-MM-DD") : "");
 
@@ -35,7 +36,7 @@ export default function PurchaseOrderView({initialData = {}}) {
     ...initialData,
     orderDate: formatDate(initialData.orderDate),
     items:
-      initialData.items?.map((item) => ({
+      initialData.jobOrderItems?.map((item) => ({
         ...item,
         deliveryDate: formatDate(item.deliveryDate),
       })) || [],
@@ -50,12 +51,12 @@ export default function PurchaseOrderView({initialData = {}}) {
 
   const [selectedSupplier, setSelectedSupplier] = useState(null);
 
-  useEffect(() => {
-    setSelectedSupplier({
-      id: initialData.supplier.id,
-      name: initialData.supplier.supplierName,
-    });
-  }, [initialData.supplier]);
+  // useEffect(() => {
+  //   setSelectedSupplier({
+  //     id: initialData.supplier.id,
+  //     name: initialData.supplier.supplierName,
+  //   });
+  // }, [initialData.supplier]);
 
   // State for managing the dropdown menu
   const [anchorEl, setAnchorEl] = useState(null);
@@ -109,7 +110,7 @@ export default function PurchaseOrderView({initialData = {}}) {
               />
             </Box>
             <Typography variant="h4" fontWeight="bold" component="div">
-              PO{initialData.id}
+              {initialData.jobNumber}
             </Typography>
           </Grid>
           <Grid item>
@@ -146,7 +147,7 @@ export default function PurchaseOrderView({initialData = {}}) {
               </Link>
               <PDFDownloadLink
                 document={<PurchaseOrderPdf data={formattedInitialData} />}
-                fileName={`PO${initialData.id}.pdf`}
+                fileName={`${initialData.jobNumber}.pdf`}
                 style={{textDecoration: "none", color: "inherit"}}
               >
                 {({loading}) => (
@@ -165,40 +166,42 @@ export default function PurchaseOrderView({initialData = {}}) {
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <Typography variant="body1">
-                <strong>Order Date:</strong> {formattedInitialData.orderDate}
+                <strong>Order Date:</strong>{" "}
+                {formatISODateToReadable(formattedInitialData.jobDate)}
               </Typography>
             </Grid>
             <Grid item xs={12} sm={6}>
               <Typography variant="body1">
-                <strong>Term:</strong> {formattedInitialData.term}
+                <strong>Customer:</strong>{" "}
+                {formattedInitialData.customer.companyName}
               </Typography>
             </Grid>
-            <Grid item xs={12} sm={6}>
+            {/* <Grid item xs={12} sm={6}>
               <Typography variant="body1">
                 <strong>Requestor:</strong> {formattedInitialData.requestor}
               </Typography>
-            </Grid>
-            <Grid item xs={12} sm={6}>
+            </Grid> */}
+            {/* <Grid item xs={12} sm={6}>
               <Typography variant="body1">
                 <strong>VAT:</strong> {formattedInitialData.vat}
               </Typography>
-            </Grid>
-            <Grid item xs={12} sm={6}>
+            </Grid> */}
+            {/* <Grid item xs={12} sm={6}>
               <Typography variant="body1">
                 <strong>Supplier:</strong> {selectedSupplier?.name}
               </Typography>
-            </Grid>
-            <Grid item xs={12} sm={6}>
+            </Grid> */}
+            {/* <Grid item xs={12} sm={6}>
               <Typography variant="body1">
                 <strong>Total Amount:</strong>{" "}
                 {formattedInitialData.totalAmount}
               </Typography>
-            </Grid>
-            <Grid item xs={12}>
+            </Grid> */}
+            {/* <Grid item xs={12}>
               <Typography variant="body1">
                 <strong>Remarks:</strong> {formattedInitialData.remarks}
               </Typography>
-            </Grid>
+            </Grid> */}
           </Grid>
 
           <Box mt={4} width="100%">
@@ -208,20 +211,16 @@ export default function PurchaseOrderView({initialData = {}}) {
                   <TableRow>
                     <TableCell>Product Description</TableCell>
                     <TableCell>Quantity</TableCell>
-                    <TableCell>Unit Price</TableCell>
-                    <TableCell>Amount</TableCell>
                     <TableCell>Remarks</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {fields.map((field, index) => (
                     <TableRow key={field.id}>
-                      <TableCell>{field.description}</TableCell>
+                      <TableCell>{field.product}</TableCell>
                       <TableCell>
                         {field.quantity} {field.unit}
                       </TableCell>
-                      <TableCell>₱ {field.unitPrice}</TableCell>
-                      <TableCell>₱ {field.amount}</TableCell>
                       <TableCell>{field.remarks}</TableCell>
                     </TableRow>
                   ))}

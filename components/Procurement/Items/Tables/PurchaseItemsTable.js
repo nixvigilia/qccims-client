@@ -3,6 +3,7 @@
 import CustomPagination from "@/components/CustomPagination";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
+import Tooltip from "@mui/material/Tooltip";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
@@ -99,21 +100,24 @@ function PurchaseItemsTable({
                   />
                 </TableCell>
                 <TableCell align="center">
-                  <Link
-                    href={`purchase/${item.id}`}
-                    component={NextLink}
-                    color="inherit"
-                    variant="body2"
-                    key={index}
-                    style={{textDecoration: "none"}}
-                    passHref
-                  >
-                    <Box>
-                      <Fab size="small" color="primary" aria-label="edit">
-                        <Edit />
-                      </Fab>
-                    </Box>
-                  </Link>
+                  <Tooltip title="in progress">
+                    <Link
+                      // href={`items/${item.id}`}
+                      href=""
+                      component={NextLink}
+                      color="inherit"
+                      variant="body2"
+                      key={index}
+                      style={{textDecoration: "none"}}
+                      passHref
+                    >
+                      <Box>
+                        <Fab size="small" color="primary" aria-label="edit">
+                          <Edit />
+                        </Fab>
+                      </Box>
+                    </Link>
+                  </Tooltip>
                 </TableCell>
               </StyledTableRow>
             ))}

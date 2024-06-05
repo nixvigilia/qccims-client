@@ -87,46 +87,46 @@ const Sidebar = ({
       ],
     },
 
-    {
-      text: "Production",
-      icon: <PrecisionManufacturingTwoToneIcon />,
-      dropdown: true,
-      options: [
-        {name: "Job Orders", path: "/production/job-orders"},
-        {name: "Components", path: "/production/components"},
-        {name: "Formed Cans", path: "/production/job-order-products"},
-        {name: "Classification", path: "/production/product-classification"},
-        {name: "Monitoring", path: "/production/product-customers"},
-        {name: "Lithography", path: "/production/product-details"},
-        {name: "Inventory Status", path: "/production/product-salesmen"},
-      ],
-    },
-    {
-      text: "Quality",
-      icon: <CheckCircleTwoToneIcon />,
-      dropdown: true,
-      options: [
-        {
-          name: "Tin Can Specification",
-          path: "/quality/tin-can-specification",
-        },
-      ],
-    },
-    {
-      text: "Invoice",
-      icon: <DescriptionTwoToneIcon />,
-      dropdown: true,
-      options: [
-        {name: "Invoice Entry", path: "/sales/customer-information"},
-        {name: "Statement", path: "/sales/invoices"},
-      ],
-    },
-    {
-      text: "Users",
-      icon: <GroupAddTwoToneIcon />,
-      dropdown: true,
-      options: [{name: "Manage", path: "/user-management/users"}],
-    },
+    // {
+    //   text: "Production",
+    //   icon: <PrecisionManufacturingTwoToneIcon />,
+    //   dropdown: true,
+    //   options: [
+    //     {name: "Job Orders", path: "/production/job-orders"},
+    //     {name: "Components", path: "/production/components"},
+    //     {name: "Formed Cans", path: "/production/job-order-products"},
+    //     {name: "Classification", path: "/production/product-classification"},
+    //     {name: "Monitoring", path: "/production/product-customers"},
+    //     {name: "Lithography", path: "/production/product-details"},
+    //     {name: "Inventory Status", path: "/production/product-salesmen"},
+    //   ],
+    // },
+    // {
+    //   text: "Quality",
+    //   icon: <CheckCircleTwoToneIcon />,
+    //   dropdown: true,
+    //   options: [
+    //     {
+    //       name: "Tin Can Specification",
+    //       path: "/quality/tin-can-specification",
+    //     },
+    //   ],
+    // },
+    // {
+    //   text: "Invoice",
+    //   icon: <DescriptionTwoToneIcon />,
+    //   dropdown: true,
+    //   options: [
+    //     {name: "Invoice Entry", path: "/sales/customer-information"},
+    //     {name: "Statement", path: "/sales/invoices"},
+    //   ],
+    // },
+    // {
+    //   text: "Users",
+    //   icon: <GroupAddTwoToneIcon />,
+    //   dropdown: true,
+    //   options: [{name: "Manage", path: "/user-management/users"}],
+    // },
   ];
 
   return (

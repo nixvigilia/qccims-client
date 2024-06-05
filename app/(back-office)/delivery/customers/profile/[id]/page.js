@@ -108,7 +108,7 @@ export default function Page({params}) {
         </Grid>
         <Grid item>
           <Box display="flex" alignItems="center" gap={2}>
-            <Button variant="outlined">Create Order</Button>
+            {/* <Button variant="outlined">Create Order</Button> */}
             <Button
               id="demo-customized-button"
               aria-controls={open ? "demo-customized-menu" : undefined}
@@ -144,10 +144,10 @@ export default function Page({params}) {
                 </MenuItem>
               </Link>
               <Divider />
-              <MenuItem disableRipple>
+              {/* <MenuItem disableRipple>
                 <BlockIcon />
                 Deactivate
-              </MenuItem>
+              </MenuItem> */}
             </StyledMenu>
           </Box>
         </Grid>
