@@ -101,9 +101,7 @@ function SupplierListTable({data, mutate}) {
           </TableBody>
         </Table>
       </TableContainer>
-      <div style={{marginTop: "20px"}}>
-        <CustomPagination />
-      </div>
+      <div style={{marginTop: "20px"}}>{/* <CustomPagination /> */}</div>
     </div>
   );
 }

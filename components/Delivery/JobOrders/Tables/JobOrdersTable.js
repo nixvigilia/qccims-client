@@ -116,12 +116,12 @@ function JobOrdersTable({
         </Table>
       </TableContainer>
       <div style={{marginTop: "20px"}}>
-        <CustomPagination
+        {/* <CustomPagination
           totalCount={totalCount}
           itemsPerPage={itemsPerPage}
           page={page}
           onPageChange={onPageChange}
-        />
+        /> */}
       </div>
     </div>
   );
