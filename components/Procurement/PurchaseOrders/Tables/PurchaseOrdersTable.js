@@ -79,8 +79,8 @@ function PurchaseOrdersTable({
                 </StyledTableCell>
                 <StyledTableCell>
                   <Typography fontSize={"0.9rem"}>
-                    {order.items[0].deliveryDate
-                      ? formatISODateToReadable(order.items[0].deliveryDate)
+                    {order?.items[0]?.deliveryDate
+                      ? formatISODateToReadable(order?.items[0]?.deliveryDate)
                       : null}
                   </Typography>
                 </StyledTableCell>
