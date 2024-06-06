@@ -20,17 +20,17 @@ export default function Page({params}) {
   if (!data) return <div>Loading...</div>;
 
   return (
-    <Box p={4} mt={4}>
+    <Box>
       <PageBreadCrumbs />
       <Grid
         container
         alignItems="center"
         justifyContent="space-between"
-        mt={4}
+        mt={1}
         mb={4}
       >
         <Grid item>
-          <Typography variant="h4" fontWeight="bold" component="div">
+          <Typography variant="h5" fontWeight="bold" component="div">
             Update Company Profile
           </Typography>
         </Grid>

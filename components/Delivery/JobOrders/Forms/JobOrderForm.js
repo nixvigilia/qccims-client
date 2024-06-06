@@ -68,7 +68,7 @@ export default function JobOrderForm({initialData = {}, isUpdate = false}) {
       // Update request
       await updateJobOrder(
         setLoading,
-        `api/delivery/job/${initialData.id}`,
+        `api/delivery/job/update/${initialData.id}`,
         data,
         "Job Order",
         redirect,
@@ -220,22 +220,6 @@ export default function JobOrderForm({initialData = {}, isUpdate = false}) {
                     })}
                     error={!!errors.jobOrderItems?.[index]?.unit}
                     helperText={errors.jobOrderItems?.[index]?.unit?.message}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    required
-                    fullWidth
-                    id={`jobOrderItems[${index}].description`}
-                    label="Description"
-                    name={`jobOrderItems[${index}].description`}
-                    {...register(`jobOrderItems[${index}].description`, {
-                      required: "Description is required",
-                    })}
-                    error={!!errors.jobOrderItems?.[index]?.description}
-                    helperText={
-                      errors.jobOrderItems?.[index]?.description?.message
-                    }
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
