@@ -22,14 +22,14 @@ const nextConfig = {
       },
     ],
   },
-  async rewrites() {
-    return [
-      {
-        source: "/api/:path*",
-        destination: "http://139.162.47.168:8080/api/:path*",
-      },
-    ];
-  },
+  // async rewrites() {
+  //   return [
+  //     {
+  //       source: "/api/:path*",
+  //       destination: "http://139.162.47.168:8080/api/:path*",
+  //     },
+  //   ];
+  // },
 };
 
 module.exports = nextConfig;
