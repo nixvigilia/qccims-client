@@ -31,7 +31,7 @@ export default function Page({params}) {
       >
         <Grid item>
           <Typography variant="h5" fontWeight="bold" component="div">
-            PO{data?.id}
+            {data?.jobNumber}
           </Typography>
         </Grid>
       </Grid>
