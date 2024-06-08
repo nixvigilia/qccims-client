@@ -16,6 +16,7 @@ const AutoCompleteForm = ({
   title,
   variant,
   endpoint,
+  size,
 }) => {
   const [inputValue, setInputValue] = useState("");
   const [debouncedInputValue] = useDebounce(inputValue, 300);
@@ -56,6 +57,7 @@ const AutoCompleteForm = ({
           {...params}
           label={title}
           variant={variant}
+          size={size}
           InputLabelProps={{
             shrink: true,
           }}

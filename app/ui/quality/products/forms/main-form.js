@@ -18,7 +18,7 @@ import TextField from "@mui/material/TextField";
 import SearchAsync from "./auto-complete-form";
 import dayjs from "dayjs";
 
-export default function ProductForm({initialData = {}, isUpdate = false}) {
+export default function MainForm({initialData = {}, isUpdate = false}) {
   const router = useRouter();
 
   // Function to format date to YYYY-MM-DD

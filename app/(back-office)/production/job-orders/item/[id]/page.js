@@ -2,13 +2,13 @@
 import useSWR from "swr";
 import {getData} from "@/lib/actions/data/getData";
 import PageBreadCrumbs from "@/components/Delivery/CustomerProfile/PageBreadCrumbs";
-import JobOrderList from "@/app/ui/production/job-orders/job-order-list";
+import MainView from "@/app/ui/production/job-orders/view/main-view";
 
 export default function Page({params}) {
   const {id} = params;
   const fetcher = (url) => getData(url);
   const {data, error} = useSWR(
-    id ? `/api/delivery/job/orders/${id}` : null,
+    id ? `/api/production/job/items/${id}` : null,
     fetcher
   );
 

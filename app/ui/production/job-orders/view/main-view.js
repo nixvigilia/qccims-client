@@ -149,8 +149,8 @@ export default function MainView({initialData = {}}) {
           <Grid container spacing={2}>
             <Grid item xs={12} sm={8}>
               <Typography variant="body1">
-                <strong>Customer Name:</strong>{" "}
-                {/* {initialData.customer.companyName} */}
+                <strong>Customer Name:</strong>
+                {initialData.customer.companyName}
               </Typography>
             </Grid>
             <Grid item xs={12} sm={4}>

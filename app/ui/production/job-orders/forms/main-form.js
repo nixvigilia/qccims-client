@@ -1,36 +1,37 @@
 "use client";
 
 import {useState, useEffect} from "react";
-import SubmitButton from "@/components/FormInputs/SubmitButton";
-import {createJobOrder, updateJobOrder} from "@/lib/api/delivery/jobOrderApi";
 import {useRouter} from "next/navigation";
 import {useForm, useFieldArray, FormProvider} from "react-hook-form";
 import Swal from "sweetalert2";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import Grid from "@mui/material/Grid";
-import Divider from "@mui/material/Divider";
-import Paper from "@mui/material/Paper";
-import TextField from "@mui/material/TextField";
-import AutoCompleteForm from "./auto-complete-form";
 import dayjs from "dayjs";
+import {
+  Box,
+  Button,
+  Typography,
+  Grid,
+  Divider,
+  Paper,
+  TextField,
+} from "@mui/material";
 import DeleteTwoToneIcon from "@mui/icons-material/DeleteTwoTone";
 import AddBoxTwoToneIcon from "@mui/icons-material/AddBoxTwoTone";
+import SubmitButton from "@/components/FormInputs/SubmitButton";
+import {createJobOrder, updateJobOrder} from "@/lib/api/delivery/jobOrderApi";
+import AutoCompleteForm from "./auto-complete-form";
 
 export default function MainForm({initialData = {}, isUpdate = false}) {
   const router = useRouter();
 
-  // Function to format date to YYYY-MM-DD
   const formatDate = (date) => (date ? dayjs(date).format("YYYY-MM-DD") : "");
 
-  // Preprocess initialData to format dates correctly
   const formattedInitialData = {
     ...initialData,
     jobDate: formatDate(initialData.jobDate),
     jobOrderItems: initialData.jobOrderItems?.map((item) => ({
       ...item,
       deliveryDate: formatDate(item.deliveryDate),
+      productId: item.product.id,
     })) || [
       {
         deliveryDate: "",
@@ -38,6 +39,7 @@ export default function MainForm({initialData = {}, isUpdate = false}) {
         quantity: "",
         unit: "",
         remarks: "",
+        productId: "",
       },
     ],
   };
@@ -57,20 +59,27 @@ export default function MainForm({initialData = {}, isUpdate = false}) {
 
   const [loading, setLoading] = useState(false);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
-  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [selectedProducts, setSelectedProducts] = useState([]);
+
+  const [exam, setExam] = useState([
+    {id: 1, name: "Product A"},
+    {id: 2, name: "Product B"},
+  ]);
 
   useEffect(() => {
-    if (isUpdate) {
+    if (isUpdate && initialData.customer) {
       setSelectedCustomer({
         id: initialData.customer.id,
         name: initialData.customer.companyName,
       });
-      // setSelectedProduct({
-      //   id: initialData.customer.id,
-      //   name: initialData.customer.productName,
-      // });
+      setSelectedProducts(
+        initialData.jobOrderItems.map((item) => ({
+          id: item.product.id,
+          name: item.product.productName,
+        }))
+      );
     }
-  }, []);
+  }, [initialData, isUpdate]);
 
   function redirect() {
     router.push("/production/job-orders");
@@ -78,10 +87,12 @@ export default function MainForm({initialData = {}, isUpdate = false}) {
 
   async function onSubmit(data) {
     data.customerId = selectedCustomer?.id || null;
-    data.productId = selectedProduct?.id || null;
+    data.jobOrderItems = data.jobOrderItems.map((item, index) => ({
+      ...item,
+      productId: selectedProducts[index]?.id || item.productId,
+    }));
 
     if (isUpdate) {
-      // Update request
       await updateJobOrder(
         setLoading,
         `api/delivery/job/update/${initialData.id}`,
@@ -189,15 +200,20 @@ export default function MainForm({initialData = {}, isUpdate = false}) {
                   <Grid container spacing={2} key={field.id}>
                     <Grid item xs={12} sm={6}>
                       <AutoCompleteForm
-                        selectedDetails={selectedProduct}
-                        setSelectedDetails={setSelectedProduct}
+                        selectedDetails={selectedProducts[index]}
+                        setSelectedDetails={(newValue) => {
+                          const updatedProducts = [...selectedProducts];
+                          updatedProducts[index] = newValue;
+                          setSelectedProducts(updatedProducts);
+                        }}
                         columnName="productName"
                         variant="filled"
                         title="Product Name"
                         endpoint="/api/quality/products/list"
+                        size="small"
                       />
                     </Grid>
-
+                    {console.log(fields)}
                     <Grid item xs={12} sm={3}>
                       <TextField
                         fullWidth
@@ -316,6 +332,7 @@ export default function MainForm({initialData = {}, isUpdate = false}) {
                       quantity: "",
                       unit: "",
                       remarks: "",
+                      productId: "",
                     })
                   }
                   sx={{mt: 2}}
@@ -324,15 +341,21 @@ export default function MainForm({initialData = {}, isUpdate = false}) {
                 </Button>
               </Box>
             </Box>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "flex-end",
+                gap: "10px",
+                padding: "20px",
+              }}
+            >
+              <SubmitButton
+                isLoading={loading}
+                title={isUpdate ? "Update Job Order" : "Create Job Order"}
+              />
+            </div>
           </Paper>
         </Grid>
-
-        <div style={{display: "flex", justifyContent: "flex-end", gap: "10px"}}>
-          <SubmitButton
-            isLoading={loading}
-            title={isUpdate ? "Update Job Order" : "Create Job Order"}
-          />
-        </div>
       </Box>
     </FormProvider>
   );
