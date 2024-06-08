@@ -22,6 +22,7 @@ import PrecisionManufacturingTwoToneIcon from "@mui/icons-material/PrecisionManu
 import CheckCircleTwoToneIcon from "@mui/icons-material/CheckCircleTwoTone";
 import DescriptionTwoToneIcon from "@mui/icons-material/DescriptionTwoTone";
 import GroupAddTwoToneIcon from "@mui/icons-material/GroupAddTwoTone";
+import {usePathname} from "next/navigation";
 
 const Sidebar = ({
   handleDrawerOpen,
@@ -32,6 +33,12 @@ const Sidebar = ({
   theme,
 }) => {
   const [dropdowns, setDropdowns] = useState({});
+  const currentPath = usePathname();
+
+  const getBorderStyle = (path) => {
+    const isActive = currentPath === path || currentPath.startsWith(`${path}/`);
+    return `2px solid ${isActive ? "gray" : "#E8E8E8"}`;
+  };
 
   const handleDropdownClick = (name) => {
     setDropdowns((prevDropdowns) => ({
@@ -72,7 +79,6 @@ const Sidebar = ({
       dropdown: true,
       options: [
         {name: "Customer Profile", path: "/delivery/customers"},
-        // {name: "Delivery Receipt", path: "/delivery/receipt"},
         {name: "Job Orders", path: "/delivery/job-orders"},
       ],
     },
@@ -86,47 +92,18 @@ const Sidebar = ({
         {name: "P.O. Receiving", path: "/purchasing/items"},
       ],
     },
-
-    // {
-    //   text: "Production",
-    //   icon: <PrecisionManufacturingTwoToneIcon />,
-    //   dropdown: true,
-    //   options: [
-    //     {name: "Job Orders", path: "/production/job-orders"},
-    //     {name: "Components", path: "/production/components"},
-    //     {name: "Formed Cans", path: "/production/job-order-products"},
-    //     {name: "Classification", path: "/production/product-classification"},
-    //     {name: "Monitoring", path: "/production/product-customers"},
-    //     {name: "Lithography", path: "/production/product-details"},
-    //     {name: "Inventory Status", path: "/production/product-salesmen"},
-    //   ],
-    // },
-    // {
-    //   text: "Quality",
-    //   icon: <CheckCircleTwoToneIcon />,
-    //   dropdown: true,
-    //   options: [
-    //     {
-    //       name: "Tin Can Specification",
-    //       path: "/quality/tin-can-specification",
-    //     },
-    //   ],
-    // },
-    // {
-    //   text: "Invoice",
-    //   icon: <DescriptionTwoToneIcon />,
-    //   dropdown: true,
-    //   options: [
-    //     {name: "Invoice Entry", path: "/sales/customer-information"},
-    //     {name: "Statement", path: "/sales/invoices"},
-    //   ],
-    // },
-    // {
-    //   text: "Users",
-    //   icon: <GroupAddTwoToneIcon />,
-    //   dropdown: true,
-    //   options: [{name: "Manage", path: "/user-management/users"}],
-    // },
+    {
+      text: "Quality Control",
+      icon: <CheckCircleTwoToneIcon />,
+      dropdown: true,
+      options: [{name: " Product List", path: "/quality/products"}],
+    },
+    {
+      text: "Production",
+      icon: <PrecisionManufacturingTwoToneIcon />,
+      dropdown: true,
+      options: [{name: " Job Orders", path: "/production/job-orders"}],
+    },
   ];
 
   return (
@@ -188,13 +165,17 @@ const Sidebar = ({
                     ) : null)}
                 </ListItemButton>
               ) : (
-                <Link href={item.path} passHref>
+                <Link href={item.path} passHref component={NextLink}>
                   <ListItemButton
                     sx={{
                       minHeight: 48,
                       justifyContent: open ? "initial" : "center",
                       px: 2.5,
                       width: "100%",
+                      backgroundColor:
+                        currentPath === item.path
+                          ? "rgba(0, 0, 0, 0.08)"
+                          : "inherit", // Highlight active item
                     }}
                   >
                     <ListItemIcon
@@ -230,7 +211,14 @@ const Sidebar = ({
                         style={{textDecoration: "none"}}
                         passHref
                       >
-                        <ListItemButton sx={{pl: 8, width: "100%"}}>
+                        <ListItemButton
+                          sx={{
+                            ml: 3,
+                            width: "100%",
+                            borderLeft: getBorderStyle(option.path),
+                            transition: "border-left-color 0.3s ease",
+                          }}
+                        >
                           <ListItemText
                             primary={<Typography>{option.name}</Typography>}
                           />
