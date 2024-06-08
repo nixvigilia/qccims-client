@@ -34,9 +34,11 @@ export default function MainForm({initialData = {}, isUpdate = false}) {
     })) || [
       {
         deliveryDate: "",
+        product: "",
         salesOrder: "",
         quantity: "",
         unit: "",
+        description: "",
         remarks: "",
       },
     ],
@@ -57,7 +59,6 @@ export default function MainForm({initialData = {}, isUpdate = false}) {
 
   const [loading, setLoading] = useState(false);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
-  const [selectedProduct, setSelectedProduct] = useState(null);
 
   useEffect(() => {
     if (isUpdate) {
@@ -65,20 +66,15 @@ export default function MainForm({initialData = {}, isUpdate = false}) {
         id: initialData.customer.id,
         name: initialData.customer.companyName,
       });
-      // setSelectedProduct({
-      //   id: initialData.customer.id,
-      //   name: initialData.customer.productName,
-      // });
     }
   }, []);
 
   function redirect() {
-    router.push("/production/job-orders");
+    router.push("/delivery/job-orders");
   }
 
   async function onSubmit(data) {
     data.customerId = selectedCustomer?.id || null;
-    data.productId = selectedProduct?.id || null;
 
     if (isUpdate) {
       // Update request
@@ -91,23 +87,19 @@ export default function MainForm({initialData = {}, isUpdate = false}) {
         reset
       );
     } else {
-      const response = await createJobOrder(
+      await createJobOrder(
         setLoading,
         "api/delivery/job/new",
         data,
         "Job Order",
         reset
       );
-
-      if (response.status === 201) {
-        router.push(`${response.data.id}`);
-      }
     }
   }
 
   const handleRemove = async (index) => {
     const item = fields[index];
-    if (item.quantity || item.unit) {
+    if (item.description || item.quantity || item.unit) {
       const result = await Swal.fire({
         title: "Are you sure?",
         text: "You won't be able to revert this!",
@@ -137,11 +129,9 @@ export default function MainForm({initialData = {}, isUpdate = false}) {
                 <Grid item xs={5}>
                   <Box>
                     <AutoCompleteForm
-                      selectedDetails={selectedCustomer}
-                      setSelectedDetails={setSelectedCustomer}
-                      columnName="companyName"
-                      title="Customer Name"
-                      endpoint="/api/customer/list"
+                      selectedCustomer={selectedCustomer}
+                      setSelectedCustomer={setSelectedCustomer}
+                      title="Product Name"
                     />
                   </Box>
                 </Grid>
@@ -189,12 +179,10 @@ export default function MainForm({initialData = {}, isUpdate = false}) {
                   <Grid container spacing={2} key={field.id}>
                     <Grid item xs={12} sm={6}>
                       <AutoCompleteForm
-                        selectedDetails={selectedProduct}
-                        setSelectedDetails={setSelectedProduct}
-                        columnName="productName"
+                        selectedCustomer={selectedCustomer}
+                        setSelectedCustomer={setSelectedCustomer}
                         variant="filled"
                         title="Product Name"
-                        endpoint="/api/quality/products/list"
                       />
                     </Grid>
 
@@ -311,10 +299,12 @@ export default function MainForm({initialData = {}, isUpdate = false}) {
                   startIcon={<AddBoxTwoToneIcon />}
                   onClick={() =>
                     append({
+                      product: "",
                       salesOrder: "",
                       deliveryDate: "",
                       quantity: "",
                       unit: "",
+                      description: "",
                       remarks: "",
                     })
                   }

@@ -6,7 +6,6 @@ import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import {styled} from "@mui/material/styles";
 import MainTableRow from "./main-table-row";
@@ -34,13 +33,13 @@ function MainTable({
       >
         <Table sx={{minWidth: 650}} size="small" aria-label="customer table">
           <TableHead>
-            <TableRow>
+            <MainTableRow>
               {tableHeaders.map((header, index) => (
                 <StyledTableCell key={index} align={header.align || "left"}>
                   {header.label}
                 </StyledTableCell>
               ))}
-            </TableRow>
+            </MainTableRow>
           </TableHead>
           <TableBody>
             <MainTableRow data={data} />
@@ -48,12 +47,12 @@ function MainTable({
         </Table>
       </TableContainer>
       <div style={{marginTop: "20px"}}>
-        {/* <CustomPagination
+        <CustomPagination
           totalCount={totalCount}
           itemsPerPage={itemsPerPage}
           page={page}
           onPageChange={onPageChange}
-        /> */}
+        />
       </div>
     </div>
   );

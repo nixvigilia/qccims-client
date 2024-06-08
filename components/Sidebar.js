@@ -79,7 +79,7 @@ const Sidebar = ({
       dropdown: true,
       options: [
         {name: "Customer Profile", path: "/delivery/customers"},
-        {name: "Job Orders", path: "/delivery/job-orders"},
+        // {name: "Job Orders", path: "/delivery/job-orders"},
       ],
     },
     {

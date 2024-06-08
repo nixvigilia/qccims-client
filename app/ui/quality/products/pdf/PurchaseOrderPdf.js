@@ -67,7 +67,7 @@ const PurchaseOrderPdf = ({data}) => (
             <Text style={styles.tableCell}>Remarks</Text>
           </View>
         </View>
-        {data.items.map((item, index) => (
+        {/* {data.items.map((item, index) => (
           <View style={styles.tableRow} key={index}>
             <View style={styles.tableCol}>
               <Text style={styles.tableCell}>{item.description}</Text>
@@ -87,7 +87,7 @@ const PurchaseOrderPdf = ({data}) => (
               <Text style={styles.tableCell}>{item.remarks}</Text>
             </View>
           </View>
-        ))}
+        ))} */}
       </View>
     </Page>
   </Document>

@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
 });
 
 // Create Document Component
-const JobOrdersPdf = ({data}) => (
+const PurchaseOrderPdf = ({data}) => (
   <Document>
     <Page size="A4" style={styles.page}>
       <View style={styles.section}>
@@ -67,7 +67,7 @@ const JobOrdersPdf = ({data}) => (
             <Text style={styles.tableCell}>Remarks</Text>
           </View>
         </View>
-        {data.items.map((item, index) => (
+        {/* {data.items.map((item, index) => (
           <View style={styles.tableRow} key={index}>
             <View style={styles.tableCol}>
               <Text style={styles.tableCell}>{item.description}</Text>
@@ -87,10 +87,10 @@ const JobOrdersPdf = ({data}) => (
               <Text style={styles.tableCell}>{item.remarks}</Text>
             </View>
           </View>
-        ))}
+        ))} */}
       </View>
     </Page>
   </Document>
 );
 
-export default JobOrdersPdf;
+export default PurchaseOrderPdf;

@@ -5,7 +5,6 @@ import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import Divider from "@mui/material/Divider";
 import Chip from "@mui/material/Chip";
-import dayjs from "dayjs";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -17,27 +16,22 @@ import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import PrintIcon from "@mui/icons-material/Print";
 import DownloadIcon from "@mui/icons-material/Download";
 import {PDFDownloadLink} from "@react-pdf/renderer";
 import PurchaseOrderPdf from "../pdf/PurchaseOrderPdf";
-import Button from "@mui/material/Button";
 import Swal from "sweetalert2";
 import NextLink from "next/link";
 import Link from "@mui/material/Link";
+import formatISODateToReadable from "@/utils/helpers/formatISODateToReadable";
+import EditTwoToneIcon from "@mui/icons-material/EditTwoTone";
 
 export default function MainView({initialData = {}}) {
-  // Function to format date to YYYY-MM-DD
-  const formatDate = (date) => (date ? dayjs(date).format("YYYY-MM-DD") : "");
-
-  // Preprocess initialData to format dates correctly
   const formattedInitialData = {
     ...initialData,
-    orderDate: formatDate(initialData.orderDate),
-    items:
-      initialData.items?.map((item) => ({
+    jobOrderItems:
+      initialData.jobOrderItems?.map((item) => ({
         ...item,
-        deliveryDate: formatDate(item.deliveryDate),
+        jobOrderItemId: item.id,
       })) || [],
   };
 
@@ -45,7 +39,7 @@ export default function MainView({initialData = {}}) {
 
   const {fields} = useFieldArray({
     control,
-    name: "items",
+    name: "jobOrderItems",
   });
 
   // State for managing the dropdown menu
@@ -69,7 +63,6 @@ export default function MainView({initialData = {}}) {
       confirmButtonText: "Yes, approve it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        console.log("use client");
         Swal.fire(
           "Approved!",
           "The purchase order has been approved.",
@@ -119,7 +112,7 @@ export default function MainView({initialData = {}}) {
               PaperProps={{
                 style: {
                   maxHeight: 48 * 4.5,
-                  width: "20ch",
+                  width: "15ch",
                 },
               }}
             >
@@ -136,7 +129,7 @@ export default function MainView({initialData = {}}) {
                 </MenuItem>
               </Link>
               <PDFDownloadLink
-                document={<PurchaseOrderPdf data={formattedInitialData} />}
+                document={<PurchaseOrderPdf data={initialData} />}
                 fileName={`PO${initialData.id}.pdf`}
                 style={{textDecoration: "none", color: "inherit"}}
               >
@@ -154,40 +147,16 @@ export default function MainView({initialData = {}}) {
         </Grid>
         <Box component="div" noValidate>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} sm={8}>
               <Typography variant="body1">
-                <strong>Order Date:</strong> {formattedInitialData.orderDate}
+                <strong>Customer Name:</strong>{" "}
+                {/* {initialData.customer.companyName} */}
               </Typography>
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} sm={4}>
               <Typography variant="body1">
-                <strong>Term:</strong> {formattedInitialData.term}
-              </Typography>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <Typography variant="body1">
-                <strong>Requestor:</strong> {formattedInitialData.requestor}
-              </Typography>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <Typography variant="body1">
-                <strong>VAT:</strong> {formattedInitialData.vat}
-              </Typography>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <Typography variant="body1">
-                {/* <strong>Supplier:</strong> {selectedSupplier?.name} */}
-              </Typography>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <Typography variant="body1">
-                <strong>Total Amount:</strong>{" "}
-                {formattedInitialData.totalAmount}
-              </Typography>
-            </Grid>
-            <Grid item xs={12}>
-              <Typography variant="body1">
-                <strong>Remarks:</strong> {formattedInitialData.remarks}
+                <strong>Date:</strong>{" "}
+                {formatISODateToReadable(initialData.jobDate)}
               </Typography>
             </Grid>
           </Grid>
@@ -197,23 +166,60 @@ export default function MainView({initialData = {}}) {
               <Table>
                 <TableHead>
                   <TableRow>
-                    <TableCell>Product Description</TableCell>
-                    <TableCell>Quantity</TableCell>
-                    <TableCell>Unit Price</TableCell>
-                    <TableCell>Amount</TableCell>
-                    <TableCell>Remarks</TableCell>
+                    <TableCell width="30%">
+                      <Typography variant="overline">
+                        Product Description
+                      </Typography>
+                    </TableCell>
+                    <TableCell width="10%">
+                      <Typography variant="overline">SO/PO</Typography>
+                    </TableCell>
+                    <TableCell width="15%">
+                      <Typography variant="overline">Delivery Date</Typography>
+                    </TableCell>
+                    <TableCell width="10%">
+                      <Typography variant="overline">Quantity</Typography>
+                    </TableCell>
+                    <TableCell width="5%">
+                      <Typography variant="overline">Unit</Typography>
+                    </TableCell>
+                    <TableCell>
+                      <Typography variant="overline">Remarks</Typography>
+                    </TableCell>
+                    <TableCell></TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {fields.map((field, index) => (
-                    <TableRow key={field.id}>
-                      <TableCell>{field.description}</TableCell>
-                      <TableCell>
-                        {field.quantity} {field.unit}
+                    <TableRow key={index}>
+                      <TableCell width="30%">
+                        {field.product.productName}
                       </TableCell>
-                      <TableCell>₱ {field.unitPrice}</TableCell>
-                      <TableCell>₱ {field.amount}</TableCell>
+                      <TableCell>{field.salesOrder}</TableCell>
+                      <TableCell>
+                        {formatISODateToReadable(field.deliveryDate)}
+                      </TableCell>
+                      <TableCell>{field.quantity}</TableCell>
+                      <TableCell>{field.unit}</TableCell>
                       <TableCell>{field.remarks}</TableCell>
+                      <TableCell>
+                        <Link
+                          href={`item/${field.jobOrderItemId}`}
+                          component={NextLink}
+                          color="inherit"
+                          variant="body2"
+                          style={{textDecoration: "none"}}
+                          passHref
+                        >
+                          <IconButton
+                            aria-label="more"
+                            aria-controls="long-menu"
+                            aria-haspopup="true"
+                          >
+                            <EditTwoToneIcon />
+                          </IconButton>
+                        </Link>
+                      </TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -222,9 +228,9 @@ export default function MainView({initialData = {}}) {
           </Box>
 
           <Divider sx={{mt: 4, mb: 4}} />
-          <Button variant="contained" color="primary" onClick={handleApprove}>
+          {/* <Button variant="contained" color="primary" onClick={handleApprove}>
             Approve (Note:function in progress)
-          </Button>
+          </Button> */}
         </Box>
       </Box>
     </FormProvider>

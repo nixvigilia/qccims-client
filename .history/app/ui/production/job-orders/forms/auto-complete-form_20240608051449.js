@@ -9,29 +9,22 @@ import useSWR from "swr";
 
 const fetcher = (url) => getData(url);
 
-const AutoCompleteForm = ({
-  selectedDetails,
-  setSelectedDetails,
-  columnName,
-  title,
-  variant,
-  endpoint,
-}) => {
+const AutoCompleteForm = ({selectedSupplier, setSelectedSupplier}) => {
   const [inputValue, setInputValue] = useState("");
   const [debouncedInputValue] = useDebounce(inputValue, 300);
 
   const {data, error} = useSWR(
-    `${endpoint}/?search=${debouncedInputValue}`,
+    `/api/procurement/suppliers/list?search=${debouncedInputValue}`,
     fetcher
   );
 
   if (error) return <div>Failed to load</div>;
 
-  const handleChange = (event, newValue) => {
+  const handleSupplierChange = (event, newValue) => {
     if (newValue) {
-      setSelectedDetails({id: newValue.id, name: newValue[columnName]});
+      setSelectedSupplier({id: newValue.id, name: newValue.supplierName});
     } else {
-      setSelectedDetails(null);
+      setSelectedSupplier(null);
     }
   };
 
@@ -42,23 +35,20 @@ const AutoCompleteForm = ({
       options={data || []}
       loading={!data}
       value={
-        selectedDetails
-          ? {[columnName]: selectedDetails.name, id: selectedDetails.id}
+        selectedSupplier
+          ? {supplierName: selectedSupplier.name, id: selectedSupplier.id}
           : null
       }
-      onChange={handleChange}
+      onChange={handleSupplierChange}
       inputValue={inputValue}
       onInputChange={(event, newInputValue) => setInputValue(newInputValue)}
       isOptionEqualToValue={(option, value) => option.id === value.id}
-      getOptionLabel={(option) => option[columnName] || ""}
+      getOptionLabel={(option) => option.supplierName || ""}
       renderInput={(params) => (
         <TextField
           {...params}
-          label={title}
-          variant={variant}
-          InputLabelProps={{
-            shrink: true,
-          }}
+          label="Search Supplier"
+          variant="outlined"
           InputProps={{
             ...params.InputProps,
             endAdornment: (
@@ -72,7 +62,7 @@ const AutoCompleteForm = ({
       )}
       renderOption={(props, option) => (
         <li {...props} key={option.id}>
-          {option[columnName]}
+          {option.supplierName}
         </li>
       )}
     />

@@ -2,7 +2,7 @@
 import useSWR from "swr";
 import {getData} from "@/lib/actions/data/getData";
 import PageBreadCrumbs from "@/components/Delivery/CustomerProfile/PageBreadCrumbs";
-import MainView from "@/app/ui/quality/products/view/main-view";
+import JobOrderList from "@/app/ui/production/job-orders/job-order-list";
 
 export default function Page({params}) {
   const {id} = params;

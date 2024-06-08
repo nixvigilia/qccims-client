@@ -69,7 +69,6 @@ export default function PurchaseOrderDetails({initialData = {}}) {
       confirmButtonText: "Yes, approve it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        console.log("use client");
         Swal.fire(
           "Approved!",
           "The purchase order has been approved.",
@@ -119,7 +118,7 @@ export default function PurchaseOrderDetails({initialData = {}}) {
               PaperProps={{
                 style: {
                   maxHeight: 48 * 4.5,
-                  width: "20ch",
+                  width: "15ch",
                 },
               }}
             >

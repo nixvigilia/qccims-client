@@ -18,7 +18,7 @@ export default function Page() {
       >
         <Grid item>
           <Typography variant="h5" fontWeight="bold" component="div">
-            Create a job order
+            Create Job Order
           </Typography>
         </Grid>
       </Grid>
