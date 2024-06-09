@@ -166,7 +166,7 @@ export default function MainView({initialData = {}}) {
               <Table>
                 <TableHead>
                   <TableRow>
-                    <TableCell width="30%">
+                    <TableCell width="5%">
                       <Typography variant="overline">
                         Product Description
                       </Typography>
@@ -186,15 +186,13 @@ export default function MainView({initialData = {}}) {
                     <TableCell>
                       <Typography variant="overline">Remarks</Typography>
                     </TableCell>
-                    <TableCell></TableCell>
+                    <TableCell width="5%"></TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {fields.map((field, index) => (
                     <TableRow key={index}>
-                      <TableCell width="30%">
-                        {field.product.productName}
-                      </TableCell>
+                      <TableCell>{field.product.productName}</TableCell>
                       <TableCell>{field.salesOrder}</TableCell>
                       <TableCell>
                         {formatISODateToReadable(field.deliveryDate)}

@@ -61,11 +61,6 @@ export default function MainForm({initialData = {}, isUpdate = false}) {
   const [selectedCustomer, setSelectedCustomer] = useState(null);
   const [selectedProducts, setSelectedProducts] = useState([]);
 
-  const [exam, setExam] = useState([
-    {id: 1, name: "Product A"},
-    {id: 2, name: "Product B"},
-  ]);
-
   useEffect(() => {
     if (isUpdate && initialData.customer) {
       setSelectedCustomer({
@@ -213,7 +208,7 @@ export default function MainForm({initialData = {}, isUpdate = false}) {
                         size="small"
                       />
                     </Grid>
-                    {console.log(fields)}
+
                     <Grid item xs={12} sm={3}>
                       <TextField
                         fullWidth

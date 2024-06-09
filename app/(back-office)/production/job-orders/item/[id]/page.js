@@ -2,7 +2,7 @@
 import useSWR from "swr";
 import {getData} from "@/lib/actions/data/getData";
 import PageBreadCrumbs from "@/components/Delivery/CustomerProfile/PageBreadCrumbs";
-import MainView from "@/app/ui/production/job-orders/view/main-view";
+import ItemForm from "@/app/ui/production/job-orders/forms/item-form";
 
 export default function Page({params}) {
   const {id} = params;
@@ -12,13 +12,15 @@ export default function Page({params}) {
     fetcher
   );
 
+  console.log(data);
+
   if (error) return <div>Failed to load</div>;
   if (!data) return <div>Loading...</div>;
 
   return (
     <>
       <PageBreadCrumbs lastPathName={data?.jobNumber} />
-      <MainView initialData={data} />
+      <ItemForm initialData={data} isUpdate />
     </>
   );
 }

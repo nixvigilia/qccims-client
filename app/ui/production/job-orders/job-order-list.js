@@ -25,8 +25,6 @@ const JobOrderList = () => {
     fetchWithToken
   );
 
-  console.log(data);
-
   const handleSearchChange = useCallback((e) => {
     setSearch(e.target.value);
   }, []);

@@ -183,10 +183,10 @@ export default function MainView({initialData = {}}) {
                     <TableCell width="5%">
                       <Typography variant="overline">Unit</Typography>
                     </TableCell>
-                    <TableCell>
+                    <TableCell width="10%">
                       <Typography variant="overline">Remarks</Typography>
                     </TableCell>
-                    <TableCell></TableCell>
+                    <TableCell width="5%"></TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -197,7 +197,9 @@ export default function MainView({initialData = {}}) {
                       </TableCell>
                       <TableCell>{field.salesOrder}</TableCell>
                       <TableCell>
-                        {formatISODateToReadable(field.deliveryDate)}
+                        {field.deliveryDate
+                          ? formatISODateToReadable(field.deliveryDate)
+                          : ""}
                       </TableCell>
                       <TableCell>{field.quantity}</TableCell>
                       <TableCell>{field.unit}</TableCell>
