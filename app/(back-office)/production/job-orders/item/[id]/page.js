@@ -8,7 +8,7 @@ export default function Page({params}) {
   const {id} = params;
   const fetcher = (url) => getData(url);
   const {data, error} = useSWR(
-    id ? `/api/production/job/items/${id}` : null,
+    id ? `/api/production/job/items/${parseInt(id)}` : null,
     fetcher
   );
 
@@ -20,7 +20,7 @@ export default function Page({params}) {
   return (
     <>
       <PageBreadCrumbs lastPathName={data?.jobNumber} />
-      <ItemForm initialData={data} isUpdate />
+      <ItemForm initialData={data} itemId={parseInt(id)} isUpdate />
     </>
   );
 }

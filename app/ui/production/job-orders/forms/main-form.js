@@ -87,11 +87,20 @@ export default function MainForm({initialData = {}, isUpdate = false}) {
       productId: selectedProducts[index]?.id || item.productId,
     }));
 
+    const itemsToUpdate = data.jobOrderItems.filter((item) => item.id);
+    const itemsToCreate = data.jobOrderItems.filter((item) => !item.id);
+
+    const updatePayload = {
+      ...data,
+      jobOrderItemsToUpdate: itemsToUpdate,
+      jobOrderItemsToCreate: itemsToCreate,
+    };
+
     if (isUpdate) {
       await updateJobOrder(
         setLoading,
         `api/delivery/job/update/${initialData.id}`,
-        data,
+        updatePayload,
         "Job Order",
         redirect,
         reset
@@ -100,7 +109,7 @@ export default function MainForm({initialData = {}, isUpdate = false}) {
       const response = await createJobOrder(
         setLoading,
         "api/delivery/job/new",
-        data,
+        updatePayload,
         "Job Order",
         reset
       );

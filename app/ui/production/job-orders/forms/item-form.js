@@ -11,13 +11,25 @@ import Paper from "@mui/material/Paper";
 import TextField from "@mui/material/TextField";
 import SubmitButton from "@/components/FormInputs/SubmitButton";
 import formatISODateToReadable from "@/utils/helpers/formatISODateToReadable";
+import dayjs from "dayjs";
 
-export default function ItemForm({initialData = {}, isUpdate = false}) {
+export default function ItemForm({initialData = {}, itemId, isUpdate = false}) {
   const router = useRouter();
-  const {jobOrder, product} = initialData;
+  const {jobOrder, product, productSpecs} = initialData;
   const {customer} = jobOrder;
 
-  const methods = useForm({defaultValues: initialData});
+  const formatDate = (date) => (date ? dayjs(date).format("YYYY-MM-DD") : "");
+
+  let formattedproductSpecs;
+
+  if (productSpecs) {
+    formattedproductSpecs = {
+      ...productSpecs,
+      supersedeDate: formatDate(productSpecs.supersedeDate),
+    };
+  }
+
+  const methods = useForm({defaultValues: productSpecs || initialData});
   const {
     register,
     handleSubmit,
@@ -28,26 +40,51 @@ export default function ItemForm({initialData = {}, isUpdate = false}) {
   const [loading, setLoading] = useState(false);
 
   async function onSubmit(data) {
+    const filteredData = {
+      jobOrderItemId: itemId,
+      supersedeNumber: data.supersedeNumber || null,
+      supersedeDate: new Date(data.supersedeDate) || null,
+      canSize: data.canSize || null,
+      body1: data.body1 || null,
+      body2: data.body2 || null,
+      body3: data.body3 || null,
+      body4: data.body4 || null,
+      bottom1: data.bottom1 || null,
+      bottom2: data.bottom2 || null,
+      bottom3: data.bottom3 || null,
+      bottom4: data.bottom4 || null,
+      cover1: data.cover1 || null,
+      cover2: data.cover2 || null,
+      cover3: data.cover3 || null,
+      cover4: data.cover4 || null,
+      topRing1: data.topRing1 || null,
+      topRing2: data.topRing2 || null,
+      topRing3: data.topRing3 || null,
+      topRing4: data.topRing4 || null,
+      bodyBlankLength: data.bodyBlankLength || null,
+      bodyBlankWidth: data.bodyBlankWidth || null,
+      actualCanHeight: data.actualCanHeight || null,
+      coverSpout: data.coverSpout || null,
+      jointInterlocking: data.jointInterlocking || null,
+      handle: data.handle || null,
+      handleLocation: data.handleLocation || null,
+      handleDistance: data.handleDistance || null,
+      solder: data.solder || null,
+      beads: data.beads || null,
+      numberOfBeads: data.numberOfBeads || null,
+      emboss: data.emboss || null,
+      embossLocation: data.embossLocation || null,
+      specRemarks: data.specRemarks || null,
+    };
+
     if (isUpdate) {
       await updateRequest(
         setLoading,
-        `api/production/product-specs/${initialData.id}`,
-        data,
+        `api/production/product-specs/${itemId}`,
+        filteredData,
         "Job Order",
         reset
       );
-    } else {
-      const response = await postRequest(
-        setLoading,
-        "api/production/product-specs/new",
-        data,
-        "Job Order",
-        reset
-      );
-
-      if (response.status === 201) {
-        router.push(`${response.data.id}`);
-      }
     }
   }
 
@@ -428,7 +465,7 @@ export default function ItemForm({initialData = {}, isUpdate = false}) {
                 <Grid item xs={12}>
                   <TextField
                     fullWidth
-                    id="remarks"
+                    id="specRemarks"
                     label="Remarks"
                     size="small"
                     InputLabelProps={{shrink: true}}
