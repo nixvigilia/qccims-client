@@ -11,7 +11,7 @@ import MainTable from "./tables/main-table";
 
 const ITEMS_PER_PAGE = 20;
 
-const JobOrderList = () => {
+const SpecificationList = () => {
   const searchParams = useSearchParams();
   const status = searchParams.get("status") || "";
   const initialSearch = searchParams.get("search") || "";
@@ -22,9 +22,11 @@ const JobOrderList = () => {
 
   const fetcher = (url) => getData(url);
   const {data, error, mutate} = useSWR(
-    `/api/delivery/job/orders?status=${status}&search=${debouncedSearch}&page=${page}&limit=${ITEMS_PER_PAGE}`,
+    `/api/production/product-specs/list?status=${status}&search=${debouncedSearch}&page=${page}&limit=${ITEMS_PER_PAGE}`,
     fetcher
   );
+
+  console.log(data);
 
   const handleSearchChange = useCallback((e) => {
     setSearch(e.target.value);
@@ -35,11 +37,9 @@ const JobOrderList = () => {
   }, []);
 
   const tableHeaders = [
-    {label: "Job Order ID"},
-    {label: "Customer"},
-    {label: "Order Date"},
-    {label: "Delivery Date"},
-    {label: "Status"},
+    {label: "Product"},
+    {label: "JO ID"},
+    {label: "Can Size"},
     {label: "Action", align: "center"},
   ];
 
@@ -52,7 +52,7 @@ const JobOrderList = () => {
           <TableSkeleton rowsNum={6} tableHeaders={tableHeaders} />
         </div>
       )}
-      {data && (
+      {/* {data && (
         <MainTable
           tableHeaders={tableHeaders}
           data={data}
@@ -62,9 +62,9 @@ const JobOrderList = () => {
           page={page}
           onPageChange={handlePageChange}
         />
-      )}
+      )} */}
     </>
   );
 };
 
-export default JobOrderList;
+export default SpecificationList;

@@ -96,7 +96,10 @@ const Sidebar = ({
       text: "Quality Control",
       icon: <CheckCircleTwoToneIcon />,
       dropdown: true,
-      options: [{name: " Product List", path: "/quality/products"}],
+      options: [
+        {name: " Product Entry", path: "/quality/products"},
+        {name: " Tin Can Specifications", path: "/quality/specifications"},
+      ],
     },
     {
       text: "Production",
