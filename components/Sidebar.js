@@ -114,7 +114,15 @@ const Sidebar = ({
       text: "Tinplates",
       icon: <PrecisionManufacturingTwoToneIcon color="primary" />,
       dropdown: true,
-      options: [{ name: " Job Orders", path: "/production/job-orders" }],
+      options: [
+        { name: "Skid Information", path: "/tinplate/skid" },
+        { name: "TPI Form", path: "/tinplate/tpi" },
+        { name: "Coil Whole", path: "/tinplate/coil" },
+        { name: "Coil Cut", path: "/tinplate/cut-from-coil" },
+        { name: "Coil Consumed", path: "/tinplate/cut-consumed" },
+        { name: "Rectangular Sheet", path: "/tinplate/rectangular-sheet" },
+        { name: "Rectangular Consumed", path: "/tinplate/rectangular-Consumed" },
+      ],
     },
     {
       text: "Racks",
@@ -162,6 +170,7 @@ const Sidebar = ({
                     justifyContent: open ? "initial" : "center",
                     px: 2.5,
                     width: "100%",
+
                   }}
                 >
                   <ListItemIcon
@@ -233,6 +242,7 @@ const Sidebar = ({
                         key={index}
                         style={{ textDecoration: "none" }}
                         passHref
+                        sx={{ fontSize: '.9rem' }}
                       >
                         <ListItemButton
                           sx={{
