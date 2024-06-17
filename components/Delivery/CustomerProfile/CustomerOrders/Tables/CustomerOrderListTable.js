@@ -8,7 +8,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import {styled} from "@mui/material/styles";
+import { styled } from "@mui/material/styles";
 import Chip from "@mui/material/Chip";
 import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
 import BlockIcon from "@mui/icons-material/Block";
@@ -19,7 +19,7 @@ import Link from "@mui/material/Link";
 import Fab from "@mui/material/Fab";
 import Box from "@mui/material/Box";
 
-const StyledTableRow = styled(TableRow)(({theme}) => ({
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
   "&:nth-of-type(odd)": {
     backgroundColor: theme.palette.action.hover,
   },
@@ -29,21 +29,21 @@ const StyledTableRow = styled(TableRow)(({theme}) => ({
   },
 }));
 
-const StyledTableCell = styled(TableCell)(({theme}) => ({
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
   fontSize: "14px",
 }));
 
-function CustomerOrderListTable({data, mutate}) {
+function CustomerOrderListTable({ data, mutate }) {
   return (
     <div
-      style={{display: "flex", flexDirection: "column", alignItems: "center"}}
+      style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
     >
       <TableContainer
         component={Paper}
         variant="outlined"
-        sx={{borderRadius: "sm", overflow: "auto", width: "100%", minHeight: 0}}
+        sx={{ borderRadius: "sm", overflow: "auto", width: "100%", minHeight: 0 }}
       >
-        <Table sx={{minWidth: 650}} size="small" aria-label="customer table">
+        <Table sx={{ minWidth: 650 }} size="small" aria-label="customer table">
           <TableHead>
             <TableRow>
               <StyledTableCell>Customer</StyledTableCell>
@@ -101,7 +101,7 @@ function CustomerOrderListTable({data, mutate}) {
           </TableBody> */}
         </Table>
       </TableContainer>
-      <div style={{marginTop: "20px"}}>
+      <div style={{ marginTop: "20px" }}>
         <CustomPagination />
       </div>
     </div>

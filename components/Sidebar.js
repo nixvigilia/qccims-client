@@ -1,5 +1,5 @@
-import React, {useState} from "react";
-import {styled, useTheme} from "@mui/material/styles";
+import React, { useState } from "react";
+import { styled, useTheme } from "@mui/material/styles";
 import MuiDrawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
 import Divider from "@mui/material/Divider";
@@ -16,13 +16,14 @@ import ExpandMore from "@mui/icons-material/ExpandMore";
 import Typography from "@mui/material/Typography";
 import NextLink from "next/link";
 import Link from "@mui/material/Link";
+import DashboardTwoToneIcon from '@mui/icons-material/DashboardTwoTone';
 import LocalShippingTwoToneIcon from "@mui/icons-material/LocalShippingTwoTone";
 import ShoppingBasketTwoToneIcon from "@mui/icons-material/ShoppingBasketTwoTone";
 import PrecisionManufacturingTwoToneIcon from "@mui/icons-material/PrecisionManufacturingTwoTone";
 import CheckCircleTwoToneIcon from "@mui/icons-material/CheckCircleTwoTone";
 import DescriptionTwoToneIcon from "@mui/icons-material/DescriptionTwoTone";
 import GroupAddTwoToneIcon from "@mui/icons-material/GroupAddTwoTone";
-import {usePathname} from "next/navigation";
+import { usePathname } from "next/navigation";
 
 const Sidebar = ({
   handleDrawerOpen,
@@ -47,7 +48,7 @@ const Sidebar = ({
     }));
   };
 
-  const DrawerHeader = styled("div")(({theme}) => ({
+  const DrawerHeader = styled("div")(({ theme }) => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "flex-end",
@@ -57,7 +58,7 @@ const Sidebar = ({
 
   const Drawer = styled(MuiDrawer, {
     shouldForwardProp: (prop) => prop !== "open",
-  })(({theme, open}) => ({
+  })(({ theme, open }) => ({
     width: drawerWidth,
     flexShrink: 0,
     whiteSpace: "nowrap",
@@ -74,48 +75,70 @@ const Sidebar = ({
 
   const menuItems = [
     {
+      text: "Dashboard",
+      icon: <DashboardTwoToneIcon color="primary" />,
+      path: "/dashboard"
+    },
+    {
       text: "Delivery",
-      icon: <LocalShippingTwoToneIcon />,
+      icon: <LocalShippingTwoToneIcon color="primary" />,
       dropdown: true,
       options: [
-        {name: "Customer Profile", path: "/delivery/customers"},
+        { name: "Customer Profile", path: "/delivery/customers" },
         // {name: "Job Orders", path: "/delivery/job-orders"},
       ],
     },
     {
       text: "Purchasing",
-      icon: <ShoppingBasketTwoToneIcon />,
+      icon: <ShoppingBasketTwoToneIcon color="primary" />,
       dropdown: true,
       options: [
-        {name: "Supplier", path: "/purchasing/suppliers"},
-        {name: "Purchase Orders", path: "/purchasing/purchase"},
-        {name: "P.O. Receiving", path: "/purchasing/items"},
+        { name: "Supplier", path: "/purchasing/suppliers" },
+        { name: "Purchase Orders", path: "/purchasing/purchase" },
+        { name: "P.O. Receiving", path: "/purchasing/items" },
       ],
     },
     {
       text: "Quality Control",
-      icon: <CheckCircleTwoToneIcon />,
+      icon: <CheckCircleTwoToneIcon color="primary" />,
       dropdown: true,
-      options: [{name: " Product List", path: "/quality/products"}],
+      options: [{ name: " Product List", path: "/quality/products" }],
     },
     {
       text: "Production",
-      icon: <PrecisionManufacturingTwoToneIcon />,
+      icon: <PrecisionManufacturingTwoToneIcon color="primary" />,
       dropdown: true,
-      options: [{name: " Job Orders", path: "/production/job-orders"}],
+      options: [{ name: " Job Orders", path: "/production/job-orders" }],
+    },
+    {
+      text: "Tinplates",
+      icon: <PrecisionManufacturingTwoToneIcon color="primary" />,
+      dropdown: true,
+      options: [{ name: " Job Orders", path: "/production/job-orders" }],
+    },
+    {
+      text: "Racks",
+      icon: <DashboardTwoToneIcon color="primary" />,
+      path: "/dashboard"
     },
   ];
 
   return (
-    <Drawer variant="permanent" open={open}>
+    <Drawer variant="permanent" open={open} sx={{
+      '& .MuiDrawer-paper': {
+        boxShadow: '0px 4px 20px rgb(0 0 0 / 7%)',
+        borderRight: '0',
+      },
+    }} >
       <DrawerHeader>
         <Typography
           sx={{
-            fontSize: "1.25rem",
             fontWeight: "bold",
             flexGrow: 1,
             padding: "6px",
           }}
+          variant="h5"
+          color="primary"
         >
           {open && "QCCIMS"}
         </Typography>
@@ -127,11 +150,10 @@ const Sidebar = ({
           )}
         </IconButton>
       </DrawerHeader>
-      <Divider />
       <List aria-labelledby="nested-list-subheader">
         {menuItems.map((item) => (
-          <div key={item.text} style={{width: "100%"}}>
-            <ListItem disablePadding sx={{display: "block", width: "100%"}}>
+          <div key={item.text} style={{ width: "100%" }}>
+            <ListItem disablePadding sx={{ display: "block", width: "100%" }}>
               {item.dropdown ? (
                 <ListItemButton
                   onClick={() => handleDropdownClick(item.text)}
@@ -153,7 +175,7 @@ const Sidebar = ({
                   </ListItemIcon>
                   <ListItemText
                     primary={item.text}
-                    sx={{opacity: open ? 1 : 0}}
+                    sx={{ opacity: open ? 1 : 0 }}
                   />
                   {item.dropdown &&
                     (open ? (
@@ -171,6 +193,7 @@ const Sidebar = ({
                       minHeight: 48,
                       justifyContent: open ? "initial" : "center",
                       px: 2.5,
+                      textDecoration: "none",
                       width: "100%",
                       backgroundColor:
                         currentPath === item.path
@@ -189,7 +212,7 @@ const Sidebar = ({
                     </ListItemIcon>
                     <ListItemText
                       primary={item.text}
-                      sx={{opacity: open ? 1 : 0}}
+                      sx={{ opacity: open ? 1 : 0 }}
                     />
                   </ListItemButton>
                 </Link>
@@ -200,7 +223,7 @@ const Sidebar = ({
                   timeout="auto"
                   unmountOnExit
                 >
-                  <List component="div" disablePadding sx={{width: "100%"}}>
+                  <List component="div" disablePadding sx={{ width: "100%" }}>
                     {item.options.map((option, index) => (
                       <Link
                         href={option.path}
@@ -208,7 +231,7 @@ const Sidebar = ({
                         color="inherit"
                         variant="body2"
                         key={index}
-                        style={{textDecoration: "none"}}
+                        style={{ textDecoration: "none" }}
                         passHref
                       >
                         <ListItemButton
@@ -232,7 +255,6 @@ const Sidebar = ({
           </div>
         ))}
       </List>
-      <Divider />
     </Drawer>
   );
 };

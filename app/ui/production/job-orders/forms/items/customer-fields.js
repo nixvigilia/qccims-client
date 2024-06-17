@@ -1,12 +1,12 @@
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
-import {useFormContext} from "react-hook-form";
+import { useFormContext } from "react-hook-form";
 import formatISODateToReadable from "@/utils/helpers/formatISODateToReadable";
 
-const CustomerDetails = ({jobOrder, customer}) => {
+const CustomerDetails = ({ jobOrder, customer }) => {
   const {
     register,
-    formState: {errors},
+    formState: { errors },
   } = useFormContext();
 
   return (
@@ -17,8 +17,8 @@ const CustomerDetails = ({jobOrder, customer}) => {
           id="jobOrderId"
           label="Job Order ID"
           size="small"
-          variant="filled"
-          InputLabelProps={{shrink: true}}
+          variant="outlined"
+          InputLabelProps={{ shrink: true }}
           defaultValue={jobOrder.jobNumber}
           disabled
           sx={{
@@ -34,8 +34,8 @@ const CustomerDetails = ({jobOrder, customer}) => {
           id="customer"
           label="Customer"
           size="small"
-          variant="filled"
-          InputLabelProps={{shrink: true}}
+          variant="outlined"
+          InputLabelProps={{ shrink: true }}
           defaultValue={customer.companyName}
           disabled
           sx={{
@@ -51,8 +51,8 @@ const CustomerDetails = ({jobOrder, customer}) => {
           id="jobDate"
           label="Date Created"
           size="small"
-          variant="filled"
-          InputLabelProps={{shrink: true}}
+          variant="outlined"
+          InputLabelProps={{ shrink: true }}
           defaultValue={formatISODateToReadable(jobOrder.jobDate)}
           disabled
           sx={{

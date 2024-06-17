@@ -1,8 +1,8 @@
 "use client";
 
-import {useState, useEffect} from "react";
-import {useRouter} from "next/navigation";
-import {useForm, useFieldArray, FormProvider} from "react-hook-form";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useForm, useFieldArray, FormProvider } from "react-hook-form";
 import Swal from "sweetalert2";
 import dayjs from "dayjs";
 import {
@@ -17,10 +17,10 @@ import {
 import DeleteTwoToneIcon from "@mui/icons-material/DeleteTwoTone";
 import AddBoxTwoToneIcon from "@mui/icons-material/AddBoxTwoTone";
 import SubmitButton from "@/components/FormInputs/SubmitButton";
-import {createJobOrder, updateJobOrder} from "@/lib/api/delivery/jobOrderApi";
+import { createJobOrder, updateJobOrder } from "@/lib/api/delivery/jobOrderApi";
 import AutoCompleteForm from "./auto-complete-form";
 
-export default function MainForm({initialData = {}, isUpdate = false}) {
+export default function MainForm({ initialData = {}, isUpdate = false }) {
   const router = useRouter();
 
   const formatDate = (date) => (date ? dayjs(date).format("YYYY-MM-DD") : "");
@@ -33,15 +33,15 @@ export default function MainForm({initialData = {}, isUpdate = false}) {
       deliveryDate: formatDate(item.deliveryDate),
       productId: item.product.id,
     })) || [
-      {
-        deliveryDate: "",
-        salesOrder: "",
-        quantity: "",
-        unit: "",
-        remarks: "",
-        productId: "",
-      },
-    ],
+        {
+          deliveryDate: "",
+          salesOrder: "",
+          quantity: "",
+          unit: "",
+          remarks: "",
+          productId: "",
+        },
+      ],
   };
 
   const {
@@ -49,10 +49,10 @@ export default function MainForm({initialData = {}, isUpdate = false}) {
     handleSubmit,
     control,
     reset,
-    formState: {errors},
-  } = useForm({defaultValues: formattedInitialData});
+    formState: { errors },
+  } = useForm({ defaultValues: formattedInitialData });
 
-  const {fields, append, remove} = useFieldArray({
+  const { fields, append, remove } = useFieldArray({
     control,
     name: "jobOrderItems",
   });
@@ -143,11 +143,11 @@ export default function MainForm({initialData = {}, isUpdate = false}) {
   };
 
   return (
-    <FormProvider {...{register, control, handleSubmit, reset}}>
+    <FormProvider {...{ register, control, handleSubmit, reset }}>
       <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate>
         <Grid spacing={2}>
           <Paper square={false}>
-            <Box width="100%" sx={{p: 4}}>
+            <Box width="100%" sx={{ p: 4 }}>
               <Grid container spacing={2}>
                 <Grid item xs={5}>
                   <Box>
@@ -169,7 +169,7 @@ export default function MainForm({initialData = {}, isUpdate = false}) {
                     label="Date"
                     name="jobDate"
                     type="date"
-                    InputLabelProps={{shrink: true}}
+                    InputLabelProps={{ shrink: true }}
                     {...register("jobDate", {
                       required: "Job Date is required",
                     })}
@@ -186,7 +186,7 @@ export default function MainForm({initialData = {}, isUpdate = false}) {
                     name="remarks"
                     multiline
                     rows={3}
-                    InputLabelProps={{shrink: true}}
+                    InputLabelProps={{ shrink: true }}
                     {...register("remarks")}
                     error={!!errors.remarks}
                     helperText={errors.remarks?.message}
@@ -194,7 +194,7 @@ export default function MainForm({initialData = {}, isUpdate = false}) {
                 </Grid>
               </Grid>
 
-              <Divider sx={{mt: 4, mb: 4}} />
+              <Divider sx={{ mt: 4, mb: 4 }} />
 
               <Box width="100%">
                 <Typography variant="h6" pb={2}>
@@ -211,7 +211,7 @@ export default function MainForm({initialData = {}, isUpdate = false}) {
                           setSelectedProducts(updatedProducts);
                         }}
                         columnName="productName"
-                        variant="filled"
+                        variant="outlined"
                         title="Product Name"
                         endpoint="/api/quality/products/list"
                         size="small"
@@ -224,8 +224,8 @@ export default function MainForm({initialData = {}, isUpdate = false}) {
                         id={`jobOrderItems[${index}].salesOrder`}
                         label="SO/PO"
                         size="small"
-                        variant="filled"
-                        InputLabelProps={{shrink: true}}
+                        variant="outlined"
+                        InputLabelProps={{ shrink: true }}
                         name={`jobOrderItems[${index}].salesOrder`}
                         {...register(`jobOrderItems[${index}].salesOrder`)}
                         error={!!errors.jobOrderItems?.[index]?.salesOrder}
@@ -243,8 +243,8 @@ export default function MainForm({initialData = {}, isUpdate = false}) {
                         name={`jobOrderItems[${index}].deliveryDate`}
                         type="date"
                         size="small"
-                        variant="filled"
-                        InputLabelProps={{shrink: true}}
+                        variant="outlined"
+                        InputLabelProps={{ shrink: true }}
                         {...register(`jobOrderItems[${index}].deliveryDate`)}
                         error={!!errors.jobOrderItems?.[index]?.deliveryDate}
                         helperText={
@@ -261,8 +261,8 @@ export default function MainForm({initialData = {}, isUpdate = false}) {
                         name={`jobOrderItems[${index}].quantity`}
                         type="number"
                         size="small"
-                        variant="filled"
-                        InputLabelProps={{shrink: true}}
+                        variant="outlined"
+                        InputLabelProps={{ shrink: true }}
                         {...register(`jobOrderItems[${index}].quantity`, {
                           required: "Quantity is required",
                         })}
@@ -279,8 +279,8 @@ export default function MainForm({initialData = {}, isUpdate = false}) {
                         id={`jobOrderItems[${index}].unit`}
                         label="Unit"
                         size="small"
-                        variant="filled"
-                        InputLabelProps={{shrink: true}}
+                        variant="outlined"
+                        InputLabelProps={{ shrink: true }}
                         name={`jobOrderItems[${index}].unit`}
                         {...register(`jobOrderItems[${index}].unit`, {
                           required: "Unit is required",
@@ -298,8 +298,8 @@ export default function MainForm({initialData = {}, isUpdate = false}) {
                         label="Remarks"
                         name={`jobOrderItems[${index}].remarks`}
                         size="small"
-                        variant="filled"
-                        InputLabelProps={{shrink: true}}
+                        variant="outlined"
+                        InputLabelProps={{ shrink: true }}
                         {...register(`jobOrderItems[${index}].remarks`)}
                         error={!!errors.jobOrderItems?.[index]?.remarks}
                         helperText={
@@ -339,7 +339,7 @@ export default function MainForm({initialData = {}, isUpdate = false}) {
                       productId: "",
                     })
                   }
-                  sx={{mt: 2}}
+                  sx={{ mt: 2 }}
                 >
                   Add Item
                 </Button>

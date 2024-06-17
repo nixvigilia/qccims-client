@@ -4,7 +4,7 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import TextField from "@mui/material/TextField";
 
-const FilterForm = ({onSearchChange}) => {
+const FilterForm = ({ onSearchChange }) => {
   return (
     <div
       style={{
@@ -14,7 +14,7 @@ const FilterForm = ({onSearchChange}) => {
         flexWrap: "wrap",
       }}
     >
-      <FormControl variant="outlined" size="small" sx={{flex: 3}}>
+      <FormControl variant="outlined" size="small" sx={{ flex: 3 }}>
         <FormLabel>Search</FormLabel>
         <TextField
           variant="outlined"
@@ -24,19 +24,19 @@ const FilterForm = ({onSearchChange}) => {
           onChange={onSearchChange}
         />
       </FormControl>
-      <FormControl variant="outlined" size="small" sx={{flex: 1}}>
+      <FormControl variant="outlined" size="small" sx={{ flex: 1 }}>
         <FormLabel>Option</FormLabel>
         <Select defaultValue="all" displayEmpty size="small" fullWidth>
           <MenuItem value="all">All</MenuItem>
         </Select>
       </FormControl>
-      <FormControl variant="outlined" size="small" sx={{flex: 1}}>
+      <FormControl variant="outlined" size="small" sx={{ flex: 1 }}>
         <FormLabel>Option</FormLabel>
         <Select defaultValue="all" displayEmpty size="small" fullWidth>
           <MenuItem value="all">All</MenuItem>
         </Select>
       </FormControl>
-      <FormControl variant="outlined" size="small" sx={{flex: 1}}>
+      <FormControl variant="outlined" size="small" sx={{ flex: 1 }}>
         <FormLabel>Option</FormLabel>
         <Select defaultValue="all" displayEmpty size="small" fullWidth>
           <MenuItem value="all">All</MenuItem>

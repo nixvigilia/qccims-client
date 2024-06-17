@@ -8,9 +8,9 @@ import ThemeToggleButton from "./ThemeToggleButton";
 
 function Header() {
   return (
-    <AppBar position="fixed" color="default" sx={{boxShadow: 1}}>
-      <Toolbar sx={{display: "flex", justifyContent: "space-between"}}>
-        <Box sx={{flexGrow: 1}} />
+    <AppBar position="fixed" color="default" sx={{ boxShadow: 0, backgroundColor: '#c4cfe1' }}>
+      <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
+        <Box sx={{ flexGrow: 1 }} />
         <ThemeToggleButton />
       </Toolbar>
     </AppBar>

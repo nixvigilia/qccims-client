@@ -1,11 +1,11 @@
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
-import {useFormContext} from "react-hook-form";
+import { useFormContext } from "react-hook-form";
 
-const ProductSpecsB = ({}) => {
+const ProductSpecsB = ({ }) => {
   const {
     register,
-    formState: {errors},
+    formState: { errors },
   } = useFormContext();
 
   return (
@@ -16,8 +16,8 @@ const ProductSpecsB = ({}) => {
           id="bodyBlankLength"
           label="Body Blank Length"
           size="small"
-          variant="filled"
-          InputLabelProps={{shrink: true}}
+          variant="outlined"
+          InputLabelProps={{ shrink: true }}
           {...register("bodyBlankLength")}
           error={!!errors.bodyBlankLength}
           helperText={errors.bodyBlankLength?.message}
@@ -30,8 +30,8 @@ const ProductSpecsB = ({}) => {
           id="bodyBlankWidth"
           label="Body Blank Width"
           size="small"
-          variant="filled"
-          InputLabelProps={{shrink: true}}
+          variant="outlined"
+          InputLabelProps={{ shrink: true }}
           {...register("bodyBlankWidth")}
           error={!!errors.bodyBlankWidth}
           helperText={errors.bodyBlankWidth?.message}
@@ -44,8 +44,8 @@ const ProductSpecsB = ({}) => {
           id="actualCanHeight"
           label="Actual Can Height"
           size="small"
-          variant="filled"
-          InputLabelProps={{shrink: true}}
+          variant="outlined"
+          InputLabelProps={{ shrink: true }}
           {...register("actualCanHeight")}
           error={!!errors.actualCanHeight}
           helperText={errors.actualCanHeight?.message}
@@ -58,8 +58,8 @@ const ProductSpecsB = ({}) => {
           id="coverSpout"
           label="Cover/Spout"
           size="small"
-          variant="filled"
-          InputLabelProps={{shrink: true}}
+          variant="outlined"
+          InputLabelProps={{ shrink: true }}
           {...register("coverSpout")}
           error={!!errors.coverSpout}
           helperText={errors.coverSpout?.message}
@@ -72,8 +72,8 @@ const ProductSpecsB = ({}) => {
           id="jointInterlocking"
           label="Joint Interlocking"
           size="small"
-          variant="filled"
-          InputLabelProps={{shrink: true}}
+          variant="outlined"
+          InputLabelProps={{ shrink: true }}
           {...register("jointInterlocking")}
           error={!!errors.jointInterlocking}
           helperText={errors.jointInterlocking?.message}
@@ -86,8 +86,8 @@ const ProductSpecsB = ({}) => {
           id="handle"
           label="Handle"
           size="small"
-          variant="filled"
-          InputLabelProps={{shrink: true}}
+          variant="outlined"
+          InputLabelProps={{ shrink: true }}
           {...register("handle")}
           error={!!errors.handle}
           helperText={errors.handle?.message}
