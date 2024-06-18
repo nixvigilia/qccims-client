@@ -1,10 +1,10 @@
 "use client";
 import { createTheme } from "@mui/material/styles";
 import { Roboto } from "next/font/google";
-import { Montserrat } from "next/font/google";
+import { Poppins } from "next/font/google";
 import { EB_Garamond } from "next/font/google";
 
-const montserrat = Montserrat({
+const poppins = Poppins({
   weight: ["300", "400", "500", "700"],
   subsets: ["latin"],
   display: "swap",
@@ -35,7 +35,7 @@ const lightTheme = createTheme({
     },
   },
   typography: {
-    fontFamily: montserrat.style.fontFamily + ', ' + garamond.style.fontFamily,
+    fontFamily: poppins.style.fontFamily + ', ' + garamond.style.fontFamily,
     h1: {
       fontFamily: garamond.style.fontFamily,
     },
@@ -81,7 +81,7 @@ const lightTheme = createTheme({
 
 const darkTheme = createTheme({
   typography: {
-    fontFamily: montserrat.style.fontFamily + ', ' + garamond.style.fontFamily,
+    fontFamily: poppins.style.fontFamily + ', ' + garamond.style.fontFamily,
     h1: {
       fontFamily: garamond.style.fontFamily,
     },

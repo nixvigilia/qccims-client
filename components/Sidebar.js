@@ -21,8 +21,8 @@ import LocalShippingTwoToneIcon from "@mui/icons-material/LocalShippingTwoTone";
 import ShoppingBasketTwoToneIcon from "@mui/icons-material/ShoppingBasketTwoTone";
 import PrecisionManufacturingTwoToneIcon from "@mui/icons-material/PrecisionManufacturingTwoTone";
 import CheckCircleTwoToneIcon from "@mui/icons-material/CheckCircleTwoTone";
-import DescriptionTwoToneIcon from "@mui/icons-material/DescriptionTwoTone";
-import GroupAddTwoToneIcon from "@mui/icons-material/GroupAddTwoTone";
+import LogoutTwoToneIcon from '@mui/icons-material/LogoutTwoTone';
+import RectangleTwoToneIcon from '@mui/icons-material/RectangleTwoTone';
 import { usePathname } from "next/navigation";
 
 const Sidebar = ({
@@ -112,7 +112,7 @@ const Sidebar = ({
     },
     {
       text: "Tinplates",
-      icon: <PrecisionManufacturingTwoToneIcon color="primary" />,
+      icon: <RectangleTwoToneIcon color="primary" />,
       dropdown: true,
       options: [
         { name: "Skid Information", path: "/tinplate/skid" },
@@ -127,7 +127,15 @@ const Sidebar = ({
     {
       text: "Racks",
       icon: <DashboardTwoToneIcon color="primary" />,
-      path: "/dashboard"
+      path: "/rack"
+    },
+  ];
+
+  const logOut = [
+    {
+      text: "Logout",
+      icon: <LogoutTwoToneIcon color="primary" />,
+      path: "/rack"
     },
   ];
 
@@ -138,27 +146,27 @@ const Sidebar = ({
         borderRight: '0',
       },
     }} >
-      <DrawerHeader>
+      <DrawerHeader sx={{ backgroundColor: "#3D619B" }}>
         <Typography
           sx={{
             fontWeight: "bold",
             flexGrow: 1,
             padding: "6px",
+            color: "#fff",
           }}
           variant="h5"
-          color="primary"
         >
           {open && "QCCIMS"}
         </Typography>
         <IconButton onClick={handleDrawerOpen}>
           {theme.direction === "rtl" ? (
-            <ChevronRightIcon />
+            <ChevronRightIcon sx={{ color: "#fff" }} />
           ) : (
-            <ChevronLeftIcon />
+            <ChevronLeftIcon sx={{ color: "#fff" }} />
           )}
         </IconButton>
       </DrawerHeader>
-      <List aria-labelledby="nested-list-subheader">
+      <List aria-labelledby="nested-list-subheader" sx={{ height: "100vh" }}>
         {menuItems.map((item) => (
           <div key={item.text} style={{ width: "100%" }}>
             <ListItem disablePadding sx={{ display: "block", width: "100%" }}>
@@ -196,7 +204,7 @@ const Sidebar = ({
                     ) : null)}
                 </ListItemButton>
               ) : (
-                <Link href={item.path} passHref component={NextLink}>
+                <Link href={item.path} passHref component={NextLink} sx={{ textDecoration: 'none' }}>
                   <ListItemButton
                     sx={{
                       minHeight: 48,
@@ -242,7 +250,7 @@ const Sidebar = ({
                         key={index}
                         style={{ textDecoration: "none" }}
                         passHref
-                        sx={{ fontSize: '.9rem' }}
+                        sx={{ fontSize: '.9rem', textDecoration: 'none' }}
                       >
                         <ListItemButton
                           sx={{
@@ -264,7 +272,49 @@ const Sidebar = ({
             </ListItem>
           </div>
         ))}
+
+        {logOut.map((item) => (
+          <div key={item.text} style={{ width: "100%", position: "absolute", bottom: 0 }}>
+            <ListItem disablePadding sx={{ display: "block", width: "100%" }}>
+
+              <ListItemButton
+                onClick={() => handleDropdownClick(item.text)}
+                sx={{
+                  minHeight: 48,
+                  justifyContent: open ? "initial" : "center",
+                  px: 2.5,
+                  width: "100%",
+                  marginTop: 'auto'
+                }}
+              >
+                <ListItemIcon
+                  sx={{
+                    minWidth: 0,
+                    mr: open ? 3 : "auto",
+                    justifyContent: "center",
+                  }}
+                >
+                  {item.icon}
+                </ListItemIcon>
+                <ListItemText
+                  primary={item.text}
+                  sx={{ opacity: open ? 1 : 0 }}
+                />
+                {item.dropdown &&
+                  (open ? (
+                    dropdowns[item.text] ? (
+                      <ExpandLess />
+                    ) : (
+                      <ExpandMore />
+                    )
+                  ) : null)}
+              </ListItemButton>
+
+            </ListItem>
+          </div>
+        ))}
       </List>
+
     </Drawer>
   );
 };

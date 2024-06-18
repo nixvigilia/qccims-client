@@ -5,3 +5,11 @@
     background-position: bottom;
     background-color: #fffefe;
 }
+
+.card--dashboard {
+    background-image: url('../../../public/staff.png');
+    background-repeat: no-repeat;
+    background-size: 80%;
+    background-position: 400px 50%;
+    background-color: #fffefe;
+}
