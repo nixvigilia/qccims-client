@@ -36,7 +36,7 @@ function Powered(props) {
       align="center"
       {...props}
     >
-      Powered by  <Link href="#" variant="h7">
+      Powered by  <Link href="#" variant="h7" sx={{ textDecoration: "none" }}>
         {"VAS IT PH"}
       </Link>
     </Typography>
@@ -183,15 +183,11 @@ export default function LoginForm() {
           </Button>
           <Grid container>
             <Grid item xs>
-              <Link href="#" variant="body2">
+              <Link href="#" variant="body2" sx={{ textDecoration: "none" }}>
                 Forgot password?
               </Link>
             </Grid>
-            <Grid item>
-              <Link href="#" variant="body2">
-                {"Don't have an account? Sign Up"}
-              </Link>
-            </Grid>
+
           </Grid>
         </Box>
         <Copyright sx={{ mt: 8, mb: 4 }} />

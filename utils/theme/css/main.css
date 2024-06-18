@@ -1,3 +1,8 @@
+html{
+        background-color: whitesmoke;
+}
+
+
 .login {
     background-image: url('../../../public/warehouse_bw.png');
     background-repeat: no-repeat;
