@@ -119,42 +119,42 @@ export default function MainForm({ initialData = {}, isUpdate = false }) {
               <TextField
                 required
                 fullWidth
-                id="orderDate"
-                label="Order Date"
-                name="orderDate"
+                id="contractNumber"
+                label="Contract No."
+                name="contractNumber"
+                // {...register("term", { required: "Term is required" })}
+                // error={!!errors.term}
+                // helperText={errors.term?.message}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                required
+                fullWidth
+                id="supplier"
+                label="Supplier"
+                name="supplier"
+                // {...register("requestor", {
+                //   required: "Requestor is required",
+                // })}
+                // error={!!errors.requestor}
+                // helperText={errors.requestor?.message}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                required
+                fullWidth
+                id="dateReceived"
+                label="Date Received"
+                name="dateReceived"
                 type="date"
                 InputLabelProps={{ shrink: true }}
-                {...register("orderDate", {
-                  required: "Order Date is required",
-                })}
-                error={!!errors.orderDate}
-                helperText={errors.orderDate?.message}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                required
-                fullWidth
-                id="term"
-                label="Term"
-                name="term"
-                {...register("term", { required: "Term is required" })}
-                error={!!errors.term}
-                helperText={errors.term?.message}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                required
-                fullWidth
-                id="requestor"
-                label="Requestor"
-                name="requestor"
-                {...register("requestor", {
-                  required: "Requestor is required",
-                })}
-                error={!!errors.requestor}
-                helperText={errors.requestor?.message}
+                // {...register("orderDate", {
+                //   required: "Order Date is required",
+                // })}
+                // error={!!errors.orderDate}
+                // helperText={errors.orderDate?.message}
               />
             </Grid>
 
@@ -162,12 +162,12 @@ export default function MainForm({ initialData = {}, isUpdate = false }) {
               <TextField
                 required
                 fullWidth
-                id="vat"
-                label="VAT"
-                name="vat"
-                {...register("vat", { required: "VAT is required" })}
-                error={!!errors.vat}
-                helperText={errors.vat?.message}
+                id="coilNumber"
+                label="Coil No."
+                name="coilNumber"
+                // {...register("vat", { required: "VAT is required" })}
+                // error={!!errors.vat}
+                // helperText={errors.vat?.message}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -176,21 +176,14 @@ export default function MainForm({ initialData = {}, isUpdate = false }) {
                 setSelectedSupplier={setSelectedSupplier}
               />
             </Grid>
+            {/* for Coating */}
             <Grid item xs={12} sm={6}>
-              <TextField
-                required
-                fullWidth
-                id="totalAmount"
-                label="Total Amount"
-                name="totalAmount"
-                type="number"
-                {...register("totalAmount", {
-                  required: "Total Amount is required",
-                })}
-                error={!!errors.totalAmount}
-                helperText={errors.totalAmount?.message}
+              <SearchAsync
+                selectedSupplier={selectedSupplier}
+                setSelectedSupplier={setSelectedSupplier}
               />
             </Grid>
+
             <Grid item xs={12}>
               <TextField
                 fullWidth

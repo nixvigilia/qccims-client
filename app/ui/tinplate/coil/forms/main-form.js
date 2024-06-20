@@ -18,22 +18,23 @@ import TextField from "@mui/material/TextField";
 import SearchAsync from "./auto-complete-form";
 import dayjs from "dayjs";
 
-export default function MainForm({ initialData = {}, isUpdate = false }) {
+export default function MainForm() {
+  // { initialData = {}, isUpdate = false }
   const router = useRouter();
 
   // Function to format date to YYYY-MM-DD
   const formatDate = (date) => (date ? dayjs(date).format("YYYY-MM-DD") : "");
 
   // Preprocess initialData to format dates correctly
-  const formattedInitialData = {
-    ...initialData,
-    orderDate: formatDate(initialData.orderDate),
-    items:
-      initialData.items?.map((item) => ({
-        ...item,
-        deliveryDate: formatDate(item.deliveryDate),
-      })) || [],
-  };
+  // const formattedInitialData = {
+  //   ...initialData,
+  //   orderDate: formatDate(initialData.orderDate),
+  //   items:
+  //     initialData.items?.map((item) => ({
+  //       ...item,
+  //       deliveryDate: formatDate(item.deliveryDate),
+  //     })) || [],
+  // };
 
   const {
     register,
@@ -71,7 +72,7 @@ export default function MainForm({ initialData = {}, isUpdate = false }) {
       // Update request
       await updatePurchase(
         setLoading,
-        `api/procurement/purchase/${initialData.id}`,
+        // `api/procurement/purchase/${initialData.id}`,
         data,
         "Purchase",
         redirect,
@@ -88,7 +89,9 @@ export default function MainForm({ initialData = {}, isUpdate = false }) {
     }
   }
 
-  const handleRemove = async (index) => {
+  const handleRemove = async 
+  // (index)
+  => {
     const item = fields[index];
     if (item.description || item.quantity || item.unit) {
       const result = await Swal.fire({
@@ -102,11 +105,15 @@ export default function MainForm({ initialData = {}, isUpdate = false }) {
       });
 
       if (result.isConfirmed) {
-        remove(index);
+        remove
+        // (index)
+        ;
         Swal.fire("Removed!", "The item has been removed.", "success");
       }
     } else {
-      remove(index);
+      remove
+      // (index)
+      ;
     }
   };
 

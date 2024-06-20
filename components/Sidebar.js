@@ -16,13 +16,13 @@ import ExpandMore from "@mui/icons-material/ExpandMore";
 import Typography from "@mui/material/Typography";
 import NextLink from "next/link";
 import Link from "@mui/material/Link";
-import DashboardTwoToneIcon from '@mui/icons-material/DashboardTwoTone';
+import DashboardTwoToneIcon from "@mui/icons-material/DashboardTwoTone";
 import LocalShippingTwoToneIcon from "@mui/icons-material/LocalShippingTwoTone";
 import ShoppingBasketTwoToneIcon from "@mui/icons-material/ShoppingBasketTwoTone";
 import PrecisionManufacturingTwoToneIcon from "@mui/icons-material/PrecisionManufacturingTwoTone";
 import CheckCircleTwoToneIcon from "@mui/icons-material/CheckCircleTwoTone";
-import LogoutTwoToneIcon from '@mui/icons-material/LogoutTwoTone';
-import RectangleTwoToneIcon from '@mui/icons-material/RectangleTwoTone';
+import LogoutTwoToneIcon from "@mui/icons-material/LogoutTwoTone";
+import RectangleTwoToneIcon from "@mui/icons-material/RectangleTwoTone";
 import { usePathname } from "next/navigation";
 
 const Sidebar = ({
@@ -77,7 +77,7 @@ const Sidebar = ({
     {
       text: "Dashboard",
       icon: <DashboardTwoToneIcon color="primary" />,
-      path: "/dashboard"
+      path: "/dashboard",
     },
     {
       text: "Delivery",
@@ -121,13 +121,16 @@ const Sidebar = ({
         { name: "Coil Cut", path: "/tinplate/cut-from-coil" },
         { name: "Coil Consumed", path: "/tinplate/cut-consumed" },
         { name: "Rectangular Sheet", path: "/tinplate/rectangular-sheet" },
-        { name: "Rectangular Consumed", path: "/tinplate/rectangular-Consumed" },
+        {
+          name: "Rectangular Consumed",
+          path: "/tinplate/rectangular-Consumed",
+        },
       ],
     },
     {
       text: "Racks",
       icon: <DashboardTwoToneIcon color="primary" />,
-      path: "/rack"
+      path: "/rack",
     },
   ];
 
@@ -135,17 +138,21 @@ const Sidebar = ({
     {
       text: "Logout",
       icon: <LogoutTwoToneIcon color="primary" />,
-      path: "/rack"
+      path: "/rack",
     },
   ];
 
   return (
-    <Drawer variant="permanent" open={open} sx={{
-      '& .MuiDrawer-paper': {
-        boxShadow: '0px 4px 20px rgb(0 0 0 / 7%)',
-        borderRight: '0',
-      },
-    }} >
+    <Drawer
+      variant="permanent"
+      open={open}
+      sx={{
+        "& .MuiDrawer-paper": {
+          boxShadow: "0px 4px 20px rgb(0 0 0 / 7%)",
+          borderRight: "0",
+        },
+      }}
+    >
       <DrawerHeader sx={{ backgroundColor: "#3D619B" }}>
         <Typography
           sx={{
@@ -178,7 +185,6 @@ const Sidebar = ({
                     justifyContent: open ? "initial" : "center",
                     px: 2.5,
                     width: "100%",
-
                   }}
                 >
                   <ListItemIcon
@@ -204,7 +210,12 @@ const Sidebar = ({
                     ) : null)}
                 </ListItemButton>
               ) : (
-                <Link href={item.path} passHref component={NextLink} sx={{ textDecoration: 'none' }}>
+                <Link
+                  href={item.path}
+                  passHref
+                  component={NextLink}
+                  sx={{ textDecoration: "none" }}
+                >
                   <ListItemButton
                     sx={{
                       minHeight: 48,
@@ -250,7 +261,7 @@ const Sidebar = ({
                         key={index}
                         style={{ textDecoration: "none" }}
                         passHref
-                        sx={{ fontSize: '.9rem', textDecoration: 'none' }}
+                        sx={{ fontSize: ".9rem", textDecoration: "none" }}
                       >
                         <ListItemButton
                           sx={{
@@ -274,9 +285,11 @@ const Sidebar = ({
         ))}
 
         {logOut.map((item) => (
-          <div key={item.text} style={{ width: "100%", position: "absolute", bottom: 0 }}>
+          <div
+            key={item.text}
+            style={{ width: "100%", position: "absolute", bottom: 0 }}
+          >
             <ListItem disablePadding sx={{ display: "block", width: "100%" }}>
-
               <ListItemButton
                 onClick={() => handleDropdownClick(item.text)}
                 sx={{
@@ -284,7 +297,7 @@ const Sidebar = ({
                   justifyContent: open ? "initial" : "center",
                   px: 2.5,
                   width: "100%",
-                  marginTop: 'auto'
+                  marginTop: "auto",
                 }}
               >
                 <ListItemIcon
@@ -309,12 +322,10 @@ const Sidebar = ({
                     )
                   ) : null)}
               </ListItemButton>
-
             </ListItem>
           </div>
         ))}
       </List>
-
     </Drawer>
   );
 };
