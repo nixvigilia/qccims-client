@@ -2,7 +2,7 @@
 import useSWR from "swr";
 import {getData} from "@/lib/actions/data/getData";
 import PageBreadCrumbs from "@/components/Delivery/CustomerProfile/PageBreadCrumbs";
-import ItemForm from "@/app/ui/production/job-orders/forms/item-form";
+import ItemForm from "@/app/ui/quality/specifications/forms/item-form";
 
 export default function Page({params}) {
   const {id} = params;
@@ -11,8 +11,6 @@ export default function Page({params}) {
     id ? `/api/production/job/items/${parseInt(id)}` : null,
     fetcher
   );
-
-  console.log(data);
 
   if (error) return <div>Failed to load</div>;
   if (!data) return <div>Loading...</div>;

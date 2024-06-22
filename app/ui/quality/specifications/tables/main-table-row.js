@@ -33,19 +33,21 @@ const MainTableRow = ({data}) => {
         const {jobOrder, product} = jobOrderItem;
         return (
           <StyledTableRow key={item.id || index}>
-            <StyledTableCell component="th" scope="row">
+            <StyledTableCell width="30%" component="th" scope="row">
+              <Typography fontSize={"0.9rem"}>{product.productName}</Typography>
+            </StyledTableCell>
+            <StyledTableCell width="10%" component="th" scope="row">
               <Typography fontSize={"0.9rem"}>{jobOrder.jobNumber}</Typography>
             </StyledTableCell>
-            <StyledTableCell component="th" scope="row">
-              <Typography fontSize={"0.9rem"}>{jobOrder.jobNumber}</Typography>
+            <StyledTableCell width="30%" component="th" scope="row">
+              <Typography fontSize={"0.9rem"}>{item.canSize}</Typography>
             </StyledTableCell>
-            <StyledTableCell>
-              <Typography fontSize={"0.9rem"}>{jobOrder.jobNumber}</Typography>
+            <StyledTableCell width="30%" component="th" scope="row">
+              <Typography fontSize={"0.9rem"}>{item.specRemarks}</Typography>
             </StyledTableCell>
-
             <TableCell align="center">
               <Link
-                href={`job-orders/${item.id}`}
+                href={`specifications/item/${item.jobOrderItemId}`}
                 component={NextLink}
                 color="inherit"
                 variant="body2"

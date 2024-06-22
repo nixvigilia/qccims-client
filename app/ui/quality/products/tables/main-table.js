@@ -33,13 +33,11 @@ function MainTable({
       >
         <Table sx={{minWidth: 650}} size="small" aria-label="customer table">
           <TableHead>
-            <MainTableRow>
-              {tableHeaders.map((header, index) => (
-                <StyledTableCell key={index} align={header.align || "left"}>
-                  {header.label}
-                </StyledTableCell>
-              ))}
-            </MainTableRow>
+            {tableHeaders.map((header, index) => (
+              <StyledTableCell key={index} align={header.align || "left"}>
+                {header.label}
+              </StyledTableCell>
+            ))}
           </TableHead>
           <TableBody>
             <MainTableRow data={data} />

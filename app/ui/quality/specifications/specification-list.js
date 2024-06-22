@@ -38,8 +38,9 @@ const SpecificationList = () => {
 
   const tableHeaders = [
     {label: "Product"},
-    {label: "JO ID"},
+    {label: "Job Order ID"},
     {label: "Can Size"},
+    {label: "Remarks"},
     {label: "Action", align: "center"},
   ];
 
@@ -52,7 +53,7 @@ const SpecificationList = () => {
           <TableSkeleton rowsNum={6} tableHeaders={tableHeaders} />
         </div>
       )}
-      {/* {data && (
+      {data && (
         <MainTable
           tableHeaders={tableHeaders}
           data={data}
@@ -62,7 +63,7 @@ const SpecificationList = () => {
           page={page}
           onPageChange={handlePageChange}
         />
-      )} */}
+      )}
     </>
   );
 };

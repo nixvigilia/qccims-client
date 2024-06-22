@@ -31,15 +31,13 @@ function MainTable({
         variant="outlined"
         sx={{borderRadius: "sm", overflow: "auto", width: "100%", minHeight: 0}}
       >
-        <Table sx={{minWidth: 650}} size="small" aria-label="customer table">
+        <Table sx={{minWidth: 650}} size="small" aria-label="jobOrder table">
           <TableHead>
-            <MainTableRow>
-              {tableHeaders.map((header, index) => (
-                <StyledTableCell key={index} align={header.align || "left"}>
-                  {header.label}
-                </StyledTableCell>
-              ))}
-            </MainTableRow>
+            {tableHeaders.map((header, index) => (
+              <StyledTableCell key={index} align={header.align || "left"}>
+                {header.label}
+              </StyledTableCell>
+            ))}
           </TableHead>
           <TableBody>
             <MainTableRow data={data} />

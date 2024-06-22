@@ -92,6 +92,7 @@ export default function MainForm({initialData = {}, isUpdate = false}) {
 
     const updatePayload = {
       ...data,
+      category: "tin",
       jobOrderItemsToUpdate: itemsToUpdate,
       jobOrderItemsToCreate: itemsToCreate,
     };
