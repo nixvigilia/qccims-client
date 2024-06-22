@@ -7,10 +7,10 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import Paper from "@mui/material/Paper";
-import {styled} from "@mui/material/styles";
+import { styled } from "@mui/material/styles";
 import MainTableRow from "./main-table-row";
 
-const StyledTableCell = styled(TableCell)(({theme}) => ({
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
   fontSize: "14px",
 }));
 
@@ -24,14 +24,14 @@ function MainTable({
 }) {
   return (
     <div
-      style={{display: "flex", flexDirection: "column", alignItems: "center"}}
+      style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
     >
       <TableContainer
         component={Paper}
         variant="outlined"
-        sx={{borderRadius: "sm", overflow: "auto", width: "100%", minHeight: 0}}
+        sx={{ borderRadius: "sm", overflow: "auto", width: "100%", minHeight: 0 }}
       >
-        <Table sx={{minWidth: 650}} size="small" aria-label="customer table">
+        <Table sx={{ minWidth: 650 }} size="small" aria-label="customer table">
           <TableHead>
             <MainTableRow>
               {tableHeaders.map((header, index) => (
@@ -46,7 +46,7 @@ function MainTable({
           </TableBody>
         </Table>
       </TableContainer>
-      <div style={{marginTop: "20px"}}>
+      <div style={{ marginTop: "20px" }}>
         <CustomPagination
           totalCount={totalCount}
           itemsPerPage={itemsPerPage}

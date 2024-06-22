@@ -1,13 +1,13 @@
 "use client";
 
-import {useState, useEffect} from "react";
+import { useState, useEffect } from "react";
 import SubmitButton from "@/components/FormInputs/SubmitButton";
 import {
   createPurchase,
   updatePurchase,
 } from "@/lib/api/procurement/purchaseApi";
-import {useRouter} from "next/navigation";
-import {useForm, useFieldArray, FormProvider} from "react-hook-form";
+import { useRouter } from "next/navigation";
+import { useForm, useFieldArray, FormProvider } from "react-hook-form";
 import Swal from "sweetalert2";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -43,10 +43,10 @@ export default function PurchaseOrderForm({
     handleSubmit,
     control,
     reset,
-    formState: {errors},
-  } = useForm({defaultValues: formattedInitialData});
+    formState: { errors },
+  } = useForm({ defaultValues: formattedInitialData });
 
-  const {fields, append, remove} = useFieldArray({
+  const { fields, append, remove } = useFieldArray({
     control,
     name: "items",
   });
@@ -126,8 +126,8 @@ export default function PurchaseOrderForm({
                 label="Order Date"
                 name="orderDate"
                 type="date"
-                InputLabelProps={{shrink: true}}
-                {...register("orderDate", {required: "Order Date is required"})}
+                InputLabelProps={{ shrink: true }}
+                {...register("orderDate", { required: "Order Date is required" })}
                 error={!!errors.orderDate}
                 helperText={errors.orderDate?.message}
               />
@@ -139,7 +139,7 @@ export default function PurchaseOrderForm({
                 id="term"
                 label="Term"
                 name="term"
-                {...register("term", {required: "Term is required"})}
+                {...register("term", { required: "Term is required" })}
                 error={!!errors.term}
                 helperText={errors.term?.message}
               />
@@ -151,7 +151,7 @@ export default function PurchaseOrderForm({
                 id="requestor"
                 label="Requestor"
                 name="requestor"
-                {...register("requestor", {required: "Requestor is required"})}
+                {...register("requestor", { required: "Requestor is required" })}
                 error={!!errors.requestor}
                 helperText={errors.requestor?.message}
               />
@@ -164,7 +164,7 @@ export default function PurchaseOrderForm({
                 id="vat"
                 label="VAT"
                 name="vat"
-                {...register("vat", {required: "VAT is required"})}
+                {...register("vat", { required: "VAT is required" })}
                 error={!!errors.vat}
                 helperText={errors.vat?.message}
               />
@@ -216,7 +216,7 @@ export default function PurchaseOrderForm({
                     label="Delivery Date"
                     name={`items[${index}].deliveryDate`}
                     type="date"
-                    InputLabelProps={{shrink: true}}
+                    InputLabelProps={{ shrink: true }}
                     {...register(`items[${index}].deliveryDate`)}
                     error={!!errors.items?.[index]?.deliveryDate}
                     helperText={errors.items?.[index]?.deliveryDate?.message}
@@ -381,16 +381,16 @@ export default function PurchaseOrderForm({
                   remarks: "",
                 })
               }
-              sx={{mt: 2}}
+              sx={{ mt: 2 }}
             >
               Add Item
             </Button>
           </Box>
 
-          <Divider sx={{mt: 4, mb: 4}} />
+          <Divider sx={{ mt: 4, mb: 4 }} />
 
           <div
-            style={{display: "flex", justifyContent: "flex-end", gap: "10px"}}
+            style={{ display: "flex", justifyContent: "flex-end", gap: "10px" }}
           >
             <SubmitButton
               isLoading={loading}

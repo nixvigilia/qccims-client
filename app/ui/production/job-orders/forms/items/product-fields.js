@@ -1,11 +1,11 @@
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
-import {useFormContext} from "react-hook-form";
+import { useFormContext } from "react-hook-form";
 
-const ProductDetails = ({product}) => {
+const ProductDetails = ({ product }) => {
   const {
     register,
-    formState: {errors},
+    formState: { errors },
   } = useFormContext();
 
   return (
@@ -16,7 +16,7 @@ const ProductDetails = ({product}) => {
           id="product"
           label="Product"
           size="small"
-          variant="filled"
+          variant="outlined"
           defaultValue={product.productName}
           disabled
           sx={{
@@ -33,8 +33,8 @@ const ProductDetails = ({product}) => {
           id="canSize"
           label="Can Size"
           size="small"
-          variant="filled"
-          InputLabelProps={{shrink: true}}
+          variant="outlined"
+          InputLabelProps={{ shrink: true }}
           {...register("canSize")}
           error={!!errors.canSize}
           helperText={errors.canSize?.message}

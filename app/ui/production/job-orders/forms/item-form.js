@@ -1,9 +1,9 @@
 "use client";
 
-import {useState} from "react";
-import {useRouter} from "next/navigation";
-import {useForm, FormProvider} from "react-hook-form";
-import {postRequest, updateRequest} from "@/lib/api/requestApi";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useForm, FormProvider } from "react-hook-form";
+import { postRequest, updateRequest } from "@/lib/api/requestApi";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
@@ -13,10 +13,10 @@ import SubmitButton from "@/components/FormInputs/SubmitButton";
 import formatISODateToReadable from "@/utils/helpers/formatISODateToReadable";
 import dayjs from "dayjs";
 
-export default function ItemForm({initialData = {}, itemId, isUpdate = false}) {
+export default function ItemForm({ initialData = {}, itemId, isUpdate = false }) {
   const router = useRouter();
-  const {jobOrder, product, productSpecs} = initialData;
-  const {customer} = jobOrder;
+  const { jobOrder, product, productSpecs } = initialData;
+  const { customer } = jobOrder;
 
   const formatDate = (date) => (date ? dayjs(date).format("YYYY-MM-DD") : "");
 
@@ -29,12 +29,12 @@ export default function ItemForm({initialData = {}, itemId, isUpdate = false}) {
     };
   }
 
-  const methods = useForm({defaultValues: productSpecs || initialData});
+  const methods = useForm({ defaultValues: productSpecs || initialData });
   const {
     register,
     handleSubmit,
     reset,
-    formState: {errors},
+    formState: { errors },
   } = methods;
 
   const [loading, setLoading] = useState(false);
@@ -103,7 +103,7 @@ export default function ItemForm({initialData = {}, itemId, isUpdate = false}) {
       <Box mt={4} component="form" onSubmit={handleSubmit(onSubmit)} noValidate>
         <Grid container spacing={2}>
           <Paper square={false}>
-            <Box width="100%" sx={{p: 4}}>
+            <Box width="100%" sx={{ p: 4 }}>
               <Typography variant="h6" pb={2}>
                 Product Specs
               </Typography>
@@ -116,7 +116,7 @@ export default function ItemForm({initialData = {}, itemId, isUpdate = false}) {
                       id="supersedeNumber"
                       label="Supersede Number"
                       size="small"
-                      InputLabelProps={{shrink: true}}
+                      InputLabelProps={{ shrink: true }}
                       {...register("supersedeNumber")}
                     />
                   </Grid>
@@ -128,7 +128,7 @@ export default function ItemForm({initialData = {}, itemId, isUpdate = false}) {
                       label="Supersede Date"
                       size="small"
                       type="date"
-                      InputLabelProps={{shrink: true}}
+                      InputLabelProps={{ shrink: true }}
                       {...register("supersedeDate")}
                     />
                   </Grid>
@@ -140,8 +140,8 @@ export default function ItemForm({initialData = {}, itemId, isUpdate = false}) {
                     id="jobOrderId"
                     label="Job Order ID"
                     size="small"
-                    variant="filled"
-                    InputLabelProps={{shrink: true}}
+                    variant="outlined"
+                    InputLabelProps={{ shrink: true }}
                     defaultValue={jobOrder.jobNumber}
                     disabled
                     sx={{
@@ -158,8 +158,8 @@ export default function ItemForm({initialData = {}, itemId, isUpdate = false}) {
                     id="customer"
                     label="Customer"
                     size="small"
-                    variant="filled"
-                    InputLabelProps={{shrink: true}}
+                    variant="outlined"
+                    InputLabelProps={{ shrink: true }}
                     defaultValue={customer.companyName}
                     disabled
                     sx={{
@@ -176,8 +176,8 @@ export default function ItemForm({initialData = {}, itemId, isUpdate = false}) {
                     id="jobDate"
                     label="Date Created"
                     size="small"
-                    variant="filled"
-                    InputLabelProps={{shrink: true}}
+                    variant="outlined"
+                    InputLabelProps={{ shrink: true }}
                     defaultValue={formatISODateToReadable(jobOrder.jobDate)}
                     disabled
                     sx={{
@@ -194,7 +194,7 @@ export default function ItemForm({initialData = {}, itemId, isUpdate = false}) {
                     id="product"
                     label="Product"
                     size="small"
-                    variant="filled"
+                    variant="outlined"
                     defaultValue={product.productName}
                     disabled
                     sx={{
@@ -212,8 +212,8 @@ export default function ItemForm({initialData = {}, itemId, isUpdate = false}) {
                     id="canSize"
                     label="Can Size"
                     size="small"
-                    variant="filled"
-                    InputLabelProps={{shrink: true}}
+                    variant="outlined"
+                    InputLabelProps={{ shrink: true }}
                     {...register("canSize")}
                     error={!!errors.canSize}
                     helperText={errors.canSize?.message}
@@ -227,7 +227,7 @@ export default function ItemForm({initialData = {}, itemId, isUpdate = false}) {
                       id={`body${index + 1}`}
                       label={label}
                       size="small"
-                      InputLabelProps={{shrink: true}}
+                      InputLabelProps={{ shrink: true }}
                       {...register(`body${index + 1}`)}
                       error={!!errors[`body${index + 1}`]}
                       helperText={errors[`body${index + 1}`]?.message}
@@ -242,7 +242,7 @@ export default function ItemForm({initialData = {}, itemId, isUpdate = false}) {
                       id={`bottom${index + 1}`}
                       label={label}
                       size="small"
-                      InputLabelProps={{shrink: true}}
+                      InputLabelProps={{ shrink: true }}
                       {...register(`bottom${index + 1}`)}
                       error={!!errors[`bottom${index + 1}`]}
                       helperText={errors[`bottom${index + 1}`]?.message}
@@ -257,7 +257,7 @@ export default function ItemForm({initialData = {}, itemId, isUpdate = false}) {
                       id={`cover${index + 1}`}
                       label={label}
                       size="small"
-                      InputLabelProps={{shrink: true}}
+                      InputLabelProps={{ shrink: true }}
                       {...register(`cover${index + 1}`)}
                       error={!!errors[`cover${index + 1}`]}
                       helperText={errors[`cover${index + 1}`]?.message}
@@ -272,7 +272,7 @@ export default function ItemForm({initialData = {}, itemId, isUpdate = false}) {
                       id={`topRing${index + 1}`}
                       label={label}
                       size="small"
-                      InputLabelProps={{shrink: true}}
+                      InputLabelProps={{ shrink: true }}
                       {...register(`topRing${index + 1}`)}
                       error={!!errors[`topRing${index + 1}`]}
                       helperText={errors[`topRing${index + 1}`]?.message}
@@ -286,8 +286,8 @@ export default function ItemForm({initialData = {}, itemId, isUpdate = false}) {
                     id="bodyBlankLength"
                     label="Body Blank Length"
                     size="small"
-                    variant="filled"
-                    InputLabelProps={{shrink: true}}
+                    variant="outlined"
+                    InputLabelProps={{ shrink: true }}
                     {...register("bodyBlankLength")}
                     error={!!errors.bodyBlankLength}
                     helperText={errors.bodyBlankLength?.message}
@@ -300,8 +300,8 @@ export default function ItemForm({initialData = {}, itemId, isUpdate = false}) {
                     id="bodyBlankWidth"
                     label="Body Blank Width"
                     size="small"
-                    variant="filled"
-                    InputLabelProps={{shrink: true}}
+                    variant="outlined"
+                    InputLabelProps={{ shrink: true }}
                     {...register("bodyBlankWidth")}
                     error={!!errors.bodyBlankWidth}
                     helperText={errors.bodyBlankWidth?.message}
@@ -314,8 +314,8 @@ export default function ItemForm({initialData = {}, itemId, isUpdate = false}) {
                     id="actualCanHeight"
                     label="Actual Can Height"
                     size="small"
-                    variant="filled"
-                    InputLabelProps={{shrink: true}}
+                    variant="outlined"
+                    InputLabelProps={{ shrink: true }}
                     {...register("actualCanHeight")}
                     error={!!errors.actualCanHeight}
                     helperText={errors.actualCanHeight?.message}
@@ -328,8 +328,8 @@ export default function ItemForm({initialData = {}, itemId, isUpdate = false}) {
                     id="coverSpout"
                     label="Cover/Spout"
                     size="small"
-                    variant="filled"
-                    InputLabelProps={{shrink: true}}
+                    variant="outlined"
+                    InputLabelProps={{ shrink: true }}
                     {...register("coverSpout")}
                     error={!!errors.coverSpout}
                     helperText={errors.coverSpout?.message}
@@ -342,8 +342,8 @@ export default function ItemForm({initialData = {}, itemId, isUpdate = false}) {
                     id="jointInterlocking"
                     label="Joint Interlocking"
                     size="small"
-                    variant="filled"
-                    InputLabelProps={{shrink: true}}
+                    variant="outlined"
+                    InputLabelProps={{ shrink: true }}
                     {...register("jointInterlocking")}
                     error={!!errors.jointInterlocking}
                     helperText={errors.jointInterlocking?.message}
@@ -356,8 +356,8 @@ export default function ItemForm({initialData = {}, itemId, isUpdate = false}) {
                     id="handle"
                     label="Handle"
                     size="small"
-                    variant="filled"
-                    InputLabelProps={{shrink: true}}
+                    variant="outlined"
+                    InputLabelProps={{ shrink: true }}
                     {...register("handle")}
                     error={!!errors.handle}
                     helperText={errors.handle?.message}
@@ -370,8 +370,8 @@ export default function ItemForm({initialData = {}, itemId, isUpdate = false}) {
                     id="handleLocation"
                     label="Handle Location"
                     size="small"
-                    variant="filled"
-                    InputLabelProps={{shrink: true}}
+                    variant="outlined"
+                    InputLabelProps={{ shrink: true }}
                     {...register("handleLocation")}
                     error={!!errors.handleLocation}
                     helperText={errors.handleLocation?.message}
@@ -384,8 +384,8 @@ export default function ItemForm({initialData = {}, itemId, isUpdate = false}) {
                     id="handleDistance"
                     label="Handle Distance"
                     size="small"
-                    variant="filled"
-                    InputLabelProps={{shrink: true}}
+                    variant="outlined"
+                    InputLabelProps={{ shrink: true }}
                     {...register("handleDistance")}
                     error={!!errors.handleDistance}
                     helperText={errors.handleDistance?.message}
@@ -398,8 +398,8 @@ export default function ItemForm({initialData = {}, itemId, isUpdate = false}) {
                     id="solder"
                     label="Solder"
                     size="small"
-                    variant="filled"
-                    InputLabelProps={{shrink: true}}
+                    variant="outlined"
+                    InputLabelProps={{ shrink: true }}
                     {...register("solder")}
                     error={!!errors.solder}
                     helperText={errors.solder?.message}
@@ -412,8 +412,8 @@ export default function ItemForm({initialData = {}, itemId, isUpdate = false}) {
                     id="beads"
                     label="Beads"
                     size="small"
-                    variant="filled"
-                    InputLabelProps={{shrink: true}}
+                    variant="outlined"
+                    InputLabelProps={{ shrink: true }}
                     {...register("beads")}
                     error={!!errors.beads}
                     helperText={errors.beads?.message}
@@ -426,8 +426,8 @@ export default function ItemForm({initialData = {}, itemId, isUpdate = false}) {
                     id="numberOfBeads"
                     label="Number of Beads"
                     size="small"
-                    variant="filled"
-                    InputLabelProps={{shrink: true}}
+                    variant="outlined"
+                    InputLabelProps={{ shrink: true }}
                     {...register("numberOfBeads")}
                     error={!!errors.numberOfBeads}
                     helperText={errors.numberOfBeads?.message}
@@ -440,8 +440,8 @@ export default function ItemForm({initialData = {}, itemId, isUpdate = false}) {
                     id="emboss"
                     label="Emboss"
                     size="small"
-                    variant="filled"
-                    InputLabelProps={{shrink: true}}
+                    variant="outlined"
+                    InputLabelProps={{ shrink: true }}
                     {...register("emboss")}
                     error={!!errors.emboss}
                     helperText={errors.emboss?.message}
@@ -454,8 +454,8 @@ export default function ItemForm({initialData = {}, itemId, isUpdate = false}) {
                     id="embossLocation"
                     label="Emboss Location"
                     size="small"
-                    variant="filled"
-                    InputLabelProps={{shrink: true}}
+                    variant="outlined"
+                    InputLabelProps={{ shrink: true }}
                     {...register("embossLocation")}
                     error={!!errors.embossLocation}
                     helperText={errors.embossLocation?.message}
@@ -468,7 +468,7 @@ export default function ItemForm({initialData = {}, itemId, isUpdate = false}) {
                     id="specRemarks"
                     label="Remarks"
                     size="small"
-                    InputLabelProps={{shrink: true}}
+                    InputLabelProps={{ shrink: true }}
                     multiline
                     rows={4}
                     {...register("specRemarks")}

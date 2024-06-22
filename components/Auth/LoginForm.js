@@ -1,5 +1,6 @@
 "use client";
-import {useState, useEffect} from "react";
+import { useState, useEffect } from "react";
+import { styled } from '@mui/system';
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -9,13 +10,14 @@ import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import {useRouter} from "next/navigation";
-import {signIn} from "@/lib/actions/auth";
-
+import { useRouter } from "next/navigation";
+import { signIn } from "@/lib/actions/auth";
+import Image from "next/image"
+import logo from '@/public/logo.png';
 function Copyright(props) {
   return (
     <Typography
-      variant="body2"
+      variant="h7"
       color="text.secondary"
       align="center"
       {...props}
@@ -26,6 +28,23 @@ function Copyright(props) {
     </Typography>
   );
 }
+function Powered(props) {
+  return (
+    <Typography
+      variant="h7"
+      color="text.secondary"
+      align="center"
+      {...props}
+    >
+      Powered by  <Link href="#" variant="h7" sx={{ textDecoration: "none" }}>
+        {"VAS IT PH"}
+      </Link>
+    </Typography>
+  );
+}
+const ShadowBox = styled(Box)({
+  boxShadow: '0px 4px 20px rgb(0 0 0 / 7%)',
+});
 
 export default function LoginForm() {
   const router = useRouter();
@@ -37,7 +56,7 @@ export default function LoginForm() {
   const [errors, setErrors] = useState({});
 
   const handleChange = (e) => {
-    const {name, value} = e.target;
+    const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
@@ -73,7 +92,7 @@ export default function LoginForm() {
 
     if (hasErrors) return;
 
-    const isAuthenticated = await signIn({formData, setIsLoading});
+    const isAuthenticated = await signIn({ formData, setIsLoading });
 
     if (isAuthenticated) {
       setTimeout(() => {
@@ -82,24 +101,36 @@ export default function LoginForm() {
     }
   };
 
+
+
   return (
-    <Container component="main" maxWidth="xs">
+    <Container component="main" style={{
+      display: 'grid',
+      gridTemplateRows: '1fr',
+      height: '100vh',
+      width: '100%',
+      padding: 0
+    }} maxWidth={false}
+      className="login">
       {/* <ThemeToggleButton /> */}
-      <Box
-        sx={{
-          marginTop: 8,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
-      >
-        {/* <Avatar sx={{m: 1, bgcolor: "secondary.main"}}>
-          <LockOutlinedIcon />
-        </Avatar> */}
-        <Typography component="h1" variant="h5">
-          Sign in
+      < ShadowBox sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignContent: 'center',
+        alignItems: 'center',
+        margin: 'auto',
+        padding: 4,
+        backgroundColor: '#fff'
+      }}
+        maxWidth="xs" >
+        <Typography color="primary" variant="h3" sx={{ fontWeight: '600', mb: 2 }}>
+          QCCIMS
         </Typography>
-        <Box component="form" onSubmit={handleSubmit} noValidate sx={{mt: 1}}>
+        <Typography color="primary" variant="body2">
+          Please enter your credentials to sign in
+        </Typography>
+        <Box component="form" onSubmit={handleSubmit} noValidate maxWidth="xs" >
           <TextField
             margin="normal"
             required
@@ -111,6 +142,7 @@ export default function LoginForm() {
             autoFocus
             value={formData.email}
             onChange={handleChange}
+            variant="outlined"
           />
           {errors.email && (
             <Typography color="error" variant="body2">
@@ -128,6 +160,7 @@ export default function LoginForm() {
             autoComplete="current-password"
             value={formData.password}
             onChange={handleChange}
+            variant="outlined"
           />
           {errors.password && (
             <Typography color="error" variant="body2">
@@ -137,31 +170,30 @@ export default function LoginForm() {
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
             label="Remember me"
+            sx={{ fontSize: 2 }}
           />
           <Button
             type="submit"
             fullWidth
             variant="contained"
-            sx={{mt: 3, mb: 2}}
+            sx={{ mt: 3, mb: 2, height: '50px' }}
             disabled={isLoading}
           >
             {isLoading ? "Logging in..." : "Sign In"}
           </Button>
           <Grid container>
             <Grid item xs>
-              <Link href="#" variant="body2">
+              <Link href="#" variant="body2" sx={{ textDecoration: "none" }}>
                 Forgot password?
               </Link>
             </Grid>
-            <Grid item>
-              <Link href="#" variant="body2">
-                {"Don't have an account? Sign Up"}
-              </Link>
-            </Grid>
+
           </Grid>
         </Box>
-      </Box>
-      <Copyright sx={{mt: 8, mb: 4}} />
-    </Container>
+        <Copyright sx={{ mt: 8, mb: 4 }} />
+
+      </ShadowBox >
+      <Powered sx={{ mb: 4 }} />
+    </Container >
   );
 }

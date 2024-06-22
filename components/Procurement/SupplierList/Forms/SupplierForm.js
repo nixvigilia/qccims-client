@@ -1,14 +1,14 @@
 "use client";
 
 import * as React from "react";
-import {useState} from "react";
+import { useState } from "react";
 import SubmitButton from "@/components/FormInputs/SubmitButton";
 import {
   createSupplier,
   updateSupplier,
 } from "@/lib/api/procurement/supplierApi";
-import {useRouter} from "next/navigation";
-import {useForm, useFieldArray} from "react-hook-form";
+import { useRouter } from "next/navigation";
+import { useForm, useFieldArray } from "react-hook-form";
 import Swal from "sweetalert2";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -18,16 +18,16 @@ import Divider from "@mui/material/Divider";
 import TextField from "@mui/material/TextField";
 import Link from "next/link";
 
-export default function SupplierForm({initialData = {}, isUpdate = false}) {
+export default function SupplierForm({ initialData = {}, isUpdate = false }) {
   const router = useRouter();
   const {
     register,
     handleSubmit,
     control,
     reset,
-    formState: {errors},
-  } = useForm({defaultValues: initialData});
-  const {fields, append, remove} = useFieldArray({
+    formState: { errors },
+  } = useForm({ defaultValues: initialData });
+  const { fields, append, remove } = useFieldArray({
     control,
     name: "contacts",
   });
@@ -113,7 +113,7 @@ export default function SupplierForm({initialData = {}, isUpdate = false}) {
                 label="Address"
                 name="address"
                 autoComplete="address"
-                {...register("address", {required: "Address is required"})}
+                {...register("address", { required: "Address is required" })}
                 error={!!errors.address}
                 helperText={errors.address?.message}
               />
@@ -183,18 +183,18 @@ export default function SupplierForm({initialData = {}, isUpdate = false}) {
               variant="outlined"
               color="primary"
               onClick={() =>
-                append({contactName: "", contactPosition: "", contactPhone: ""})
+                append({ contactName: "", contactPosition: "", contactPhone: "" })
               }
-              sx={{mt: 2}}
+              sx={{ mt: 2 }}
             >
               Add Contact Info
             </Button>
           </Box>
 
-          <Divider sx={{mt: 4, mb: 4}} />
+          <Divider sx={{ mt: 4, mb: 4 }} />
 
           <div
-            style={{display: "flex", justifyContent: "flex-end", gap: "10px"}}
+            style={{ display: "flex", justifyContent: "flex-end", gap: "10px" }}
           >
             <SubmitButton
               isLoading={loading}
