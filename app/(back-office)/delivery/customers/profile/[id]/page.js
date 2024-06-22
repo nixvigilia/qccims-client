@@ -1,8 +1,8 @@
 "use client";
 
 import useSWR from "swr";
-import {useState} from "react";
-import {getData} from "@/lib/actions/data/getData";
+import { useState } from "react";
+import { getData } from "@/lib/actions/data/getData";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
@@ -11,7 +11,7 @@ import Grid from "@mui/material/Grid";
 import PageBreadCrumbs from "@/components/Delivery/CustomerProfile/PageBreadCrumbs";
 import CustomerDetails from "@/components/Delivery/CustomerProfile/CustomerDetails";
 import ProfileNav from "@/components/Delivery/CustomerProfile/ProfileNav";
-import {styled, alpha} from "@mui/material/styles";
+import { styled, alpha } from "@mui/material/styles";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import EditIcon from "@mui/icons-material/Edit";
@@ -33,7 +33,7 @@ const StyledMenu = styled((props) => (
     }}
     {...props}
   />
-))(({theme}) => ({
+))(({ theme }) => ({
   "& .MuiPaper-root": {
     borderRadius: 6,
     marginTop: theme.spacing(1),
@@ -63,8 +63,8 @@ const StyledMenu = styled((props) => (
   },
 }));
 
-export default function Page({params}) {
-  const {id} = params;
+export default function Page({ params }) {
+  const { id } = params;
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
@@ -75,7 +75,7 @@ export default function Page({params}) {
     setAnchorEl(null);
   };
   const fetcher = (url) => getData(url);
-  const {data, error} = useSWR(id ? `/api/customer/${id}` : null, fetcher);
+  const { data, error } = useSWR(id ? `/api/customer/${id}` : null, fetcher);
 
   if (error) return <div>Failed to load</div>;
   if (!data) return <div>Loading...</div>;
@@ -135,7 +135,7 @@ export default function Page({params}) {
                 component={NextLink}
                 color="inherit"
                 variant="body2"
-                style={{textDecoration: "none"}}
+                style={{ textDecoration: "none" }}
                 passHref
               >
                 <MenuItem disableRipple>

@@ -1,19 +1,19 @@
 "use client";
-import React, {useState} from "react";
+import React, { useState } from "react";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import CircularProgress from "@mui/material/CircularProgress";
-import {useDebounce} from "use-debounce";
-import {getData} from "@/lib/actions/data/getData";
+import { useDebounce } from "use-debounce";
+import { getData } from "@/lib/actions/data/getData";
 import useSWR from "swr";
 
 const fetcher = (url) => getData(url);
 
-const AutoCompleteForm = ({selectedSupplier, setSelectedSupplier}) => {
+const AutoCompleteForm = ({ selectedSupplier, setSelectedSupplier }) => {
   const [inputValue, setInputValue] = useState("");
   const [debouncedInputValue] = useDebounce(inputValue, 300);
 
-  const {data, error} = useSWR(
+  const { data, error } = useSWR(
     `/api/procurement/suppliers/list?search=${debouncedInputValue}`,
     fetcher
   );
@@ -22,7 +22,7 @@ const AutoCompleteForm = ({selectedSupplier, setSelectedSupplier}) => {
 
   const handleSupplierChange = (event, newValue) => {
     if (newValue) {
-      setSelectedSupplier({id: newValue.id, name: newValue.supplierName});
+      setSelectedSupplier({ id: newValue.id, name: newValue.supplierName });
     } else {
       setSelectedSupplier(null);
     }
@@ -36,7 +36,7 @@ const AutoCompleteForm = ({selectedSupplier, setSelectedSupplier}) => {
       loading={!data}
       value={
         selectedSupplier
-          ? {supplierName: selectedSupplier.name, id: selectedSupplier.id}
+          ? { supplierName: selectedSupplier.name, id: selectedSupplier.id }
           : null
       }
       onChange={handleSupplierChange}

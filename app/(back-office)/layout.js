@@ -1,10 +1,10 @@
 "use client";
-import {useState} from "react";
+import { useState } from "react";
 import Box from "@mui/material/Box";
 import Header from "@/components/Header";
-import {StoreProvider} from "@/utils/context/store";
+import { StoreProvider } from "@/utils/context/store";
 import Sidebar from "@/components/Sidebar";
-import {useTheme} from "@mui/material/styles";
+import { useTheme } from "@mui/material/styles";
 
 const drawerWidth = 240;
 
@@ -29,7 +29,7 @@ const closedMixin = (theme) => ({
   },
 });
 
-export default function DashboardLayout({children}) {
+export default function DashboardLayout({ children }) {
   const [open, setOpen] = useState(true);
   const theme = useTheme();
 
@@ -39,7 +39,7 @@ export default function DashboardLayout({children}) {
 
   return (
     <StoreProvider>
-      <Box sx={{display: "flex"}}>
+      <Box sx={{ display: "flex" }}>
         <Header />
         <Sidebar
           handleDrawerOpen={handleDrawerOpen}
@@ -49,7 +49,7 @@ export default function DashboardLayout({children}) {
           open={open}
           theme={theme}
         />
-        <Box component="main" sx={{flexGrow: 1, p: 3}}>
+        <Box component="main" sx={{ flexGrow: 1, p: 3, height: "100vh", backgroundColor: "rgba(0, 0, 0, 0.04)" }}>
           {children}
         </Box>
       </Box>

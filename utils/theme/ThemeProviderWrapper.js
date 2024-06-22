@@ -1,14 +1,17 @@
 "use client";
-import {useState, useMemo, useEffect, createContext, useContext} from "react";
-import {ThemeProvider} from "@mui/material/styles";
-import {lightTheme, darkTheme} from "@/utils/theme/theme";
+import { useState, useMemo, useEffect, createContext, useContext } from "react";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { lightTheme, darkTheme } from "@/utils/theme/theme";
 import CssBaseline from "@mui/material/CssBaseline";
+import './css/main.css'
+
 
 const ThemeContext = createContext();
 
 export const useThemeContext = () => useContext(ThemeContext);
 
-const ThemeProviderWrapper = ({children}) => {
+const ThemeProviderWrapper = ({ children }) => {
+
   const [darkMode, setDarkMode] = useState(false);
 
   useEffect(() => {
@@ -29,7 +32,7 @@ const ThemeProviderWrapper = ({children}) => {
   };
 
   return (
-    <ThemeContext.Provider value={{darkMode, handleThemeChange}}>
+    <ThemeContext.Provider value={{ darkMode, handleThemeChange }}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
         {children}

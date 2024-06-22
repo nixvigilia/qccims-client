@@ -1,11 +1,11 @@
 "use client";
 
 import * as React from "react";
-import {useState} from "react";
+import { useState } from "react";
 import SubmitButton from "@/components/FormInputs/SubmitButton";
-import {createCustomer, updateCustomer} from "@/lib/apiRequest";
-import {useRouter} from "next/navigation";
-import {useForm, useFieldArray} from "react-hook-form";
+import { createCustomer, updateCustomer } from "@/lib/apiRequest";
+import { useRouter } from "next/navigation";
+import { useForm, useFieldArray } from "react-hook-form";
 import Swal from "sweetalert2";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -25,9 +25,9 @@ export default function CustomerProfileForm({
     handleSubmit,
     control,
     reset,
-    formState: {errors},
-  } = useForm({defaultValues: initialData});
-  const {fields, append, remove} = useFieldArray({
+    formState: { errors },
+  } = useForm({ defaultValues: initialData });
+  const { fields, append, remove } = useFieldArray({
     control,
     name: "contactInfos",
   });
@@ -114,7 +114,7 @@ export default function CustomerProfileForm({
                 label="Address"
                 name="address"
                 autoComplete="address"
-                {...register("address", {required: "Address is required"})}
+                {...register("address", { required: "Address is required" })}
                 error={!!errors.address}
                 helperText={errors.address?.message}
               />
@@ -253,18 +253,18 @@ export default function CustomerProfileForm({
               variant="outlined"
               color="primary"
               onClick={() =>
-                append({contactPerson: "", contactPosition: "", contactTel: ""})
+                append({ contactPerson: "", contactPosition: "", contactTel: "" })
               }
-              sx={{mt: 2}}
+              sx={{ mt: 2 }}
             >
               Add Contact Info
             </Button>
           </Box>
 
-          <Divider sx={{mt: 4, mb: 4}} />
+          <Divider sx={{ mt: 4, mb: 4 }} />
 
           <div
-            style={{display: "flex", justifyContent: "flex-end", gap: "10px"}}
+            style={{ display: "flex", justifyContent: "flex-end", gap: "10px" }}
           >
             <Link href={`/delivery/customer`} passHref>
               <Button variant="outlined" color="primary">
