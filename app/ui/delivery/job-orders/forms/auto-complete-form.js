@@ -17,14 +17,12 @@ const AutoCompleteForm = ({
   variant,
   endpoint,
   size,
-  disabled = false,
-  category,
 }) => {
   const [inputValue, setInputValue] = useState("");
   const [debouncedInputValue] = useDebounce(inputValue, 300);
 
   const {data, error} = useSWR(
-    `${endpoint}/?search=${debouncedInputValue}&category=${category}`,
+    `${endpoint}/?search=${debouncedInputValue}`,
     fetcher
   );
 
@@ -44,7 +42,6 @@ const AutoCompleteForm = ({
       openOnFocus
       options={data || []}
       loading={!data}
-      disabled={disabled}
       value={
         selectedDetails
           ? {[columnName]: selectedDetails.name, id: selectedDetails.id}

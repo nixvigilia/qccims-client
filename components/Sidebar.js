@@ -1,3 +1,4 @@
+"use client";
 import React, {useState} from "react";
 import {styled, useTheme} from "@mui/material/styles";
 import MuiDrawer from "@mui/material/Drawer";
@@ -85,7 +86,7 @@ const Sidebar = ({
       dropdown: true,
       options: [
         {name: "Customer Profile", path: "/delivery/customers"},
-        // {name: "Job Orders", path: "/delivery/job-orders"},
+        {name: "Job Order", path: "/delivery/job-orders"},
       ],
     },
     {
@@ -103,15 +104,15 @@ const Sidebar = ({
       icon: <CheckCircleTwoToneIcon color="primary" />,
       dropdown: true,
       options: [
-        {name: " Product Entry", path: "/quality/products"},
-        {name: " Tin Can Specifications", path: "/quality/specifications"},
+        {name: "Product Entry", path: "/quality/products"},
+        {name: "Tin Can Specifications", path: "/quality/specifications"},
       ],
     },
     {
       text: "Production",
       icon: <PrecisionManufacturingTwoToneIcon color="primary" />,
       dropdown: true,
-      options: [{name: " Job Orders", path: "/production/job-orders"}],
+      options: [{name: "Job Order", path: "/production/job-orders"}],
     },
     {
       text: "Tinplates",

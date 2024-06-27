@@ -4,8 +4,8 @@ import Link from "next/link";
 import Button from "@mui/material/Button";
 import AddIcon from "@mui/icons-material/Add";
 import Box from "@mui/material/Box";
-import PageBreadCrumbs from "@/app/ui/production/job-orders/page-bread-crumbs";
-import JobOrderList from "@/app/ui/production/job-orders/job-order-list";
+import PageBreadCrumbs from "@/app/ui/delivery/job-orders/page-bread-crumbs";
+import JobOrderList from "@/app/ui/delivery/job-orders/job-order-list";
 
 const Page = () => {
   return (
@@ -20,11 +20,11 @@ const Page = () => {
       >
         <Grid item>
           <Typography variant="h5" fontWeight="bold" component="div">
-            Job Orders | Production
+            Job Orders
           </Typography>
         </Grid>
         <Grid item>
-          <Link href="job-orders/existing" passHref>
+          <Link href="job-orders/new" passHref>
             <Button
               variant="contained"
               color="primary"

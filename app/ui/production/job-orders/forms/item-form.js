@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { useForm, FormProvider } from "react-hook-form";
-import { postRequest, updateRequest } from "@/lib/api/requestApi";
+import {useState} from "react";
+import {useRouter} from "next/navigation";
+import {useForm, FormProvider} from "react-hook-form";
+import {postRequest, updateRequest} from "@/lib/api/requestApi";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
@@ -13,68 +13,49 @@ import SubmitButton from "@/components/FormInputs/SubmitButton";
 import formatISODateToReadable from "@/utils/helpers/formatISODateToReadable";
 import dayjs from "dayjs";
 
-export default function ItemForm({ initialData = {}, itemId, isUpdate = false }) {
+export default function ItemForm({initialData = {}, itemId, isUpdate = false}) {
   const router = useRouter();
-  const { jobOrder, product, productSpecs } = initialData;
-  const { customer } = jobOrder;
-
-  const formatDate = (date) => (date ? dayjs(date).format("YYYY-MM-DD") : "");
-
-  let formattedproductSpecs;
-
-  if (productSpecs) {
-    formattedproductSpecs = {
-      ...productSpecs,
-      supersedeDate: formatDate(productSpecs.supersedeDate),
-    };
-  }
-
-  const methods = useForm({ defaultValues: productSpecs || initialData });
+  const methods = useForm({defaultValues: initialData});
   const {
     register,
     handleSubmit,
     reset,
-    formState: { errors },
+    formState: {errors},
   } = methods;
-
   const [loading, setLoading] = useState(false);
 
   async function onSubmit(data) {
     const filteredData = {
       jobOrderItemId: itemId,
-      supersedeNumber: data.supersedeNumber || null,
-      supersedeDate: new Date(data.supersedeDate) || null,
-      canSize: data.canSize || null,
-      body1: data.body1 || null,
-      body2: data.body2 || null,
-      body3: data.body3 || null,
-      body4: data.body4 || null,
-      bottom1: data.bottom1 || null,
-      bottom2: data.bottom2 || null,
-      bottom3: data.bottom3 || null,
-      bottom4: data.bottom4 || null,
-      cover1: data.cover1 || null,
-      cover2: data.cover2 || null,
-      cover3: data.cover3 || null,
-      cover4: data.cover4 || null,
-      topRing1: data.topRing1 || null,
-      topRing2: data.topRing2 || null,
-      topRing3: data.topRing3 || null,
-      topRing4: data.topRing4 || null,
-      bodyBlankLength: data.bodyBlankLength || null,
-      bodyBlankWidth: data.bodyBlankWidth || null,
-      actualCanHeight: data.actualCanHeight || null,
-      coverSpout: data.coverSpout || null,
-      jointInterlocking: data.jointInterlocking || null,
-      handle: data.handle || null,
-      handleLocation: data.handleLocation || null,
-      handleDistance: data.handleDistance || null,
-      solder: data.solder || null,
-      beads: data.beads || null,
-      numberOfBeads: data.numberOfBeads || null,
-      emboss: data.emboss || null,
-      embossLocation: data.embossLocation || null,
-      specRemarks: data.specRemarks || null,
+      salesMan: data.salesMan || null,
+      poNum: data.poNum || null,
+      poQty: data.poQty || null,
+      poBal: data.poBal || null,
+      joDate: data.joDate ? new Date(data.joDate) : null,
+      qty: data.qty || null,
+      balance: data.balance || null,
+      status: data.status || null,
+      deliver: data.deliver || null,
+      can: data.can || null,
+      unit: data.unit || null,
+      printed: data.printed || null,
+      litho: data.litho || null,
+      box: data.box || null,
+      formedDate: data.formedDate ? new Date(data.formedDate) : null,
+      formedBegin: data.formedBegin || null,
+      formedIn: data.formedIn || null,
+      formedOut: data.formedOut || null,
+      formedRemarks: data.formedRemarks || null,
+      delSat: data.delSat || null,
+      delMon: data.delMon || null,
+      delTue: data.delTue || null,
+      delWed: data.delWed || null,
+      delThu: data.delThu || null,
+      delFri: data.delFri || null,
+      printedDate: data.printedDate ? new Date(data.printedDate) : null,
+      customerId: data.customerId || null,
+      productId: data.productId || null,
+      classId: data.classId || null,
     };
 
     if (isUpdate) {
@@ -85,395 +66,406 @@ export default function ItemForm({ initialData = {}, itemId, isUpdate = false })
         "Job Order",
         reset
       );
+    } else {
+      await postRequest(
+        setLoading,
+        `api/production/product-specs`,
+        filteredData,
+        "Job Order",
+        reset
+      );
     }
   }
-
-  const bodyFields = ["Body 1", "Body 2", "Body 3", "Body 4"];
-  const bottomFields = ["Bottom 1", "Bottom 2", "Bottom 3", "Bottom 4"];
-  const coverFields = ["Cover 1", "Cover 2", "Cover 3", "Cover 4"];
-  const topRingFields = [
-    "Top Ring 1",
-    "Top Ring 2",
-    "Top Ring 3",
-    "Top Ring 4",
-  ];
 
   return (
     <FormProvider {...methods}>
       <Box mt={4} component="form" onSubmit={handleSubmit(onSubmit)} noValidate>
         <Grid container spacing={2}>
           <Paper square={false}>
-            <Box width="100%" sx={{ p: 4 }}>
+            <Box width="100%" sx={{p: 4}}>
               <Typography variant="h6" pb={2}>
-                Product Specs
+                Product Components
               </Typography>
 
               <Grid container spacing={3}>
-                <Grid container justifyContent="flex-end" spacing={2}>
-                  <Grid item xs={12} sm={3}>
-                    <TextField
-                      fullWidth
-                      id="supersedeNumber"
-                      label="Supersede Number"
-                      size="small"
-                      InputLabelProps={{ shrink: true }}
-                      {...register("supersedeNumber")}
-                    />
-                  </Grid>
-
-                  <Grid item xs={12} sm={3}>
-                    <TextField
-                      fullWidth
-                      id="supersedeDate"
-                      label="Supersede Date"
-                      size="small"
-                      type="date"
-                      InputLabelProps={{ shrink: true }}
-                      {...register("supersedeDate")}
-                    />
-                  </Grid>
-                </Grid>
-
                 <Grid item xs={12} sm={3}>
                   <TextField
                     fullWidth
-                    id="jobOrderId"
-                    label="Job Order ID"
+                    id="salesMan"
+                    label="Sales Man"
                     size="small"
                     variant="outlined"
-                    InputLabelProps={{ shrink: true }}
-                    defaultValue={jobOrder.jobNumber}
-                    disabled
-                    sx={{
-                      "& .MuiInputBase-input.Mui-disabled": {
-                        WebkitTextFillColor: "#36454F",
-                      },
-                    }}
-                  />
-                </Grid>
-
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    fullWidth
-                    id="customer"
-                    label="Customer"
-                    size="small"
-                    variant="outlined"
-                    InputLabelProps={{ shrink: true }}
-                    defaultValue={customer.companyName}
-                    disabled
-                    sx={{
-                      "& .MuiInputBase-input.Mui-disabled": {
-                        WebkitTextFillColor: "#36454F",
-                      },
-                    }}
+                    InputLabelProps={{shrink: true}}
+                    {...register("salesMan")}
+                    error={!!errors.salesMan}
+                    helperText={errors.salesMan?.message}
                   />
                 </Grid>
 
                 <Grid item xs={12} sm={3}>
                   <TextField
                     fullWidth
-                    id="jobDate"
-                    label="Date Created"
+                    id="poNum"
+                    label="PO Number"
                     size="small"
                     variant="outlined"
-                    InputLabelProps={{ shrink: true }}
-                    defaultValue={formatISODateToReadable(jobOrder.jobDate)}
-                    disabled
-                    sx={{
-                      "& .MuiInputBase-input.Mui-disabled": {
-                        WebkitTextFillColor: "#36454F",
-                      },
-                    }}
+                    InputLabelProps={{shrink: true}}
+                    {...register("poNum")}
+                    error={!!errors.poNum}
+                    helperText={errors.poNum?.message}
                   />
                 </Grid>
 
-                <Grid item xs={12} sm={6}>
+                <Grid item xs={12} sm={3}>
                   <TextField
                     fullWidth
-                    id="product"
-                    label="Product"
+                    id="poQty"
+                    label="PO Quantity"
                     size="small"
                     variant="outlined"
-                    defaultValue={product.productName}
-                    disabled
-                    sx={{
-                      "& .MuiInputBase-input.Mui-disabled": {
-                        WebkitTextFillColor: "#36454F",
-                        fontWeight: "bold",
-                      },
-                    }}
+                    InputLabelProps={{shrink: true}}
+                    {...register("poQty")}
+                    error={!!errors.poQty}
+                    helperText={errors.poQty?.message}
                   />
                 </Grid>
 
-                <Grid item xs={12} sm={6}>
+                <Grid item xs={12} sm={3}>
                   <TextField
                     fullWidth
-                    id="canSize"
-                    label="Can Size"
+                    id="poBal"
+                    label="PO Balance"
                     size="small"
                     variant="outlined"
-                    InputLabelProps={{ shrink: true }}
-                    {...register("canSize")}
-                    error={!!errors.canSize}
-                    helperText={errors.canSize?.message}
+                    InputLabelProps={{shrink: true}}
+                    {...register("poBal")}
+                    error={!!errors.poBal}
+                    helperText={errors.poBal?.message}
                   />
                 </Grid>
 
-                {bodyFields.map((label, index) => (
-                  <Grid item xs={12} sm={3} key={index}>
-                    <TextField
-                      fullWidth
-                      id={`body${index + 1}`}
-                      label={label}
-                      size="small"
-                      InputLabelProps={{ shrink: true }}
-                      {...register(`body${index + 1}`)}
-                      error={!!errors[`body${index + 1}`]}
-                      helperText={errors[`body${index + 1}`]?.message}
-                    />
-                  </Grid>
-                ))}
-
-                {bottomFields.map((label, index) => (
-                  <Grid item xs={12} sm={3} key={index}>
-                    <TextField
-                      fullWidth
-                      id={`bottom${index + 1}`}
-                      label={label}
-                      size="small"
-                      InputLabelProps={{ shrink: true }}
-                      {...register(`bottom${index + 1}`)}
-                      error={!!errors[`bottom${index + 1}`]}
-                      helperText={errors[`bottom${index + 1}`]?.message}
-                    />
-                  </Grid>
-                ))}
-
-                {coverFields.map((label, index) => (
-                  <Grid item xs={12} sm={3} key={index}>
-                    <TextField
-                      fullWidth
-                      id={`cover${index + 1}`}
-                      label={label}
-                      size="small"
-                      InputLabelProps={{ shrink: true }}
-                      {...register(`cover${index + 1}`)}
-                      error={!!errors[`cover${index + 1}`]}
-                      helperText={errors[`cover${index + 1}`]?.message}
-                    />
-                  </Grid>
-                ))}
-
-                {topRingFields.map((label, index) => (
-                  <Grid item xs={12} sm={3} key={index}>
-                    <TextField
-                      fullWidth
-                      id={`topRing${index + 1}`}
-                      label={label}
-                      size="small"
-                      InputLabelProps={{ shrink: true }}
-                      {...register(`topRing${index + 1}`)}
-                      error={!!errors[`topRing${index + 1}`]}
-                      helperText={errors[`topRing${index + 1}`]?.message}
-                    />
-                  </Grid>
-                ))}
-
-                <Grid item xs={12} sm={4}>
+                <Grid item xs={12} sm={3}>
                   <TextField
                     fullWidth
-                    id="bodyBlankLength"
-                    label="Body Blank Length"
+                    id="joDate"
+                    label="JO Date"
                     size="small"
                     variant="outlined"
-                    InputLabelProps={{ shrink: true }}
-                    {...register("bodyBlankLength")}
-                    error={!!errors.bodyBlankLength}
-                    helperText={errors.bodyBlankLength?.message}
+                    InputLabelProps={{shrink: true}}
+                    type="date"
+                    {...register("joDate")}
+                    error={!!errors.joDate}
+                    helperText={errors.joDate?.message}
                   />
                 </Grid>
 
-                <Grid item xs={12} sm={4}>
+                <Grid item xs={12} sm={3}>
                   <TextField
                     fullWidth
-                    id="bodyBlankWidth"
-                    label="Body Blank Width"
+                    id="qty"
+                    label="Quantity"
                     size="small"
                     variant="outlined"
-                    InputLabelProps={{ shrink: true }}
-                    {...register("bodyBlankWidth")}
-                    error={!!errors.bodyBlankWidth}
-                    helperText={errors.bodyBlankWidth?.message}
+                    InputLabelProps={{shrink: true}}
+                    {...register("qty")}
+                    error={!!errors.qty}
+                    helperText={errors.qty?.message}
                   />
                 </Grid>
 
-                <Grid item xs={12} sm={4}>
+                <Grid item xs={12} sm={3}>
                   <TextField
                     fullWidth
-                    id="actualCanHeight"
-                    label="Actual Can Height"
+                    id="balance"
+                    label="Balance"
                     size="small"
                     variant="outlined"
-                    InputLabelProps={{ shrink: true }}
-                    {...register("actualCanHeight")}
-                    error={!!errors.actualCanHeight}
-                    helperText={errors.actualCanHeight?.message}
+                    InputLabelProps={{shrink: true}}
+                    {...register("balance")}
+                    error={!!errors.balance}
+                    helperText={errors.balance?.message}
                   />
                 </Grid>
 
-                <Grid item xs={12} sm={4}>
+                <Grid item xs={12} sm={3}>
                   <TextField
                     fullWidth
-                    id="coverSpout"
-                    label="Cover/Spout"
+                    id="status"
+                    label="Status"
                     size="small"
                     variant="outlined"
-                    InputLabelProps={{ shrink: true }}
-                    {...register("coverSpout")}
-                    error={!!errors.coverSpout}
-                    helperText={errors.coverSpout?.message}
+                    InputLabelProps={{shrink: true}}
+                    {...register("status")}
+                    error={!!errors.status}
+                    helperText={errors.status?.message}
                   />
                 </Grid>
 
-                <Grid item xs={12} sm={4}>
+                <Grid item xs={12} sm={3}>
                   <TextField
                     fullWidth
-                    id="jointInterlocking"
-                    label="Joint Interlocking"
+                    id="deliver"
+                    label="Deliver"
                     size="small"
                     variant="outlined"
-                    InputLabelProps={{ shrink: true }}
-                    {...register("jointInterlocking")}
-                    error={!!errors.jointInterlocking}
-                    helperText={errors.jointInterlocking?.message}
+                    InputLabelProps={{shrink: true}}
+                    {...register("deliver")}
+                    error={!!errors.deliver}
+                    helperText={errors.deliver?.message}
                   />
                 </Grid>
 
-                <Grid item xs={12} sm={4}>
+                <Grid item xs={12} sm={3}>
                   <TextField
                     fullWidth
-                    id="handle"
-                    label="Handle"
+                    id="can"
+                    label="Can"
                     size="small"
                     variant="outlined"
-                    InputLabelProps={{ shrink: true }}
-                    {...register("handle")}
-                    error={!!errors.handle}
-                    helperText={errors.handle?.message}
+                    InputLabelProps={{shrink: true}}
+                    {...register("can")}
+                    error={!!errors.can}
+                    helperText={errors.can?.message}
                   />
                 </Grid>
 
-                <Grid item xs={12} sm={4}>
+                <Grid item xs={12} sm={3}>
                   <TextField
                     fullWidth
-                    id="handleLocation"
-                    label="Handle Location"
+                    id="unit"
+                    label="Unit"
                     size="small"
                     variant="outlined"
-                    InputLabelProps={{ shrink: true }}
-                    {...register("handleLocation")}
-                    error={!!errors.handleLocation}
-                    helperText={errors.handleLocation?.message}
+                    InputLabelProps={{shrink: true}}
+                    {...register("unit")}
+                    error={!!errors.unit}
+                    helperText={errors.unit?.message}
                   />
                 </Grid>
 
-                <Grid item xs={12} sm={4}>
+                <Grid item xs={12} sm={3}>
                   <TextField
                     fullWidth
-                    id="handleDistance"
-                    label="Handle Distance"
+                    id="printed"
+                    label="Printed"
                     size="small"
                     variant="outlined"
-                    InputLabelProps={{ shrink: true }}
-                    {...register("handleDistance")}
-                    error={!!errors.handleDistance}
-                    helperText={errors.handleDistance?.message}
+                    InputLabelProps={{shrink: true}}
+                    {...register("printed")}
+                    error={!!errors.printed}
+                    helperText={errors.printed?.message}
                   />
                 </Grid>
 
-                <Grid item xs={12} sm={4}>
+                <Grid item xs={12} sm={3}>
                   <TextField
                     fullWidth
-                    id="solder"
-                    label="Solder"
+                    id="litho"
+                    label="Litho"
                     size="small"
                     variant="outlined"
-                    InputLabelProps={{ shrink: true }}
-                    {...register("solder")}
-                    error={!!errors.solder}
-                    helperText={errors.solder?.message}
+                    InputLabelProps={{shrink: true}}
+                    {...register("litho")}
+                    error={!!errors.litho}
+                    helperText={errors.litho?.message}
                   />
                 </Grid>
 
-                <Grid item xs={12} sm={4}>
+                <Grid item xs={12} sm={3}>
                   <TextField
                     fullWidth
-                    id="beads"
-                    label="Beads"
+                    id="box"
+                    label="Box"
                     size="small"
                     variant="outlined"
-                    InputLabelProps={{ shrink: true }}
-                    {...register("beads")}
-                    error={!!errors.beads}
-                    helperText={errors.beads?.message}
+                    InputLabelProps={{shrink: true}}
+                    {...register("box")}
+                    error={!!errors.box}
+                    helperText={errors.box?.message}
                   />
                 </Grid>
 
-                <Grid item xs={12} sm={4}>
+                <Grid item xs={12} sm={3}>
                   <TextField
                     fullWidth
-                    id="numberOfBeads"
-                    label="Number of Beads"
+                    id="formedDate"
+                    label="Formed Date"
                     size="small"
                     variant="outlined"
-                    InputLabelProps={{ shrink: true }}
-                    {...register("numberOfBeads")}
-                    error={!!errors.numberOfBeads}
-                    helperText={errors.numberOfBeads?.message}
+                    type="date"
+                    InputLabelProps={{shrink: true}}
+                    {...register("formedDate")}
+                    error={!!errors.formedDate}
+                    helperText={errors.formedDate?.message}
                   />
                 </Grid>
 
-                <Grid item xs={12} sm={4}>
+                <Grid item xs={12} sm={3}>
                   <TextField
                     fullWidth
-                    id="emboss"
-                    label="Emboss"
+                    id="formedBegin"
+                    label="Formed Begin"
                     size="small"
                     variant="outlined"
-                    InputLabelProps={{ shrink: true }}
-                    {...register("emboss")}
-                    error={!!errors.emboss}
-                    helperText={errors.emboss?.message}
+                    InputLabelProps={{shrink: true}}
+                    {...register("formedBegin")}
+                    error={!!errors.formedBegin}
+                    helperText={errors.formedBegin?.message}
                   />
                 </Grid>
 
-                <Grid item xs={12} sm={4}>
+                <Grid item xs={12} sm={3}>
                   <TextField
                     fullWidth
-                    id="embossLocation"
-                    label="Emboss Location"
+                    id="formedIn"
+                    label="Formed In"
                     size="small"
                     variant="outlined"
-                    InputLabelProps={{ shrink: true }}
-                    {...register("embossLocation")}
-                    error={!!errors.embossLocation}
-                    helperText={errors.embossLocation?.message}
+                    InputLabelProps={{shrink: true}}
+                    {...register("formedIn")}
+                    error={!!errors.formedIn}
+                    helperText={errors.formedIn?.message}
                   />
                 </Grid>
 
-                <Grid item xs={12}>
+                <Grid item xs={12} sm={3}>
                   <TextField
                     fullWidth
-                    id="specRemarks"
-                    label="Remarks"
+                    id="formedOut"
+                    label="Formed Out"
                     size="small"
-                    InputLabelProps={{ shrink: true }}
-                    multiline
-                    rows={4}
-                    {...register("specRemarks")}
-                    error={!!errors.specRemarks}
-                    helperText={errors.specRemarks?.message}
+                    variant="outlined"
+                    InputLabelProps={{shrink: true}}
+                    {...register("formedOut")}
+                    error={!!errors.formedOut}
+                    helperText={errors.formedOut?.message}
+                  />
+                </Grid>
+
+                <Grid item xs={12} sm={3}>
+                  <TextField
+                    fullWidth
+                    id="formedRemarks"
+                    label="Formed Remarks"
+                    size="small"
+                    variant="outlined"
+                    InputLabelProps={{shrink: true}}
+                    {...register("formedRemarks")}
+                    error={!!errors.formedRemarks}
+                    helperText={errors.formedRemarks?.message}
+                  />
+                </Grid>
+
+                <Grid item xs={12} sm={3}>
+                  <TextField
+                    fullWidth
+                    id="delSat"
+                    label="Delivery Saturday"
+                    size="small"
+                    variant="outlined"
+                    InputLabelProps={{shrink: true}}
+                    {...register("delSat")}
+                    error={!!errors.delSat}
+                    helperText={errors.delSat?.message}
+                  />
+                </Grid>
+
+                <Grid item xs={12} sm={3}>
+                  <TextField
+                    fullWidth
+                    id="delMon"
+                    label="Delivery Monday"
+                    size="small"
+                    variant="outlined"
+                    InputLabelProps={{shrink: true}}
+                    {...register("delMon")}
+                    error={!!errors.delMon}
+                    helperText={errors.delMon?.message}
+                  />
+                </Grid>
+
+                <Grid item xs={12} sm={3}>
+                  <TextField
+                    fullWidth
+                    id="delTue"
+                    label="Delivery Tuesday"
+                    size="small"
+                    variant="outlined"
+                    InputLabelProps={{shrink: true}}
+                    {...register("delTue")}
+                    error={!!errors.delTue}
+                    helperText={errors.delTue?.message}
+                  />
+                </Grid>
+
+                <Grid item xs={12} sm={3}>
+                  <TextField
+                    fullWidth
+                    id="delWed"
+                    label="Delivery Wednesday"
+                    size="small"
+                    variant="outlined"
+                    InputLabelProps={{shrink: true}}
+                    {...register("delWed")}
+                    error={!!errors.delWed}
+                    helperText={errors.delWed?.message}
+                  />
+                </Grid>
+
+                <Grid item xs={12} sm={3}>
+                  <TextField
+                    fullWidth
+                    id="delThu"
+                    label="Delivery Thursday"
+                    size="small"
+                    variant="outlined"
+                    InputLabelProps={{shrink: true}}
+                    {...register("delThu")}
+                    error={!!errors.delThu}
+                    helperText={errors.delThu?.message}
+                  />
+                </Grid>
+
+                <Grid item xs={12} sm={3}>
+                  <TextField
+                    fullWidth
+                    id="delFri"
+                    label="Delivery Friday"
+                    size="small"
+                    variant="outlined"
+                    InputLabelProps={{shrink: true}}
+                    {...register("delFri")}
+                    error={!!errors.delFri}
+                    helperText={errors.delFri?.message}
+                  />
+                </Grid>
+
+                <Grid item xs={12} sm={3}>
+                  <TextField
+                    fullWidth
+                    id="printedDate"
+                    label="Printed Date"
+                    size="small"
+                    variant="outlined"
+                    type="date"
+                    InputLabelProps={{shrink: true}}
+                    {...register("printedDate")}
+                    error={!!errors.printedDate}
+                    helperText={errors.printedDate?.message}
+                  />
+                </Grid>
+
+                <Grid item xs={12} sm={3}>
+                  <TextField
+                    fullWidth
+                    id="classId"
+                    label="Class ID"
+                    size="small"
+                    variant="outlined"
+                    InputLabelProps={{shrink: true}}
+                    {...register("classId")}
+                    error={!!errors.classId}
+                    helperText={errors.classId?.message}
                   />
                 </Grid>
               </Grid>
@@ -487,7 +479,10 @@ export default function ItemForm({ initialData = {}, itemId, isUpdate = false })
                 p: 2,
               }}
             >
-              <SubmitButton isLoading={loading} title="Update Specs" />
+              <SubmitButton
+                isLoading={loading}
+                title={isUpdate ? "Update Specs" : "Create Specs"}
+              />
             </Box>
           </Paper>
         </Grid>

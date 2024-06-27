@@ -1,49 +1,45 @@
 "use client";
-
 import {useState, useEffect} from "react";
 import {useRouter} from "next/navigation";
 import {useForm, useFieldArray, FormProvider} from "react-hook-form";
-import Swal from "sweetalert2";
 import dayjs from "dayjs";
-
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import Grid from "@mui/material/Grid";
-import Divider from "@mui/material/Divider";
-import Paper from "@mui/material/Paper";
-import TextField from "@mui/material/TextField";
-
+import {
+  Box,
+  Button,
+  Typography,
+  Grid,
+  Divider,
+  Paper,
+  TextField,
+} from "@mui/material";
 import DeleteTwoToneIcon from "@mui/icons-material/DeleteTwoTone";
 import AddBoxTwoToneIcon from "@mui/icons-material/AddBoxTwoTone";
 import SubmitButton from "@/components/FormInputs/SubmitButton";
 import {createJobOrder, updateJobOrder} from "@/lib/api/delivery/jobOrderApi";
 import AutoCompleteForm from "./auto-complete-form";
+import {serverApi} from "@/lib/config/axios";
+import Cookies from "js-cookie";
 
-export default function MainForm({initialData = {}, mutate, isUpdate = false}) {
+export default function ExistingForm({initialData = {}, isUpdate = false}) {
   const router = useRouter();
-
   const formatDate = (date) => (date ? dayjs(date).format("YYYY-MM-DD") : "");
 
-  const formattedInitialData = {
+  const [initialFormData, setInitialFormData] = useState({
     ...initialData,
     jobDate: formatDate(initialData.jobDate),
     jobOrderItems: initialData.jobOrderItems?.map((item) => ({
-      ...item,
-      deliveryDate: formatDate(item.deliveryDate),
       productId: item.product.id,
-      unitId: item.unit.id,
     })) || [
       {
         deliveryDate: "",
         salesOrder: "",
         quantity: "",
-        unitId: "",
+        unit: "",
         remarks: "",
         productId: "",
       },
     ],
-  };
+  });
 
   const {
     register,
@@ -51,7 +47,13 @@ export default function MainForm({initialData = {}, mutate, isUpdate = false}) {
     control,
     reset,
     formState: {errors},
-  } = useForm({defaultValues: formattedInitialData});
+  } = useForm({defaultValues: initialFormData});
+
+  useEffect(() => {
+    reset(initialFormData);
+  }, [initialFormData, reset]);
+
+  console.log(initialFormData);
 
   const {fields, append, remove} = useFieldArray({
     control,
@@ -61,7 +63,8 @@ export default function MainForm({initialData = {}, mutate, isUpdate = false}) {
   const [loading, setLoading] = useState(false);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
   const [selectedProducts, setSelectedProducts] = useState([]);
-  const [unit, setUnit] = useState(null);
+  const [selectedJobOrder, setSelectedJobOrder] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (isUpdate && initialData.customer) {
@@ -78,6 +81,56 @@ export default function MainForm({initialData = {}, mutate, isUpdate = false}) {
     }
   }, [initialData, isUpdate]);
 
+  useEffect(() => {
+    const fetchJobOrderDetails = async () => {
+      if (selectedJobOrder) {
+        setSelectedCustomer(null);
+
+        const token = Cookies.get("__qcc_session") || "";
+        const response = await serverApi.get(
+          `/api/delivery/job/orders/${selectedJobOrder.id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        const {customer, ...data} = response?.data;
+
+        if (response.status === 200) {
+          setIsLoading(true);
+          setSelectedCustomer({
+            id: customer.id,
+            name: customer.companyName,
+          });
+
+          setSelectedProducts(
+            data.jobOrderItems.map((item) => ({
+              id: item.product.id,
+              name: item.product.productName,
+            }))
+          );
+
+          setInitialFormData({
+            jobOrderItems:
+              data.jobOrderItems?.map((item) => ({
+                productId: item.product.id,
+              })) || [],
+          });
+
+          setIsLoading(false);
+        }
+
+        console.log(response);
+      }
+    };
+
+    if (selectedJobOrder) {
+      fetchJobOrderDetails();
+    }
+  }, [selectedJobOrder]);
+
   function redirect() {
     router.push("/production/job-orders");
   }
@@ -87,8 +140,9 @@ export default function MainForm({initialData = {}, mutate, isUpdate = false}) {
     data.jobOrderItems = data.jobOrderItems.map((item, index) => ({
       ...item,
       productId: selectedProducts[index]?.id || item.productId,
-      unitId: unit?.id || item.unitId,
     }));
+
+    console.log(data);
 
     const itemsToUpdate = data.jobOrderItems.filter((item) => item.id);
     const itemsToCreate = data.jobOrderItems.filter((item) => !item.id);
@@ -100,51 +154,35 @@ export default function MainForm({initialData = {}, mutate, isUpdate = false}) {
       jobOrderItemsToCreate: itemsToCreate,
     };
 
-    if (isUpdate) {
-      await updateJobOrder(
-        setLoading,
-        `api/delivery/job/update/${initialData.id}`,
-        updatePayload,
-        "Job Order",
-        redirect,
-        reset
-      );
-      mutate();
-    } else {
-      const response = await createJobOrder(
-        setLoading,
-        "api/delivery/job/new",
-        updatePayload,
-        "Job Order",
-        reset
-      );
+    // if (isUpdate) {
+    //   await updateJobOrder(
+    //     setLoading,
+    //     `api/delivery/job/update/${initialData.id}`,
+    //     updatePayload,
+    //     "Job Order",
+    //     redirect,
+    //     reset
+    //   );
+    // } else {
+    //   const response = await createJobOrder(
+    //     setLoading,
+    //     "api/delivery/job/new",
+    //     updatePayload,
+    //     "Job Order",
+    //     reset
+    //   );
 
-      if (response.status === 201) {
-        router.push(`${response.data.id}`);
-      }
-    }
+    //   if (response.status === 201) {
+    //     router.push(`${response.data.id}`);
+    //   }
+    // }
   }
 
-  const handleRemove = async (index) => {
-    const item = fields[index];
-    if (item.quantity || item.unit) {
-      const result = await Swal.fire({
-        title: "Are you sure?",
-        text: "You won't be able to revert this!",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, remove it!",
-      });
-
-      if (result.isConfirmed) {
-        remove(index);
-        Swal.fire("Removed!", "The item has been removed.", "success");
-      }
-    } else {
-      remove(index);
-    }
+  const handleRemove = (index) => {
+    remove(index);
+    setSelectedProducts((prevProducts) =>
+      prevProducts.filter((_, i) => i !== index)
+    );
   };
 
   return (
@@ -157,11 +195,28 @@ export default function MainForm({initialData = {}, mutate, isUpdate = false}) {
                 <Grid item xs={5}>
                   <Box>
                     <AutoCompleteForm
+                      selectedDetails={selectedJobOrder}
+                      setSelectedDetails={setSelectedJobOrder}
+                      columnName="jobNumber"
+                      title="JOB ORDER ID"
+                      endpoint="/api/delivery/job/orders"
+                      category="tin"
+                    />
+                  </Box>
+                </Grid>
+              </Grid>
+
+              <Divider sx={{mt: 4, mb: 4}} />
+              <Grid container spacing={2}>
+                <Grid item xs={5}>
+                  <Box>
+                    <AutoCompleteForm
                       selectedDetails={selectedCustomer}
                       setSelectedDetails={setSelectedCustomer}
                       columnName="companyName"
                       title="Customer Name"
                       endpoint="/api/customer/list"
+                      disabled
                     />
                   </Box>
                 </Grid>
@@ -257,7 +312,6 @@ export default function MainForm({initialData = {}, mutate, isUpdate = false}) {
                         }
                       />
                     </Grid>
-
                     <Grid item xs={12} sm={3}>
                       <TextField
                         required
@@ -279,13 +333,22 @@ export default function MainForm({initialData = {}, mutate, isUpdate = false}) {
                       />
                     </Grid>
                     <Grid item xs={12} sm={3}>
-                      <AutoCompleteForm
-                        selectedDetails={unit}
-                        setSelectedDetails={setUnit}
-                        columnName="abbreviation"
-                        title="Unit"
-                        endpoint="/api/units/list"
+                      <TextField
+                        required
+                        fullWidth
+                        id={`jobOrderItems[${index}].unit`}
+                        label="Unit"
                         size="small"
+                        variant="outlined"
+                        InputLabelProps={{shrink: true}}
+                        name={`jobOrderItems[${index}].unit`}
+                        {...register(`jobOrderItems[${index}].unit`, {
+                          required: "Unit is required",
+                        })}
+                        error={!!errors.jobOrderItems?.[index]?.unit}
+                        helperText={
+                          errors.jobOrderItems?.[index]?.unit?.message
+                        }
                       />
                     </Grid>
                     <Grid item xs={12} sm={6}>

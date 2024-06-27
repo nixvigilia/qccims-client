@@ -1,3 +1,5 @@
+"use client";
+
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import Link from "next/link";
@@ -5,9 +7,9 @@ import Button from "@mui/material/Button";
 import AddIcon from "@mui/icons-material/Add";
 import Box from "@mui/material/Box";
 import PageBreadCrumbs from "@/app/ui/production/job-orders/page-bread-crumbs";
-import JobOrderList from "@/app/ui/production/job-orders/job-order-list";
+import ExistingForm from "@/app/ui/production/job-orders/forms/existing-form";
 
-const Page = () => {
+export default function Page() {
   return (
     <>
       <PageBreadCrumbs />
@@ -16,15 +18,15 @@ const Page = () => {
         alignItems="center"
         justifyContent="space-between"
         mt={1}
-        mb={4}
+        mb={5}
       >
         <Grid item>
           <Typography variant="h5" fontWeight="bold" component="div">
-            Job Orders | Production
+            Create Job Order | Production
           </Typography>
         </Grid>
         <Grid item>
-          <Link href="job-orders/existing" passHref>
+          <Link href="/production/job-orders/new" passHref>
             <Button
               variant="contained"
               color="primary"
@@ -40,15 +42,14 @@ const Page = () => {
               }}
             >
               <Box component="span" sx={{display: {xs: "none", md: "block"}}}>
-                Create Job Order
+                New
               </Box>
             </Button>
           </Link>
         </Grid>
       </Grid>
-      <JobOrderList />
+
+      <ExistingForm />
     </>
   );
-};
-
-export default Page;
+}
