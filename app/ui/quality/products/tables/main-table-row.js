@@ -27,38 +27,15 @@ const StyledTableCell = styled(TableCell)(({theme}) => ({
 const MainTableRow = ({data}) => {
   return (
     <>
-      {data?.map((order, index) => (
-        <StyledTableRow key={order.id || index}>
+      {data?.map((item, index) => (
+        <StyledTableRow key={item.id || index}>
           <StyledTableCell component="th" scope="row">
-            <Typography fontSize={"0.9rem"}>PO{order.id}</Typography>
+            <Typography fontSize={"0.9rem"}>{item.productName}</Typography>
           </StyledTableCell>
-          <StyledTableCell component="th" scope="row">
-            <Typography fontSize={"0.9rem"}>
-              PO{order.supplier.supplierName}
-            </Typography>
-          </StyledTableCell>
-          <StyledTableCell>
-            <Typography fontSize={"0.9rem"}>
-              {formatISODateToReadable(order.orderDate)}
-            </Typography>
-          </StyledTableCell>
-          <StyledTableCell>
-            <Typography fontSize={"0.9rem"}>
-              {order?.items[0]?.deliveryDate
-                ? formatISODateToReadable(order?.items[0]?.deliveryDate)
-                : null}
-            </Typography>
-          </StyledTableCell>
-          <TableCell>
-            <Chip
-              size="small"
-              label={order.status.toLowerCase()}
-              color={order.status === "APPROVED" ? "success" : "pending"}
-            />
-          </TableCell>
-          <TableCell align="center">
+
+          {/* <TableCell align="center">
             <Link
-              href={`purchase/${order.id}`}
+              href={`purchase/${item.id}`}
               component={NextLink}
               color="inherit"
               variant="body2"
@@ -72,7 +49,7 @@ const MainTableRow = ({data}) => {
                 </Fab>
               </Box>
             </Link>
-          </TableCell>
+          </TableCell> */}
         </StyledTableRow>
       ))}
     </>

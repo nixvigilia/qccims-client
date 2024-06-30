@@ -19,7 +19,7 @@ const FilterForm = ({onSearchChange}) => {
         <TextField
           variant="outlined"
           size="small"
-          placeholder="Search products..."
+          placeholder="Search user"
           fullWidth
           onChange={onSearchChange}
         />

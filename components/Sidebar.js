@@ -24,6 +24,7 @@ import PrecisionManufacturingTwoToneIcon from "@mui/icons-material/PrecisionManu
 import CheckCircleTwoToneIcon from "@mui/icons-material/CheckCircleTwoTone";
 import LogoutTwoToneIcon from "@mui/icons-material/LogoutTwoTone";
 import RectangleTwoToneIcon from "@mui/icons-material/RectangleTwoTone";
+import GroupAddTwoToneIcon from "@mui/icons-material/GroupAddTwoTone";
 import {usePathname} from "next/navigation";
 
 const Sidebar = ({
@@ -114,24 +115,29 @@ const Sidebar = ({
       dropdown: true,
       options: [{name: "Job Order", path: "/production/job-orders"}],
     },
+    // {
+    //   text: "Tinplates",
+    //   icon: <RectangleTwoToneIcon color="primary" />,
+    //   dropdown: true,
+    //   options: [
+    //     {name: "Skid Information", path: "/tinplate/skid"},
+    //     {name: "TPI Form", path: "/tinplate/tpi"},
+    //     {name: "Coil Whole", path: "/tinplate/coil"},
+    //     {name: "Coil Cut", path: "/tinplate/cut-from-coil"},
+    //     {name: "Coil Consumed", path: "/tinplate/cut-consumed"},
+    //     {name: "Rectangular Sheet", path: "/tinplate/rectangular-sheet"},
+    //     {name: "Rectangular Consumed", path: "/tinplate/rectangular-Consumed"},
+    //   ],
+    // },
+    // {
+    //   text: "Rack Inventory",
+    //   icon: <DashboardTwoToneIcon color="primary" />,
+    //   path: "/rack",
+    // },
     {
-      text: "Tinplates",
-      icon: <RectangleTwoToneIcon color="primary" />,
-      dropdown: true,
-      options: [
-        {name: "Skid Information", path: "/tinplate/skid"},
-        {name: "TPI Form", path: "/tinplate/tpi"},
-        {name: "Coil Whole", path: "/tinplate/coil"},
-        {name: "Coil Cut", path: "/tinplate/cut-from-coil"},
-        {name: "Coil Consumed", path: "/tinplate/cut-consumed"},
-        {name: "Rectangular Sheet", path: "/tinplate/rectangular-sheet"},
-        {name: "Rectangular Consumed", path: "/tinplate/rectangular-Consumed"},
-      ],
-    },
-    {
-      text: "Racks",
+      text: "Users",
       icon: <DashboardTwoToneIcon color="primary" />,
-      path: "/rack",
+      path: "/users",
     },
   ];
 
@@ -285,7 +291,7 @@ const Sidebar = ({
           </div>
         ))}
 
-        {logOut.map((item) => (
+        {/* {logOut.map((item) => (
           <div
             key={item.text}
             style={{width: "100%", position: "absolute", bottom: 0}}
@@ -325,7 +331,7 @@ const Sidebar = ({
               </ListItemButton>
             </ListItem>
           </div>
-        ))}
+        ))} */}
       </List>
     </Drawer>
   );

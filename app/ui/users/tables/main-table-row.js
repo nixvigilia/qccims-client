@@ -5,17 +5,16 @@ import NextLink from "next/link";
 import Link from "@mui/material/Link";
 import Fab from "@mui/material/Fab";
 import Box from "@mui/material/Box";
-import TableRow from "@mui/material/TableRow";
-import TableCell from "@mui/material/TableCell";
 import formatISODateToReadable from "@/utils/helpers/formatISODateToReadable";
 import {styled} from "@mui/material/styles";
-import {useEffect} from "react";
+import TableRow from "@mui/material/TableRow";
+import TableCell from "@mui/material/TableCell";
 
 const StyledTableRow = styled(TableRow)(({theme}) => ({
   "&:nth-of-type(odd)": {
     backgroundColor: theme.palette.action.hover,
   },
-  // hide last border
+
   "&:last-child td, &:last-child th": {
     border: 0,
   },
@@ -28,38 +27,27 @@ const StyledTableCell = styled(TableCell)(({theme}) => ({
 const MainTableRow = ({data}) => {
   return (
     <>
-      {data?.map((order, index) => (
-        <StyledTableRow key={order.id || index}>
-          <StyledTableCell component="th" scope="row">
-            <Typography fontSize={"0.9rem"}>{order.jobNumber}</Typography>
-          </StyledTableCell>
+      {data?.map((item, index) => (
+        <StyledTableRow key={item.id || index}>
           <StyledTableCell component="th" scope="row">
             <Typography fontSize={"0.9rem"}>
-              {order.customer.companyName}
+              {item.firstName} {item.lastName}
             </Typography>
           </StyledTableCell>
-          <StyledTableCell>
-            <Typography fontSize={"0.9rem"}>
-              {formatISODateToReadable(order.jobDate)}
-            </Typography>
+          <StyledTableCell component="th" scope="row">
+            <Typography fontSize={"0.9rem"}>{item.role}</Typography>
           </StyledTableCell>
-          <StyledTableCell>
-            <Typography fontSize={"0.9rem"}>
-              {order?.jobOrderItems[0]?.deliveryDate
-                ? formatISODateToReadable(order?.jobOrderItems[0]?.deliveryDate)
-                : ""}
-            </Typography>
-          </StyledTableCell>
+
           <TableCell>
             <Chip
               size="small"
-              label={order.status.toLowerCase()}
-              color={order.status === "APPROVED" ? "success" : "pending"}
+              label={item.status.toLowerCase()}
+              color={item.status === "APPROVED" ? "success" : "pending"}
             />
           </TableCell>
           <TableCell align="center">
             <Link
-              href={`job-orders/${order.id}`}
+              href={`purchase/${item.id}`}
               component={NextLink}
               color="inherit"
               variant="body2"

@@ -1,5 +1,5 @@
 "use client";
-import React, {useState, useCallback} from "react";
+import React, {useState, useCallback, useEffect} from "react";
 import FilterForm from "./forms/filter-form";
 import {getData} from "@/lib/actions/data/getData";
 import useSWR from "swr";
@@ -25,8 +25,6 @@ const SpecificationList = () => {
     `/api/production/product-specs/list?status=${status}&search=${debouncedSearch}&page=${page}&limit=${ITEMS_PER_PAGE}`,
     fetcher
   );
-
-  console.log(data);
 
   const handleSearchChange = useCallback((e) => {
     setSearch(e.target.value);
@@ -57,7 +55,6 @@ const SpecificationList = () => {
         <MainTable
           tableHeaders={tableHeaders}
           data={data}
-          mutate={mutate}
           totalCount={data.totalCount}
           itemsPerPage={ITEMS_PER_PAGE}
           page={page}

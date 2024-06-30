@@ -4,8 +4,8 @@ import Link from "next/link";
 import Button from "@mui/material/Button";
 import AddIcon from "@mui/icons-material/Add";
 import Box from "@mui/material/Box";
-import PageBreadCrumbs from "@/app/ui/quality/products/page-bread-crumbs";
-import ProductList from "@/app/ui/quality/products/product-list";
+import PageBreadCrumbs from "@/app/ui/users/page-bread-crumbs";
+import UserList from "@/app/ui/users/user-list";
 
 const Page = () => {
   return (
@@ -20,11 +20,11 @@ const Page = () => {
       >
         <Grid item>
           <Typography variant="h5" fontWeight="bold" component="div">
-            Product List
+            Users
           </Typography>
         </Grid>
-        {/* <Grid item>
-          <Link href="product/new" passHref>
+        <Grid item>
+          <Link href="users/new" passHref>
             <Button
               variant="contained"
               color="primary"
@@ -40,13 +40,13 @@ const Page = () => {
               }}
             >
               <Box component="span" sx={{display: {xs: "none", md: "block"}}}>
-                Add New Product
+                Add User
               </Box>
             </Button>
           </Link>
-        </Grid> */}
+        </Grid>
       </Grid>
-      <ProductList />
+      <UserList />
     </>
   );
 };

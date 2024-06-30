@@ -1,14 +1,14 @@
 "use client";
 import useSWR from "swr";
 import {getData} from "@/lib/actions/data/getData";
-import PageBreadCrumbs from "@/app/ui/quality/specifications/page-bread-crumbs";
-import ItemForm from "@/app/ui/quality/specifications/forms/item-form";
+import PageBreadCrumbs from "@/app/ui/users/page-bread-crumbs";
+import MainView from "@/app/ui/users/view/main-view";
 
 export default function Page({params}) {
   const {id} = params;
   const fetcher = (url) => getData(url);
   const {data, error} = useSWR(
-    id ? `/api/production/job/items/${parseInt(id)}` : null,
+    id ? `/api/delivery/job/orders/${id}` : null,
     fetcher
   );
 
@@ -17,8 +17,8 @@ export default function Page({params}) {
 
   return (
     <>
-      <PageBreadCrumbs lastPathName={data?.product?.productName} />
-      <ItemForm initialData={data} itemId={parseInt(id)} isUpdate />
+      <PageBreadCrumbs lastPathName={data?.jobNumber} />
+      <MainView initialData={data} />
     </>
   );
 }

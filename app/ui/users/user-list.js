@@ -10,7 +10,7 @@ import MainTable from "./tables/main-table";
 
 const ITEMS_PER_PAGE = 20;
 
-const ProductList = () => {
+const UserList = () => {
   const searchParams = useSearchParams();
   const status = searchParams.get("status") || "";
   const initialSearch = searchParams.get("search") || "";
@@ -20,9 +20,11 @@ const ProductList = () => {
   const [page, setPage] = useState(1);
 
   const {data, error, mutate} = useSWR(
-    `/api/quality/products/list?status=${status}&search=${debouncedSearch}&page=${page}&limit=${ITEMS_PER_PAGE}`,
+    `/api/user/list?status=${status}&search=${debouncedSearch}&page=${page}&limit=${ITEMS_PER_PAGE}`,
     fetchWithToken
   );
+
+  console.log(data);
 
   const handleSearchChange = useCallback((e) => {
     setSearch(e.target.value);
@@ -33,8 +35,10 @@ const ProductList = () => {
   }, []);
 
   const tableHeaders = [
-    {label: "Product Name"},
-    // {label: "Action", align: "center"},
+    {label: "Name"},
+    {label: "Role"},
+    {label: "Status"},
+    {label: "Action", align: "center"},
   ];
 
   return (
@@ -61,4 +65,4 @@ const ProductList = () => {
   );
 };
 
-export default ProductList;
+export default UserList;

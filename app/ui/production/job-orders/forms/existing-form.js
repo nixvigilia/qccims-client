@@ -3,6 +3,7 @@ import {useState, useEffect} from "react";
 import {useRouter} from "next/navigation";
 import {useForm, useFieldArray, FormProvider} from "react-hook-form";
 import dayjs from "dayjs";
+import Swal from "sweetalert2";
 import {
   Box,
   Button,
@@ -20,7 +21,11 @@ import AutoCompleteForm from "./auto-complete-form";
 import {serverApi} from "@/lib/config/axios";
 import Cookies from "js-cookie";
 
-export default function ExistingForm({initialData = {}, isUpdate = false}) {
+export default function ExistingForm({
+  initialData = {},
+  mutate,
+  isUpdate = false,
+}) {
   const router = useRouter();
   const formatDate = (date) => (date ? dayjs(date).format("YYYY-MM-DD") : "");
 
@@ -53,8 +58,6 @@ export default function ExistingForm({initialData = {}, isUpdate = false}) {
     reset(initialFormData);
   }, [initialFormData, reset]);
 
-  console.log(initialFormData);
-
   const {fields, append, remove} = useFieldArray({
     control,
     name: "jobOrderItems",
@@ -65,6 +68,7 @@ export default function ExistingForm({initialData = {}, isUpdate = false}) {
   const [selectedProducts, setSelectedProducts] = useState([]);
   const [selectedJobOrder, setSelectedJobOrder] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [unit, setUnit] = useState(null);
 
   useEffect(() => {
     if (isUpdate && initialData.customer) {
@@ -121,8 +125,6 @@ export default function ExistingForm({initialData = {}, isUpdate = false}) {
 
           setIsLoading(false);
         }
-
-        console.log(response);
       }
     };
 
@@ -140,9 +142,8 @@ export default function ExistingForm({initialData = {}, isUpdate = false}) {
     data.jobOrderItems = data.jobOrderItems.map((item, index) => ({
       ...item,
       productId: selectedProducts[index]?.id || item.productId,
+      unitId: unit?.id || item.unitId,
     }));
-
-    console.log(data);
 
     const itemsToUpdate = data.jobOrderItems.filter((item) => item.id);
     const itemsToCreate = data.jobOrderItems.filter((item) => !item.id);
@@ -154,35 +155,51 @@ export default function ExistingForm({initialData = {}, isUpdate = false}) {
       jobOrderItemsToCreate: itemsToCreate,
     };
 
-    // if (isUpdate) {
-    //   await updateJobOrder(
-    //     setLoading,
-    //     `api/delivery/job/update/${initialData.id}`,
-    //     updatePayload,
-    //     "Job Order",
-    //     redirect,
-    //     reset
-    //   );
-    // } else {
-    //   const response = await createJobOrder(
-    //     setLoading,
-    //     "api/delivery/job/new",
-    //     updatePayload,
-    //     "Job Order",
-    //     reset
-    //   );
+    if (isUpdate) {
+      await updateJobOrder(
+        setLoading,
+        `api/delivery/job/update/${initialData.id}`,
+        updatePayload,
+        "Job Order",
+        redirect,
+        reset
+      );
+      mutate();
+    } else {
+      const response = await createJobOrder(
+        setLoading,
+        "api/delivery/job/new",
+        updatePayload,
+        "Job Order",
+        reset
+      );
 
-    //   if (response.status === 201) {
-    //     router.push(`${response.data.id}`);
-    //   }
-    // }
+      if (response.status === 201) {
+        router.push(`${response.data.id}`);
+      }
+    }
   }
 
-  const handleRemove = (index) => {
-    remove(index);
-    setSelectedProducts((prevProducts) =>
-      prevProducts.filter((_, i) => i !== index)
-    );
+  const handleRemove = async (index) => {
+    const item = fields[index];
+    if (item.quantity || item.unit) {
+      const result = await Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, remove it!",
+      });
+
+      if (result.isConfirmed) {
+        remove(index);
+        Swal.fire("Removed!", "The item has been removed.", "success");
+      }
+    } else {
+      remove(index);
+    }
   };
 
   return (
@@ -312,6 +329,7 @@ export default function ExistingForm({initialData = {}, isUpdate = false}) {
                         }
                       />
                     </Grid>
+
                     <Grid item xs={12} sm={3}>
                       <TextField
                         required
@@ -333,22 +351,13 @@ export default function ExistingForm({initialData = {}, isUpdate = false}) {
                       />
                     </Grid>
                     <Grid item xs={12} sm={3}>
-                      <TextField
-                        required
-                        fullWidth
-                        id={`jobOrderItems[${index}].unit`}
-                        label="Unit"
+                      <AutoCompleteForm
+                        selectedDetails={unit}
+                        setSelectedDetails={setUnit}
+                        columnName="abbreviation"
+                        title="Unit"
+                        endpoint="/api/units/list"
                         size="small"
-                        variant="outlined"
-                        InputLabelProps={{shrink: true}}
-                        name={`jobOrderItems[${index}].unit`}
-                        {...register(`jobOrderItems[${index}].unit`, {
-                          required: "Unit is required",
-                        })}
-                        error={!!errors.jobOrderItems?.[index]?.unit}
-                        helperText={
-                          errors.jobOrderItems?.[index]?.unit?.message
-                        }
                       />
                     </Grid>
                     <Grid item xs={12} sm={6}>

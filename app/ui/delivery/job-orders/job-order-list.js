@@ -21,7 +21,7 @@ const JobOrderList = () => {
   const [page, setPage] = useState(1);
 
   const fetcher = (url) => getData(url);
-  const {data, error, mutate} = useSWR(
+  const {data, error} = useSWR(
     `/api/delivery/job/orders?status=${status}&search=${debouncedSearch}&page=${page}&limit=${ITEMS_PER_PAGE}&category=tin`,
     fetcher,
     {revalidateOnFocus: true}
@@ -57,7 +57,6 @@ const JobOrderList = () => {
         <MainTable
           tableHeaders={tableHeaders}
           data={data}
-          mutate={mutate}
           totalCount={data.totalCount}
           itemsPerPage={ITEMS_PER_PAGE}
           page={page}

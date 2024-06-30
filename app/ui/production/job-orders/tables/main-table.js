@@ -22,6 +22,7 @@ function MainTable({
   itemsPerPage,
   page,
   onPageChange,
+  mutate,
 }) {
   return (
     <div

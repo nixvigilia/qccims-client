@@ -12,8 +12,14 @@ import TextField from "@mui/material/TextField";
 import SubmitButton from "@/components/FormInputs/SubmitButton";
 import formatISODateToReadable from "@/utils/helpers/formatISODateToReadable";
 import dayjs from "dayjs";
+import {useEffect} from "react";
 
-export default function ItemForm({initialData = {}, itemId, isUpdate = false}) {
+export default function ItemForm({
+  initialData = {},
+  itemId,
+  isUpdate = false,
+  mutate,
+}) {
   const router = useRouter();
   const {jobOrder, product, productSpecs} = initialData;
   const {customer} = jobOrder;
@@ -36,6 +42,10 @@ export default function ItemForm({initialData = {}, itemId, isUpdate = false}) {
     reset,
     formState: {errors},
   } = methods;
+
+  useEffect(() => {
+    reset(initialData);
+  }, [initialData, reset]);
 
   const [loading, setLoading] = useState(false);
 
@@ -85,6 +95,8 @@ export default function ItemForm({initialData = {}, itemId, isUpdate = false}) {
         "Job Order",
         reset
       );
+
+      mutate();
     }
   }
 

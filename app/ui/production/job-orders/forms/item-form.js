@@ -1,6 +1,6 @@
 "use client";
 
-import {useState} from "react";
+import {useState, useEffect} from "react";
 import {useRouter} from "next/navigation";
 import {useForm, FormProvider} from "react-hook-form";
 import {postRequest, updateRequest} from "@/lib/api/requestApi";
@@ -13,8 +13,13 @@ import SubmitButton from "@/components/FormInputs/SubmitButton";
 import formatISODateToReadable from "@/utils/helpers/formatISODateToReadable";
 import dayjs from "dayjs";
 
-export default function ItemForm({initialData = {}, itemId, isUpdate = false}) {
-  const router = useRouter();
+export default function ItemForm({
+  initialData = {},
+  itemId,
+  isUpdate = false,
+  mutate,
+}) {
+  // const router = useRouter();
   const methods = useForm({defaultValues: initialData});
   const {
     register,
@@ -75,6 +80,8 @@ export default function ItemForm({initialData = {}, itemId, isUpdate = false}) {
         reset
       );
     }
+
+    mutate();
   }
 
   return (

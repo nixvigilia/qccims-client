@@ -7,7 +7,7 @@ import ItemForm from "@/app/ui/delivery/job-orders/forms/item-form";
 export default function Page({params}) {
   const {id} = params;
   const fetcher = (url) => getData(url);
-  const {data, error} = useSWR(
+  const {data, error, mutate} = useSWR(
     id ? `/api/production/job/items/${parseInt(id)}` : null,
     fetcher
   );
@@ -18,7 +18,12 @@ export default function Page({params}) {
   return (
     <>
       <PageBreadCrumbs lastPathName={data?.product?.productName} />
-      <ItemForm initialData={data} itemId={parseInt(id)} isUpdate />
+      <ItemForm
+        initialData={data}
+        itemId={parseInt(id)}
+        isUpdate
+        mutate={mutate}
+      />
     </>
   );
 }

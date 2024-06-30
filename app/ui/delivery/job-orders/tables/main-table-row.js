@@ -66,11 +66,9 @@ const MainTableRow = ({data}) => {
               style={{textDecoration: "none"}}
               passHref
             >
-              <Box>
-                <Fab size="small" color="primary" aria-label="edit">
-                  <Edit />
-                </Fab>
-              </Box>
+              <Fab size="small" color="primary" aria-label="edit">
+                <Edit />
+              </Fab>
             </Link>
           </TableCell>
         </StyledTableRow>

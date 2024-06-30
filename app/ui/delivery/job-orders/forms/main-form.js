@@ -61,7 +61,7 @@ export default function MainForm({initialData = {}, mutate, isUpdate = false}) {
   const [loading, setLoading] = useState(false);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
   const [selectedProducts, setSelectedProducts] = useState([]);
-  const [unit, setUnit] = useState(null);
+  const [unit, setUnit] = useState([]);
 
   useEffect(() => {
     if (isUpdate && initialData.customer) {
@@ -73,6 +73,12 @@ export default function MainForm({initialData = {}, mutate, isUpdate = false}) {
         initialData.jobOrderItems.map((item) => ({
           id: item.product.id,
           name: item.product.productName,
+        }))
+      );
+      setUnit(
+        initialData.jobOrderItems.map((item) => ({
+          id: item.unit.id,
+          name: item.unit.abbreviation,
         }))
       );
     }
@@ -87,7 +93,7 @@ export default function MainForm({initialData = {}, mutate, isUpdate = false}) {
     data.jobOrderItems = data.jobOrderItems.map((item, index) => ({
       ...item,
       productId: selectedProducts[index]?.id || item.productId,
-      unitId: unit?.id || item.unitId,
+      unitId: unit[index]?.id || item.unitId,
     }));
 
     const itemsToUpdate = data.jobOrderItems.filter((item) => item.id);
@@ -127,7 +133,7 @@ export default function MainForm({initialData = {}, mutate, isUpdate = false}) {
 
   const handleRemove = async (index) => {
     const item = fields[index];
-    if (item.quantity || item.unit) {
+    if (item.quantity || item.unitId) {
       const result = await Swal.fire({
         title: "Are you sure?",
         text: "You won't be able to revert this!",
@@ -280,9 +286,14 @@ export default function MainForm({initialData = {}, mutate, isUpdate = false}) {
                     </Grid>
                     <Grid item xs={12} sm={3}>
                       <AutoCompleteForm
-                        selectedDetails={unit}
-                        setSelectedDetails={setUnit}
+                        selectedDetails={unit[index]}
+                        setSelectedDetails={(newValue) => {
+                          const updatedUnit = [...unit];
+                          updatedUnit[index] = newValue;
+                          setUnit(updatedUnit);
+                        }}
                         columnName="abbreviation"
+                        variant="outlined"
                         title="Unit"
                         endpoint="/api/units/list"
                         size="small"
