@@ -146,6 +146,7 @@ export default function MainForm({ initialData = {}, isUpdate = false }) {
                 // helperText={errors.term?.message}
               />
             </Grid>
+
             <Grid item xs={12} sm={6}>
               <SearchAsync
                 selectedSupplier={selectedSupplier}
@@ -167,20 +168,6 @@ export default function MainForm({ initialData = {}, isUpdate = false }) {
                 // helperText={errors.requestor?.message}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                required
-                fullWidth
-                id="coilNo"
-                label="Coil No."
-                name="coilNo"
-                {...register("coilNo", {
-                  required: "Coil No. is required",
-                })}
-                // error={!!errors.requestor}
-                // helperText={errors.requestor?.message}
-              />
-            </Grid>
 
             <Grid item xs={12} sm={6}>
               {/* set SearchAsync for material type in auto-complete-form */}
@@ -192,6 +179,34 @@ export default function MainForm({ initialData = {}, isUpdate = false }) {
                 name="materialType"
                 {...register("materialType", {
                   required: "Type of Material is required",
+                })}
+                // error={!!errors.requestor}
+                // helperText={errors.requestor?.message}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                required
+                fullWidth
+                id="skid"
+                label="Skid"
+                name="skid"
+                {...register("skid", {
+                  required: "Skid is required",
+                })}
+                // error={!!errors.requestor}
+                // helperText={errors.requestor?.message}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                required
+                fullWidth
+                id="tpi"
+                label="TPI"
+                name="tpi"
+                {...register("tpi", {
+                  required: "TPI is required",
                 })}
                 // error={!!errors.requestor}
                 // helperText={errors.requestor?.message}
@@ -298,7 +313,7 @@ export default function MainForm({ initialData = {}, isUpdate = false }) {
           </Grid>
 
           <Box mt={4} width="100%">
-            <Typography variant="h6">Coil Items</Typography>
+            <Typography variant="h6">Rectangular Sheet Items</Typography>
             {fields.map((field, index) => (
               <Grid container spacing={2} key={field.id} mt={2}>
                 <Grid item xs={12} sm={4}>
@@ -486,7 +501,11 @@ export default function MainForm({ initialData = {}, isUpdate = false }) {
           >
             <SubmitButton
               isLoading={loading}
-              title={isUpdate ? "Update Coil List" : "Create Coil"}
+              title={
+                isUpdate
+                  ? "Update Rectangular Sheet List"
+                  : "Create Rectangular Sheet"
+              }
             />
           </div>
         </Box>

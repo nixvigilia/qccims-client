@@ -3,7 +3,7 @@
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import PageBreadCrumbs from "@/components/Delivery/CustomerProfile/PageBreadCrumbs";
-import MainForm from "@/app/ui/tinplate/coil/forms/main-form";
+import MainForm from "@/app/ui/tinplate/cut-from-coil/forms/main-form";
 
 export default function Page() {
   return (
@@ -18,7 +18,7 @@ export default function Page() {
       >
         <Grid item>
           <Typography variant="h5" fontWeight="bold" component="div">
-            Add New Coil Order
+            Add New Coil Cut Order
           </Typography>
         </Grid>
       </Grid>
