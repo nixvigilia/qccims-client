@@ -1,5 +1,5 @@
 "use client";
-import React, {useState, useCallback, useEffect} from "react";
+import React, {useState, useCallback} from "react";
 import FilterForm from "./forms/filter-form";
 import {getData} from "@/lib/actions/data/getData";
 import useSWR from "swr";
@@ -21,9 +21,10 @@ const SpecificationList = () => {
   const [page, setPage] = useState(1);
 
   const fetcher = (url) => getData(url);
-  const {data, error, mutate} = useSWR(
-    `/api/production/product-specs/list?status=${status}&search=${debouncedSearch}&page=${page}&limit=${ITEMS_PER_PAGE}`,
-    fetcher
+  const {data, error} = useSWR(
+    `/api/delivery/job/orders?status=${status}&search=${debouncedSearch}&page=${page}&limit=${ITEMS_PER_PAGE}`,
+    fetcher,
+    {revalidateOnFocus: true}
   );
 
   const handleSearchChange = useCallback((e) => {
@@ -35,10 +36,11 @@ const SpecificationList = () => {
   }, []);
 
   const tableHeaders = [
-    {label: "Product"},
     {label: "Job Order ID"},
-    {label: "Can Size"},
-    {label: "Remarks"},
+    {label: "Customer"},
+    {label: "Order Date"},
+    {label: "Delivery Date"},
+    {label: "Status"},
     {label: "Action", align: "center"},
   ];
 

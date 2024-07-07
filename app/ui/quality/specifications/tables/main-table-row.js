@@ -27,44 +27,52 @@ const StyledTableCell = styled(TableCell)(({theme}) => ({
 const MainTableRow = ({data}) => {
   return (
     <>
-      {data?.map((item, index) => {
-        console.log(item);
-        const {jobOrderItem} = item;
-        const {jobOrder, product} = jobOrderItem;
-        return (
-          <StyledTableRow key={item.id || index}>
-            <StyledTableCell width="30%" component="th" scope="row">
-              <Typography fontSize={"0.9rem"}>{product.productName}</Typography>
-            </StyledTableCell>
-            <StyledTableCell width="10%" component="th" scope="row">
-              <Typography fontSize={"0.9rem"}>{jobOrder.jobNumber}</Typography>
-            </StyledTableCell>
-            <StyledTableCell width="30%" component="th" scope="row">
-              <Typography fontSize={"0.9rem"}>{item.canSize}</Typography>
-            </StyledTableCell>
-            <StyledTableCell width="30%" component="th" scope="row">
-              <Typography fontSize={"0.9rem"}>{item.specRemarks}</Typography>
-            </StyledTableCell>
-            <TableCell align="center">
-              <Link
-                href={`specifications/item/${item.jobOrderItemId}`}
-                component={NextLink}
-                color="inherit"
-                variant="body2"
-                key={index}
-                style={{textDecoration: "none"}}
-                passHref
-              >
-                <Box>
-                  <Fab size="small" color="primary" aria-label="edit">
-                    <Edit />
-                  </Fab>
-                </Box>
-              </Link>
-            </TableCell>
-          </StyledTableRow>
-        );
-      })}
+      {data?.map((order, index) => (
+        <StyledTableRow key={order.id || index}>
+          <StyledTableCell component="th" scope="row">
+            <Typography fontSize={"0.9rem"}>{order.jobNumber}</Typography>
+          </StyledTableCell>
+          <StyledTableCell component="th" scope="row">
+            <Typography fontSize={"0.9rem"}>
+              {order.customer.companyName}
+            </Typography>
+          </StyledTableCell>
+          <StyledTableCell>
+            <Typography fontSize={"0.9rem"}>
+              {formatISODateToReadable(order.jobDate)}
+            </Typography>
+          </StyledTableCell>
+          <StyledTableCell>
+            <Typography fontSize={"0.9rem"}>
+              {order?.jobOrderItems[0]?.deliveryDate
+                ? formatISODateToReadable(order?.jobOrderItems[0]?.deliveryDate)
+                : ""}
+            </Typography>
+          </StyledTableCell>
+          <TableCell>
+            <Chip
+              size="small"
+              label={order.status.toLowerCase()}
+              color={order.status === "APPROVED" ? "success" : "pending"}
+            />
+          </TableCell>
+          <TableCell align="center">
+            <Link
+              href={`specifications/${order.id}`}
+              component={NextLink}
+              color="inherit"
+              variant="body2"
+              key={index}
+              style={{textDecoration: "none"}}
+              passHref
+            >
+              <Fab size="small" color="primary" aria-label="edit">
+                <Edit />
+              </Fab>
+            </Link>
+          </TableCell>
+        </StyledTableRow>
+      ))}
     </>
   );
 };

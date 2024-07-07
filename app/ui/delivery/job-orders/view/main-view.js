@@ -149,7 +149,7 @@ export default function MainView({initialData = {}}) {
           <Grid container spacing={2}>
             <Grid item xs={12} sm={8}>
               <Typography variant="body1">
-                <strong>Customer Name:</strong>
+                <strong>Customer Name:</strong>{" "}
                 {initialData.customer.companyName}
               </Typography>
             </Grid>
@@ -166,7 +166,7 @@ export default function MainView({initialData = {}}) {
               <Table>
                 <TableHead>
                   <TableRow>
-                    <TableCell width="5%">
+                    <TableCell width="30%">
                       <Typography variant="overline">
                         Product Description
                       </Typography>
@@ -183,7 +183,7 @@ export default function MainView({initialData = {}}) {
                     <TableCell width="5%">
                       <Typography variant="overline">Unit</Typography>
                     </TableCell>
-                    <TableCell>
+                    <TableCell width="10%">
                       <Typography variant="overline">Remarks</Typography>
                     </TableCell>
                     <TableCell width="5%"></TableCell>
@@ -192,13 +192,17 @@ export default function MainView({initialData = {}}) {
                 <TableBody>
                   {fields.map((field, index) => (
                     <TableRow key={index}>
-                      <TableCell>{field.product.productName}</TableCell>
+                      <TableCell width="30%">
+                        {field.product.productName}
+                      </TableCell>
                       <TableCell>{field.salesOrder}</TableCell>
                       <TableCell>
-                        {formatISODateToReadable(field.deliveryDate)}
+                        {field.deliveryDate
+                          ? formatISODateToReadable(field.deliveryDate)
+                          : ""}
                       </TableCell>
                       <TableCell>{field.quantity}</TableCell>
-                      <TableCell>{field.unit}</TableCell>
+                      <TableCell>{field.unit.abbreviation}</TableCell>
                       <TableCell>{field.remarks}</TableCell>
                       <TableCell>
                         <Link

@@ -22,7 +22,7 @@ const JobOrderList = () => {
 
   const fetcher = (url) => getData(url);
   const {data, error, mutate} = useSWR(
-    `/api/delivery/job/orders?status=${status}&search=${debouncedSearch}&page=${page}&limit=${ITEMS_PER_PAGE}&category=print`,
+    `/api/delivery/job/orders?status=${status}&search=${debouncedSearch}&page=${page}&limit=${ITEMS_PER_PAGE}&category=tin`,
     fetcher
   );
 

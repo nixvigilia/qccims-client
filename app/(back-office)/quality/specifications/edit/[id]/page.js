@@ -9,7 +9,7 @@ import PageBreadCrumbs from "@/app/ui/production/job-orders/page-bread-crumbs";
 export default function Page({params}) {
   const {id} = params;
   const fetcher = (url) => getData(url);
-  const {data, error} = useSWR(
+  const {data, error, mutate} = useSWR(
     id ? `/api/delivery/job/orders/${id}` : null,
     fetcher
   );
@@ -34,7 +34,7 @@ export default function Page({params}) {
         </Grid>
       </Grid>
 
-      <MainForm initialData={data} isUpdate />
+      <MainForm initialData={data} mutate={mutate} isUpdate />
     </>
   );
 }

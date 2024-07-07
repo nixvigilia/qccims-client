@@ -32,7 +32,7 @@ function MainTable({
         variant="outlined"
         sx={{borderRadius: "sm", overflow: "auto", width: "100%", minHeight: 0}}
       >
-        <Table sx={{minWidth: 650}} size="small" aria-label="customer table">
+        <Table sx={{minWidth: 650}} size="small" aria-label="jobOrder table">
           <TableHead>
             <TableRow>
               {tableHeaders.map((header, index) => (

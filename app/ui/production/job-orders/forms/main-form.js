@@ -5,6 +5,7 @@ import {useRouter} from "next/navigation";
 import {useForm, useFieldArray, FormProvider} from "react-hook-form";
 import Swal from "sweetalert2";
 import dayjs from "dayjs";
+import {toast} from "react-hot-toast";
 
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -17,7 +18,7 @@ import TextField from "@mui/material/TextField";
 import DeleteTwoToneIcon from "@mui/icons-material/DeleteTwoTone";
 import AddBoxTwoToneIcon from "@mui/icons-material/AddBoxTwoTone";
 import SubmitButton from "@/components/FormInputs/SubmitButton";
-import {createJobOrder, updateJobOrder} from "@/lib/api/delivery/jobOrderApi";
+import {postRequest, updateRequest} from "@/lib/api/requestApi";
 import AutoCompleteForm from "./auto-complete-form";
 
 export default function MainForm({initialData = {}, mutate, isUpdate = false}) {
@@ -58,10 +59,12 @@ export default function MainForm({initialData = {}, mutate, isUpdate = false}) {
     name: "jobOrderItems",
   });
 
+  console.log(fields);
+
   const [loading, setLoading] = useState(false);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
   const [selectedProducts, setSelectedProducts] = useState([]);
-  const [unit, setUnit] = useState(null);
+  const [unit, setUnit] = useState([]);
 
   useEffect(() => {
     if (isUpdate && initialData.customer) {
@@ -73,6 +76,12 @@ export default function MainForm({initialData = {}, mutate, isUpdate = false}) {
         initialData.jobOrderItems.map((item) => ({
           id: item.product.id,
           name: item.product.productName,
+        }))
+      );
+      setUnit(
+        initialData.jobOrderItems.map((item) => ({
+          id: item.unit.id,
+          name: item.unit.abbreviation,
         }))
       );
     }
@@ -87,7 +96,7 @@ export default function MainForm({initialData = {}, mutate, isUpdate = false}) {
     data.jobOrderItems = data.jobOrderItems.map((item, index) => ({
       ...item,
       productId: selectedProducts[index]?.id || item.productId,
-      unitId: unit?.id || item.unitId,
+      unitId: unit[index]?.id || item.unitId,
     }));
 
     const itemsToUpdate = data.jobOrderItems.filter((item) => item.id);
@@ -95,13 +104,12 @@ export default function MainForm({initialData = {}, mutate, isUpdate = false}) {
 
     const updatePayload = {
       ...data,
-      category: "print",
       jobOrderItemsToUpdate: itemsToUpdate,
       jobOrderItemsToCreate: itemsToCreate,
     };
 
     if (isUpdate) {
-      await updateJobOrder(
+      await updateRequest(
         setLoading,
         `api/delivery/job/update/${initialData.id}`,
         updatePayload,
@@ -111,7 +119,7 @@ export default function MainForm({initialData = {}, mutate, isUpdate = false}) {
       );
       mutate();
     } else {
-      const response = await createJobOrder(
+      const response = await postRequest(
         setLoading,
         "api/delivery/job/new",
         updatePayload,
@@ -140,10 +148,13 @@ export default function MainForm({initialData = {}, mutate, isUpdate = false}) {
 
       if (result.isConfirmed) {
         remove(index);
-        Swal.fire("Removed!", "The item has been removed.", "success");
+        toast.success("The item has been removed.");
+        handleSubmit(onSubmit)(); // Trigger form submission on successful remove
       }
     } else {
       remove(index);
+      toast.success("The item has been removed.");
+      handleSubmit(onSubmit)(); // Trigger form submission on successful remove
     }
   };
 
@@ -280,9 +291,14 @@ export default function MainForm({initialData = {}, mutate, isUpdate = false}) {
                     </Grid>
                     <Grid item xs={12} sm={3}>
                       <AutoCompleteForm
-                        selectedDetails={unit}
-                        setSelectedDetails={setUnit}
+                        selectedDetails={unit[index]}
+                        setSelectedDetails={(newValue) => {
+                          const updatedUnit = [...unit];
+                          updatedUnit[index] = newValue;
+                          setUnit(updatedUnit);
+                        }}
                         columnName="abbreviation"
+                        variant="outlined"
                         title="Unit"
                         endpoint="/api/units/list"
                         size="small"
@@ -304,22 +320,24 @@ export default function MainForm({initialData = {}, mutate, isUpdate = false}) {
                         }
                       />
                     </Grid>
-                    <Grid
-                      item
-                      xs={12}
-                      sm={12}
-                      mb={3}
-                      display="flex"
-                      justifyContent="flex-end"
-                    >
-                      <Button
-                        startIcon={<DeleteTwoToneIcon />}
-                        color="error"
-                        onClick={() => handleRemove(index)}
+                    {fields.length > 1 && (
+                      <Grid
+                        item
+                        xs={12}
+                        sm={12}
+                        mb={3}
+                        display="flex"
+                        justifyContent="flex-end"
                       >
-                        Remove
-                      </Button>
-                    </Grid>
+                        <Button
+                          startIcon={<DeleteTwoToneIcon />}
+                          color="error"
+                          onClick={() => handleRemove(index)}
+                        >
+                          Remove
+                        </Button>
+                      </Grid>
+                    )}
                   </Grid>
                 ))}
 
