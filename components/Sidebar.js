@@ -1,6 +1,6 @@
 "use client";
-import React, {useState} from "react";
-import {styled, useTheme} from "@mui/material/styles";
+import React, { useState } from "react";
+import { styled, useTheme } from "@mui/material/styles";
 import MuiDrawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
 import Divider from "@mui/material/Divider";
@@ -25,7 +25,7 @@ import CheckCircleTwoToneIcon from "@mui/icons-material/CheckCircleTwoTone";
 import LogoutTwoToneIcon from "@mui/icons-material/LogoutTwoTone";
 import RectangleTwoToneIcon from "@mui/icons-material/RectangleTwoTone";
 import GroupAddTwoToneIcon from "@mui/icons-material/GroupAddTwoTone";
-import {usePathname} from "next/navigation";
+import { usePathname } from "next/navigation";
 
 const Sidebar = ({
   handleDrawerOpen,
@@ -50,7 +50,7 @@ const Sidebar = ({
     }));
   };
 
-  const DrawerHeader = styled("div")(({theme}) => ({
+  const DrawerHeader = styled("div")(({ theme }) => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "flex-end",
@@ -60,7 +60,7 @@ const Sidebar = ({
 
   const Drawer = styled(MuiDrawer, {
     shouldForwardProp: (prop) => prop !== "open",
-  })(({theme, open}) => ({
+  })(({ theme, open }) => ({
     width: drawerWidth,
     flexShrink: 0,
     whiteSpace: "nowrap",
@@ -86,8 +86,8 @@ const Sidebar = ({
       icon: <LocalShippingTwoToneIcon color="primary" />,
       dropdown: true,
       options: [
-        {name: "Customer Profile", path: "/delivery/customers"},
-        {name: "Job Order", path: "/delivery/job-orders/new"},
+        { name: "Customer Profile", path: "/delivery/customers" },
+        { name: "Job Order", path: "/delivery/job-orders/new" },
       ],
     },
     {
@@ -95,9 +95,9 @@ const Sidebar = ({
       icon: <ShoppingBasketTwoToneIcon color="primary" />,
       dropdown: true,
       options: [
-        {name: "Supplier", path: "/purchasing/suppliers"},
-        {name: "Purchase Orders", path: "/purchasing/purchase"},
-        {name: "P.O. Receiving", path: "/purchasing/items"},
+        { name: "Supplier", path: "/purchasing/suppliers" },
+        { name: "Purchase Orders", path: "/purchasing/purchase" },
+        { name: "P.O. Receiving", path: "/purchasing/items" },
       ],
     },
     {
@@ -105,35 +105,38 @@ const Sidebar = ({
       icon: <CheckCircleTwoToneIcon color="primary" />,
       dropdown: true,
       options: [
-        {name: "Product Entry", path: "/quality/products"},
-        {name: "Tin Can Specifications", path: "/quality/specifications"},
+        { name: "Product Entry", path: "/quality/products" },
+        { name: "Tin Can Specifications", path: "/quality/specifications" },
       ],
     },
     {
       text: "Production",
       icon: <PrecisionManufacturingTwoToneIcon color="primary" />,
       dropdown: true,
-      options: [{name: "Job Order Printing", path: "/production/job-orders"}],
+      options: [{ name: "Job Order Printing", path: "/production/job-orders" }],
     },
-    // {
-    //   text: "Tinplates",
-    //   icon: <RectangleTwoToneIcon color="primary" />,
-    //   dropdown: true,
-    //   options: [
-    //     {name: "Skid Information", path: "/tinplate/skid"},
-    //     {name: "TPI Form", path: "/tinplate/tpi"},
-    //     {name: "Coil Whole", path: "/tinplate/coil"},
-    //     {name: "Coil Cut", path: "/tinplate/cut-from-coil"},
-    //     {name: "Coil Consumed", path: "/tinplate/cut-consumed"},
-    //     {name: "Rectangular Sheet", path: "/tinplate/rectangular-sheet"},
-    //     {name: "Rectangular Consumed", path: "/tinplate/rectangular-Consumed"},
-    //   ],
-    // },
-    // {
-    //   text: "Rack Inventory",
-    //   icon: <DashboardTwoToneIcon color="primary" />,
-    //   path: "/rack",
-    // },
+    {
+      text: "Tinplates",
+      icon: <RectangleTwoToneIcon color="primary" />,
+      dropdown: true,
+      options: [
+        { name: "Skid Information", path: "/tinplate/skid" },
+        { name: "TPI Form", path: "/tinplate/tpi" },
+        { name: "Coil Whole", path: "/tinplate/coil" },
+        { name: "Coil Cut", path: "/tinplate/cut-from-coil" },
+        { name: "Coil Consumed", path: "/tinplate/cut-consumed" },
+        { name: "Rectangular Sheet", path: "/tinplate/rectangular-sheet" },
+        {
+          name: "Rectangular Consumed",
+          path: "/tinplate/rectangular-Consumed",
+        },
+      ],
+    },
+    {
+      text: "Rack Inventory",
+      icon: <DashboardTwoToneIcon color="primary" />,
+      path: "/rack",
+    },
     {
       text: "Users",
       icon: <DashboardTwoToneIcon color="primary" />,
@@ -160,7 +163,7 @@ const Sidebar = ({
         },
       }}
     >
-      <DrawerHeader sx={{backgroundColor: "#3D619B"}}>
+      <DrawerHeader sx={{ backgroundColor: "#3D619B" }}>
         <Typography
           sx={{
             fontWeight: "bold",
@@ -174,16 +177,16 @@ const Sidebar = ({
         </Typography>
         <IconButton onClick={handleDrawerOpen}>
           {theme.direction === "rtl" ? (
-            <ChevronRightIcon sx={{color: "#fff"}} />
+            <ChevronRightIcon sx={{ color: "#fff" }} />
           ) : (
-            <ChevronLeftIcon sx={{color: "#fff"}} />
+            <ChevronLeftIcon sx={{ color: "#fff" }} />
           )}
         </IconButton>
       </DrawerHeader>
-      <List aria-labelledby="nested-list-subheader" sx={{height: "100vh"}}>
+      <List aria-labelledby="nested-list-subheader" sx={{ height: "100vh" }}>
         {menuItems.map((item) => (
-          <div key={item.text} style={{width: "100%"}}>
-            <ListItem disablePadding sx={{display: "block", width: "100%"}}>
+          <div key={item.text} style={{ width: "100%" }}>
+            <ListItem disablePadding sx={{ display: "block", width: "100%" }}>
               {item.dropdown ? (
                 <ListItemButton
                   onClick={() => handleDropdownClick(item.text)}
@@ -205,7 +208,7 @@ const Sidebar = ({
                   </ListItemIcon>
                   <ListItemText
                     primary={item.text}
-                    sx={{opacity: open ? 1 : 0}}
+                    sx={{ opacity: open ? 1 : 0 }}
                   />
                   {item.dropdown &&
                     (open ? (
@@ -221,7 +224,7 @@ const Sidebar = ({
                   href={item.path}
                   passHref
                   component={NextLink}
-                  sx={{textDecoration: "none"}}
+                  sx={{ textDecoration: "none" }}
                 >
                   <ListItemButton
                     sx={{
@@ -247,7 +250,7 @@ const Sidebar = ({
                     </ListItemIcon>
                     <ListItemText
                       primary={item.text}
-                      sx={{opacity: open ? 1 : 0}}
+                      sx={{ opacity: open ? 1 : 0 }}
                     />
                   </ListItemButton>
                 </Link>
@@ -258,7 +261,7 @@ const Sidebar = ({
                   timeout="auto"
                   unmountOnExit
                 >
-                  <List component="div" disablePadding sx={{width: "100%"}}>
+                  <List component="div" disablePadding sx={{ width: "100%" }}>
                     {item.options.map((option, index) => (
                       <Link
                         href={option.path}
@@ -266,9 +269,9 @@ const Sidebar = ({
                         color="inherit"
                         variant="body2"
                         key={index}
-                        style={{textDecoration: "none"}}
+                        style={{ textDecoration: "none" }}
                         passHref
-                        sx={{fontSize: ".9rem", textDecoration: "none"}}
+                        sx={{ fontSize: ".9rem", textDecoration: "none" }}
                       >
                         <ListItemButton
                           sx={{
