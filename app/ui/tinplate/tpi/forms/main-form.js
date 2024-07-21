@@ -158,34 +158,24 @@ export default function MainForm({
           <Paper square={false}>
             <Box width="100%" sx={{ p: 4 }}>
               <Grid container spacing={2}>
-                {/* Create new DB table for Skid */}
-                <Grid item xs={4}>
-                  <Box>
-                    <AutoCompleteForm
-                      // selectedDetails={selectedCustomer}
-                      // setSelectedDetails={setSelectedCustomer}
-                      columnName="skidsupname"
-                      title="Supplier Name"
-                      // endpoint="/api/customer/list"
-                    />
-                  </Box>
+                <Grid item xs={12}>
+                  <Typography>Tinplate Specification</Typography>
                 </Grid>
-
-                {/* Create a auto complete form for Vessel Name */}
+                {/* Create new DB table for TPI */}
                 <Grid item xs={4}>
                   <TextField
                     required
                     fullWidth
-                    id="skidvessel"
-                    label="Vessel Name"
-                    name="skidvessel"
-                    type="text"
+                    id="tpidate"
+                    label="Date"
+                    name="tpidate"
+                    type="date"
                     InputLabelProps={{ shrink: true }}
-                    {...register("skidvessel", {
-                      required: "Vessel Name is required",
+                    {...register("tpidate", {
+                      required: "Date Received is required",
                     })}
-                    error={!!errors.skidvessel}
-                    helperText={errors.skidvessel?.message}
+                    error={!!errors.tpidate}
+                    helperText={errors.tpidate?.message}
                   />
                 </Grid>
 
@@ -193,173 +183,152 @@ export default function MainForm({
                   <TextField
                     required
                     fullWidth
-                    id="skidcontract"
-                    label="Contract No."
-                    name="skidcontract"
+                    id="tpisource"
+                    label="Source"
+                    name="tpisource"
                     type="text"
                     InputLabelProps={{ shrink: true }}
-                    {...register("skidcontract", {
-                      required: "Contract No. is required",
+                    {...register("tpisource", {
+                      required: "Source is required",
                     })}
-                    error={!!errors.coilcontract}
-                    helperText={errors.coilcontract?.message}
+                    error={!!errors.tpisource}
+                    helperText={errors.tpisource?.message}
                   />
                 </Grid>
 
-                {/* Create a auto complete form for Type of Material */}
-                <Grid item xs={4}>
+                <Grid item xs={2}>
                   <TextField
                     required
                     fullWidth
-                    id="skidtype"
-                    label="Type of Material"
-                    name="skidtype"
-                    type="text"
-                    InputLabelProps={{ shrink: true }}
-                    {...register("skidtype", {
-                      required: "Type of Material is required",
-                    })}
-                    error={!!errors.skidtype}
-                    helperText={errors.skidtype?.message}
-                  />
-                </Grid>
-
-                <Grid item xs={4}>
-                  <TextField
-                    required
-                    fullWidth
-                    id="skidnumber"
+                    id="tpiskidnumber"
                     label="Skid Number"
-                    name="skidnumber"
+                    name="tpiskidnumber"
                     type="text"
                     InputLabelProps={{ shrink: true }}
-                    {...register("skidnumber", {
+                    {...register("tpiskidnumber", {
                       required: "Skid Number is required",
                     })}
-                    error={!!errors.skidnumber}
-                    helperText={errors.skidnumber?.message}
+                    error={!!errors.tpiskidnumber}
+                    helperText={errors.tpiskidnumber?.message}
                   />
                 </Grid>
 
-                {/* Create a auto complete form for Coil Number */}
-                <Grid item xs={4}>
+                <Grid item xs={2}>
                   <TextField
                     required
                     fullWidth
-                    id="skidcoilnumber"
+                    id="tpicoilnumber"
                     label="Coil Number"
-                    name="skidcoilnumber"
+                    name="tpicoilnumber"
                     type="text"
                     InputLabelProps={{ shrink: true }}
-                    {...register("skidcoilnumber", {
+                    {...register("tpicoilnumber", {
                       required: "Coil Number is required",
                     })}
-                    error={!!errors.skidcoilnumber}
-                    helperText={errors.skidcoilnumber?.message}
+                    error={!!errors.tpicoilnumber}
+                    helperText={errors.tpicoilnumber?.message}
                   />
                 </Grid>
 
-                <Grid item xs={4}>
-                  <TextField
-                    required
-                    fullWidth
-                    id="skidtpinumber"
-                    label="TPI Number"
-                    name="skidtpinumber"
-                    type="text"
-                    InputLabelProps={{ shrink: true }}
-                    {...register("skidtpinumber", {
-                      required: "TPI Number is required",
-                    })}
-                    error={!!errors.skidtpinumber}
-                    helperText={errors.skidtpinumber?.message}
-                  />
-                </Grid>
-
-                {/* Create a auto complete form for Thickness */}
                 <Grid item xs={2}>
                   <TextField
                     required
                     fullWidth
-                    id="skidthick"
-                    label="Thickness and Size"
-                    name="skidthick"
+                    id="tpitype"
+                    label="Type"
+                    name="tpitype"
                     type="text"
                     InputLabelProps={{ shrink: true }}
-                    {...register("skidthick", {
-                      required: "Thickness and Size is required",
+                    {...register("tpitype", {
+                      required: "Type is required",
                     })}
-                    error={!!errors.skidthick}
-                    helperText={errors.skidthick?.message}
+                    error={!!errors.tpitype}
+                    helperText={errors.tpitype?.message}
                   />
                 </Grid>
 
-                {/* Create a auto complete form for Temper */}
                 <Grid item xs={2}>
                   <TextField
                     required
                     fullWidth
-                    id="skidtemp"
+                    id="tpisize"
+                    label="Size"
+                    name="tpisize"
+                    type="text"
+                    InputLabelProps={{ shrink: true }}
+                    {...register("tpisize", {
+                      required: "Size is required",
+                    })}
+                    error={!!errors.tpisize}
+                    helperText={errors.tpisize?.message}
+                  />
+                </Grid>
+
+                <Grid item xs={2}>
+                  <TextField
+                    required
+                    fullWidth
+                    id="tpithick"
+                    label="Thickness"
+                    name="tpithick"
+                    type="text"
+                    InputLabelProps={{ shrink: true }}
+                    {...register("tpithick", {
+                      required: "Thickness is required",
+                    })}
+                    error={!!errors.tpithick}
+                    helperText={errors.tpithick?.message}
+                  />
+                </Grid>
+
+                <Grid item xs={2}>
+                  <TextField
+                    required
+                    fullWidth
+                    id="tpitemp"
                     label="Temper"
-                    name="skidtemp"
+                    name="tpitemp"
                     type="text"
                     InputLabelProps={{ shrink: true }}
-                    {...register("skidtemp", {
+                    {...register("tpitemp", {
                       required: "Temper is required",
                     })}
-                    error={!!errors.skidtemp}
-                    helperText={errors.skidtemp?.message}
+                    error={!!errors.tpitemp}
+                    helperText={errors.tpitemp?.message}
                   />
                 </Grid>
 
-                {/* Create a auto complete form for Net Weight */}
                 <Grid item xs={2}>
                   <TextField
                     required
                     fullWidth
-                    id="skidnetweight"
-                    label="Net Weight"
-                    name="skidnetweight"
-                    type="text"
-                    InputLabelProps={{ shrink: true }}
-                    {...register("skidnetweight", {
-                      required: "Net Weight is required",
-                    })}
-                    error={!!errors.skidnetweight}
-                    helperText={errors.skidnetweight?.message}
-                  />
-                </Grid>
-
-                {/* Create a auto complete form for Coating */}
-                <Grid item xs={2}>
-                  <TextField
-                    required
-                    fullWidth
-                    id="skidcoat"
+                    id="tpicoat"
                     label="Coating"
-                    name="skidcoat"
+                    name="tpicoat"
                     type="text"
                     InputLabelProps={{ shrink: true }}
-                    {...register("skidcoat", {
+                    {...register("tpicoat", {
                       required: "Coating is required",
                     })}
-                    error={!!errors.skidcoat}
-                    helperText={errors.skidcoat?.message}
+                    error={!!errors.tpicoat}
+                    helperText={errors.tpicoat?.message}
                   />
                 </Grid>
 
-                <Grid item xs={12}>
+                <Grid item xs={2}>
                   <TextField
+                    required
                     fullWidth
-                    id="skidrem"
-                    label="Remarks"
-                    name="skidrem"
-                    multiline
-                    rows={3}
+                    id="tpiothers"
+                    label="Others"
+                    name="tpiothers"
+                    type="text"
                     InputLabelProps={{ shrink: true }}
-                    {...register("skidrem")}
-                    error={!!errors.skidrem}
-                    helperText={errors.skidrem?.message}
+                    {...register("tpiothers", {
+                      required: "Others is required",
+                    })}
+                    error={!!errors.tpiothers}
+                    helperText={errors.tpiothers?.message}
                   />
                 </Grid>
               </Grid>
@@ -374,7 +343,7 @@ export default function MainForm({
             >
               <SubmitButton
                 isLoading={loading}
-                title={isUpdate ? "Skid" : "Create Skid"}
+                title={isUpdate ? "Update TPI" : "Create TPI"}
               />
             </div>
           </Paper>

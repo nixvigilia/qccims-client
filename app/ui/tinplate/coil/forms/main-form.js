@@ -200,8 +200,8 @@ export default function MainForm({
                     {...register("coildatercv", {
                       required: "Date Received is required",
                     })}
-                    error={!!errors.jobDate}
-                    helperText={errors.jobDate?.message}
+                    error={!!errors.coildatercv}
+                    helperText={errors.coildatercv?.message}
                   />
                 </Grid>
 

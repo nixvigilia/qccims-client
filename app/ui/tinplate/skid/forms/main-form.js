@@ -374,7 +374,7 @@ export default function MainForm({
             >
               <SubmitButton
                 isLoading={loading}
-                title={isUpdate ? "Skid" : "Create Skid"}
+                title={isUpdate ? "Update Skid" : "Create Skid"}
               />
             </div>
           </Paper>

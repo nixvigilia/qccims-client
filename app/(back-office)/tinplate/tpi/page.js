@@ -20,7 +20,7 @@ const Page = () => {
       >
         <Grid item>
           <Typography variant="h5" fontWeight="bold" component="div">
-            TPI List | Tinplate
+            Tinplate and Product Information
           </Typography>
         </Grid>
         <Grid item>
