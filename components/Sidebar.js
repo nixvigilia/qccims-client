@@ -113,7 +113,7 @@ const Sidebar = ({
       text: "Production",
       icon: <PrecisionManufacturingTwoToneIcon color="primary" />,
       dropdown: true,
-      options: [{name: "Job Order Printing", path: "/production/job-orders"}],
+      options: [{name: "Job Order Printing", path: "/production/printing"}],
     },
     // {
     //   text: "Tinplates",

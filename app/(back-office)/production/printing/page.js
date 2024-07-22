@@ -20,30 +20,8 @@ const Page = () => {
       >
         <Grid item>
           <Typography variant="h5" fontWeight="bold" component="div">
-            Job Orders | Production
+            Job Orders | Printing
           </Typography>
-        </Grid>
-        <Grid item>
-          <Link href="job-orders/existing" passHref>
-            <Button
-              variant="contained"
-              color="primary"
-              startIcon={<AddIcon />}
-              sx={{
-                height: 40,
-                textTransform: "none",
-                fontSize: "0.875rem",
-                fontWeight: 500,
-                "&:hover": {
-                  backgroundColor: "rgb(33, 150, 243)",
-                },
-              }}
-            >
-              <Box component="span" sx={{display: {xs: "none", md: "block"}}}>
-                Create Job Order
-              </Box>
-            </Button>
-          </Link>
         </Grid>
       </Grid>
       <JobOrderList />

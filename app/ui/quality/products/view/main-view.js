@@ -23,7 +23,7 @@ import Swal from "sweetalert2";
 import NextLink from "next/link";
 import Link from "@mui/material/Link";
 import formatISODateToReadable from "@/utils/helpers/formatISODateToReadable";
-import EditTwoToneIcon from "@mui/icons-material/EditTwoTone";
+import PrintTwoToneIcon from "@mui/icons-material/PrintTwoTone";
 
 export default function MainView({initialData = {}}) {
   const formattedInitialData = {
@@ -218,7 +218,7 @@ export default function MainView({initialData = {}}) {
                             aria-controls="long-menu"
                             aria-haspopup="true"
                           >
-                            <EditTwoToneIcon />
+                            <PrintTwoToneIcon />
                           </IconButton>
                         </Link>
                       </TableCell>

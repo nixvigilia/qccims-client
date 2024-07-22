@@ -2,11 +2,18 @@
 
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
-import PageBreadCrumbs from "@/components/Delivery/CustomerProfile/PageBreadCrumbs";
-
-import PurchaseOrderForm from "@/components/Procurement/PurchaseOrders/Forms/PurchaseOrderForm";
+import PageBreadCrumbs from "@/app/ui/quality/products/page-bread-crumbs";
+import MainForm from "@/app/ui/quality/products/forms/main-form";
+import {getData} from "@/lib/actions/data/getData";
+import useSWR from "swr";
 
 export default function Page() {
+  const fetcher = (url) => getData(url);
+  const {data, error, mutate} = useSWR(`/api/quality/products/list`, fetcher);
+
+  if (error) return <div>Failed to load</div>;
+  if (!data) return <div>Loading...</div>;
+
   return (
     <>
       <PageBreadCrumbs />
@@ -19,12 +26,12 @@ export default function Page() {
       >
         <Grid item>
           <Typography variant="h5" fontWeight="bold" component="div">
-            Create a purchase order
+            Product Entry
           </Typography>
         </Grid>
       </Grid>
 
-      <PurchaseOrderForm />
+      <MainForm data={data} mutate={mutate} />
     </>
   );
 }

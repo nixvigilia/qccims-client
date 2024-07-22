@@ -1,30 +1,40 @@
 "use client";
-import React, { useState } from "react";
+import React, {useState} from "react";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import CircularProgress from "@mui/material/CircularProgress";
-import { useDebounce } from "use-debounce";
-import { getData } from "@/lib/actions/data/getData";
+import {useDebounce} from "use-debounce";
+import {getData} from "@/lib/actions/data/getData";
 import useSWR from "swr";
 
 const fetcher = (url) => getData(url);
 
-const AutoCompleteForm = ({ selectedSupplier, setSelectedSupplier }) => {
+const AutoCompleteForm = ({
+  selectedDetails,
+  setSelectedDetails,
+  columnName,
+  title,
+  variant,
+  endpoint,
+  size,
+  disabled = false,
+  category,
+}) => {
   const [inputValue, setInputValue] = useState("");
   const [debouncedInputValue] = useDebounce(inputValue, 300);
 
-  const { data, error } = useSWR(
-    `/api/procurement/suppliers/list?search=${debouncedInputValue}`,
+  const {data, error} = useSWR(
+    `${endpoint}/?search=${debouncedInputValue}&category=${category}`,
     fetcher
   );
 
   if (error) return <div>Failed to load</div>;
 
-  const handleSupplierChange = (event, newValue) => {
+  const handleChange = (event, newValue) => {
     if (newValue) {
-      setSelectedSupplier({ id: newValue.id, name: newValue.supplierName });
+      setSelectedDetails({id: newValue.id, name: newValue[columnName]});
     } else {
-      setSelectedSupplier(null);
+      setSelectedDetails(null);
     }
   };
 
@@ -34,21 +44,26 @@ const AutoCompleteForm = ({ selectedSupplier, setSelectedSupplier }) => {
       openOnFocus
       options={data || []}
       loading={!data}
+      disabled={disabled}
       value={
-        selectedSupplier
-          ? { supplierName: selectedSupplier.name, id: selectedSupplier.id }
+        selectedDetails
+          ? {[columnName]: selectedDetails.name, id: selectedDetails.id}
           : null
       }
-      onChange={handleSupplierChange}
+      onChange={handleChange}
       inputValue={inputValue}
       onInputChange={(event, newInputValue) => setInputValue(newInputValue)}
       isOptionEqualToValue={(option, value) => option.id === value.id}
-      getOptionLabel={(option) => option.supplierName || ""}
+      getOptionLabel={(option) => option[columnName] || ""}
       renderInput={(params) => (
         <TextField
           {...params}
-          label="Search Supplier"
-          variant="outlined"
+          label={title}
+          variant={variant}
+          size={size}
+          InputLabelProps={{
+            shrink: true,
+          }}
           InputProps={{
             ...params.InputProps,
             endAdornment: (
@@ -62,7 +77,7 @@ const AutoCompleteForm = ({ selectedSupplier, setSelectedSupplier }) => {
       )}
       renderOption={(props, option) => (
         <li {...props} key={option.id}>
-          {option.supplierName}
+          {option[columnName]}
         </li>
       )}
     />

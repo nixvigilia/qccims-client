@@ -149,12 +149,12 @@ export default function MainForm({initialData = {}, mutate, isUpdate = false}) {
       if (result.isConfirmed) {
         remove(index);
         toast.success("The item has been removed.");
-        handleSubmit(onSubmit)(); // Trigger form submission on successful remove
+        handleSubmit(onSubmit)();
       }
     } else {
       remove(index);
       toast.success("The item has been removed.");
-      handleSubmit(onSubmit)(); // Trigger form submission on successful remove
+      handleSubmit(onSubmit)();
     }
   };
 

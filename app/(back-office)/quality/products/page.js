@@ -23,8 +23,8 @@ const Page = () => {
             Product List
           </Typography>
         </Grid>
-        {/* <Grid item>
-          <Link href="product/new" passHref>
+        <Grid item>
+          <Link href="products/new" passHref>
             <Button
               variant="contained"
               color="primary"
@@ -44,7 +44,7 @@ const Page = () => {
               </Box>
             </Button>
           </Link>
-        </Grid> */}
+        </Grid>
       </Grid>
       <ProductList />
     </>
