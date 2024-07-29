@@ -1,5 +1,5 @@
 "use client";
-import React, {useState} from "react";
+import {useState, memo} from "react";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -9,7 +9,7 @@ import useSWR from "swr";
 
 const fetcher = (url) => getData(url);
 
-const AutoCompleteForm = ({
+const AutoCompleteForm = memo(function AutoCompleteForm({
   selectedDetails,
   setSelectedDetails,
   columnName,
@@ -18,13 +18,12 @@ const AutoCompleteForm = ({
   endpoint,
   size,
   disabled = false,
-  category,
-}) => {
+}) {
   const [inputValue, setInputValue] = useState("");
   const [debouncedInputValue] = useDebounce(inputValue, 300);
 
   const {data, error} = useSWR(
-    `${endpoint}/?search=${debouncedInputValue}&category=${category}`,
+    `${endpoint}/?search=${debouncedInputValue}`,
     fetcher
   );
 
@@ -82,6 +81,6 @@ const AutoCompleteForm = ({
       )}
     />
   );
-};
+});
 
 export default AutoCompleteForm;

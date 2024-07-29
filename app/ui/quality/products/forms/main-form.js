@@ -1,8 +1,8 @@
 "use client";
-
 import {useState, useEffect} from "react";
-import {useRouter} from "next/navigation";
 import {useForm, FormProvider} from "react-hook-form";
+import useSWR from "swr";
+import {useDebounce} from "use-debounce";
 import Swal from "sweetalert2";
 import {toast} from "react-hot-toast";
 
@@ -18,12 +18,13 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
+import Button from "@mui/material/Button";
 import AutoCompleteForm from "./auto-complete-form";
 import SubmitButton from "@/components/FormInputs/SubmitButton";
-import {postRequest} from "@/lib/api/requestApi"; // Ensure this is correctly pointing to your request API functions
+import {postRequest, deleteRequest} from "@/lib/api/requestApi";
+import {getData} from "@/lib/actions/data/getData";
 
-export default function MainForm({data, error, mutate}) {
-  const router = useRouter();
+export default function MainForm() {
   const {
     register,
     handleSubmit,
@@ -33,15 +34,20 @@ export default function MainForm({data, error, mutate}) {
   } = useForm();
   const [loading, setLoading] = useState(false);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
-  const [customerProducts, setCustomerProducts] = useState([]);
+  const [inputValue, setInputValue] = useState("");
+  const [debouncedInputValue] = useDebounce(inputValue, 300);
+
+  const fetcher = (url) => getData(url);
+  const {data, error, mutate} = useSWR(
+    `/api/customer/list/?search=${debouncedInputValue}`,
+    fetcher
+  );
 
   useEffect(() => {
-    if (selectedCustomer && data) {
-      setCustomerProducts(
-        data.filter((product) => product.customerId === selectedCustomer.id)
-      );
+    if (selectedCustomer) {
+      setInputValue(selectedCustomer.name);
     }
-  }, [selectedCustomer, data]);
+  }, [selectedCustomer]);
 
   async function onSubmit(formData) {
     formData.customerId = selectedCustomer?.id || null;
@@ -63,6 +69,35 @@ export default function MainForm({data, error, mutate}) {
       mutate();
     }
   }
+
+  async function handleDelete(productId) {
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, delete it!",
+    });
+
+    if (result.isConfirmed) {
+      const response = await deleteRequest(
+        setLoading,
+        `/api/quality/products/${productId}`
+      );
+
+      if (response?.status === 200) {
+        mutate();
+      } else {
+        toast.error("Failed to delete product");
+      }
+    }
+  }
+
+  const customerProducts =
+    selectedCustomer && data
+      ? data.find((customer) => customer.id === selectedCustomer.id)
+          ?.products || []
+      : [];
 
   return (
     <FormProvider {...{register, control, handleSubmit, reset}}>
@@ -104,29 +139,46 @@ export default function MainForm({data, error, mutate}) {
           </Grid>
           <Grid item xs={12} sm={6}>
             <Paper square={false} sx={{p: 4, mt: 4}}>
-              {customerProducts.length > 0 && (
+              <Typography variant="h6" gutterBottom>
+                Products
+              </Typography>
+              {error ? (
+                <div>Failed to load</div>
+              ) : !data ? (
+                <div>Loading...</div>
+              ) : (
                 <>
-                  <Typography variant="h6" gutterBottom>
-                    Products under {selectedCustomer?.companyName}
-                  </Typography>
-                  <TableContainer component={Paper}>
-                    <Table>
-                      <TableHead>
-                        <TableRow>
-                          <TableCell>Product ID</TableCell>
-                          <TableCell>Product Name</TableCell>
-                        </TableRow>
-                      </TableHead>
-                      <TableBody>
-                        {customerProducts.map((product) => (
-                          <TableRow key={product.id}>
-                            <TableCell>{product.id}</TableCell>
-                            <TableCell>{product.productName}</TableCell>
+                  {customerProducts.length > 0 && (
+                    <TableContainer component={Paper}>
+                      <Table>
+                        <TableHead>
+                          <TableRow>
+                            <TableCell>Product ID</TableCell>
+                            <TableCell>Product Name</TableCell>
+                            <TableCell>Actions</TableCell>
                           </TableRow>
-                        ))}
-                      </TableBody>
-                    </Table>
-                  </TableContainer>
+                        </TableHead>
+                        <TableBody>
+                          {customerProducts.map((product) => (
+                            <TableRow key={product.id}>
+                              <TableCell>{product.id}</TableCell>
+                              <TableCell>{product.productName}</TableCell>
+                              <TableCell>
+                                <Button
+                                  variant="outlined"
+                                  onClick={() => handleDelete(product.id)}
+                                  disabled={loading}
+                                  sx={{fontSize: "12px"}}
+                                >
+                                  Delete
+                                </Button>
+                              </TableCell>
+                            </TableRow>
+                          ))}
+                        </TableBody>
+                      </Table>
+                    </TableContainer>
+                  )}
                 </>
               )}
             </Paper>

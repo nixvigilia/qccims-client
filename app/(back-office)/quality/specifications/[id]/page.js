@@ -1,8 +1,8 @@
 "use client";
 import useSWR from "swr";
 import {getData} from "@/lib/actions/data/getData";
-import PageBreadCrumbs from "@/components/Delivery/CustomerProfile/PageBreadCrumbs";
-import MainView from "@/app/ui/quality/products/view/main-view";
+import PageBreadCrumbs from "@/app/ui/quality/specifications/page-bread-crumbs";
+import MainView from "@/app/ui/quality/specifications/view/main-view";
 
 export default function Page({params}) {
   const {id} = params;

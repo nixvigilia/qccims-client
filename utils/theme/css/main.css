@@ -1,20 +1,47 @@
-html{
-        background-color: whitesmoke;
+html {
+  background-color: whitesmoke;
 }
 
-
 .login {
-    background-image: url('../../../public/warehouse_bw.png');
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-position: bottom;
-    background-color: #fffefe;
+  background-image: url("../../../public/warehouse_bw.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: bottom;
+  background-color: #fffefe;
 }
 
 .card--dashboard {
-    background-image: url('../../../public/staff.png');
-    background-repeat: no-repeat;
-    background-size: 80%;
-    background-position: 400px 50%;
-    background-color: #fffefe;
+  background-image: url("../../../public/staff.png");
+  background-repeat: no-repeat;
+  background-size: 80%;
+  background-position: 400px 50%;
+  background-color: #fffefe;
+}
+
+@media print {
+  body {
+    margin: 0;
+    padding: 0;
+  }
+
+  #print-section {
+    margin: 0;
+    padding: 0.5in; /* Adjust padding to fit content within printable area */
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  * {
+    font-size: 10px; /* Adjust font size to ensure content fits */
+  }
+
+  table {
+    width: 100%;
+  }
+
+  th,
+  td {
+    padding: 4px; /* Reduce padding to save space */
+    font-size: 10px; /* Smaller font size for table content */
+  }
 }

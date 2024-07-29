@@ -23,7 +23,8 @@ import Swal from "sweetalert2";
 import NextLink from "next/link";
 import Link from "@mui/material/Link";
 import formatISODateToReadable from "@/utils/helpers/formatISODateToReadable";
-import EditTwoToneIcon from "@mui/icons-material/EditTwoTone";
+import PrintTwoToneIcon from "@mui/icons-material/PrintTwoTone";
+import ModeEditTwoToneIcon from "@mui/icons-material/ModeEditTwoTone";
 
 export default function MainView({initialData = {}}) {
   const formattedInitialData = {
@@ -42,7 +43,6 @@ export default function MainView({initialData = {}}) {
     name: "jobOrderItems",
   });
 
-  // State for managing the dropdown menu
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -50,26 +50,6 @@ export default function MainView({initialData = {}}) {
   };
   const handleClose = () => {
     setAnchorEl(null);
-  };
-
-  const handleApprove = () => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "Do you want to approve this purchase order?",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, approve it!",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        Swal.fire(
-          "Approved!",
-          "The purchase order has been approved.",
-          "success"
-        );
-      }
-    });
   };
 
   return (
@@ -149,7 +129,7 @@ export default function MainView({initialData = {}}) {
           <Grid container spacing={2}>
             <Grid item xs={12} sm={8}>
               <Typography variant="body1">
-                <strong>Customer Name:</strong>
+                <strong>Customer Name:</strong>{" "}
                 {initialData.customer.companyName}
               </Typography>
             </Grid>
@@ -166,7 +146,7 @@ export default function MainView({initialData = {}}) {
               <Table>
                 <TableHead>
                   <TableRow>
-                    <TableCell width="5%">
+                    <TableCell width="30%">
                       <Typography variant="overline">
                         Product Description
                       </Typography>
@@ -183,7 +163,7 @@ export default function MainView({initialData = {}}) {
                     <TableCell width="5%">
                       <Typography variant="overline">Unit</Typography>
                     </TableCell>
-                    <TableCell>
+                    <TableCell width="10%">
                       <Typography variant="overline">Remarks</Typography>
                     </TableCell>
                     <TableCell width="5%"></TableCell>
@@ -192,13 +172,17 @@ export default function MainView({initialData = {}}) {
                 <TableBody>
                   {fields.map((field, index) => (
                     <TableRow key={index}>
-                      <TableCell>{field.product.productName}</TableCell>
+                      <TableCell width="30%">
+                        {field.product.productName}
+                      </TableCell>
                       <TableCell>{field.salesOrder}</TableCell>
                       <TableCell>
-                        {formatISODateToReadable(field.deliveryDate)}
+                        {field.deliveryDate
+                          ? formatISODateToReadable(field.deliveryDate)
+                          : ""}
                       </TableCell>
                       <TableCell>{field.quantity}</TableCell>
-                      <TableCell>{field.unit}</TableCell>
+                      <TableCell>{field.unit.abbreviation}</TableCell>
                       <TableCell>{field.remarks}</TableCell>
                       <TableCell>
                         <Link
@@ -214,7 +198,7 @@ export default function MainView({initialData = {}}) {
                             aria-controls="long-menu"
                             aria-haspopup="true"
                           >
-                            <EditTwoToneIcon />
+                            <ModeEditTwoToneIcon />
                           </IconButton>
                         </Link>
                       </TableCell>
