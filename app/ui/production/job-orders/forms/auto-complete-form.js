@@ -24,11 +24,13 @@ const AutoCompleteForm = ({
   const [debouncedInputValue] = useDebounce(inputValue, 300);
 
   const {data, error} = useSWR(
-    `${endpoint}/?search=${debouncedInputValue}&category=${category}`,
+    `${endpoint}/?search=${debouncedInputValue}`,
     fetcher
   );
 
   if (error) return <div>Failed to load</div>;
+
+  console.log(data);
 
   const handleChange = (event, newValue) => {
     if (newValue) {
