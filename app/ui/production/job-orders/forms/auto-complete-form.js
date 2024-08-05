@@ -12,6 +12,7 @@ const fetcher = (url) => getData(url);
 const AutoCompleteForm = ({
   selectedDetails,
   setSelectedDetails,
+  customerId,
   columnName,
   title,
   variant,
@@ -24,13 +25,11 @@ const AutoCompleteForm = ({
   const [debouncedInputValue] = useDebounce(inputValue, 300);
 
   const {data, error} = useSWR(
-    `${endpoint}/?search=${debouncedInputValue}`,
+    `${endpoint}?search=${debouncedInputValue}&customerId=${customerId}`,
     fetcher
   );
 
   if (error) return <div>Failed to load</div>;
-
-  console.log(data);
 
   const handleChange = (event, newValue) => {
     if (newValue) {

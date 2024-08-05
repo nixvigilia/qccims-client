@@ -106,7 +106,7 @@ const Sidebar = ({
       dropdown: true,
       options: [
         {name: "Product Entry", path: "/quality/products"},
-        {name: "Tin Can Specifications", path: "/quality/specifications"},
+        // {name: "Tin Can Specifications", path: "/quality/specifications"},
       ],
     },
     {

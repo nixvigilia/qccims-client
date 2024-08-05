@@ -6,7 +6,17 @@ import Paper from "@mui/material/Paper";
 import TableRow from "@mui/material/TableRow";
 import Grid from "@mui/material/Grid";
 
-export default function SpecsTableRight() {
+export default function SpecsTableRight({productSpecs}) {
+  console.log(productSpecs);
+  const {
+    handleDistance,
+    solder,
+    beads,
+    numberOfBeads,
+    emboss,
+    embossLocation,
+    specRemarks,
+  } = productSpecs;
   return (
     <Grid container spacing={1}>
       <Grid
@@ -30,7 +40,7 @@ export default function SpecsTableRight() {
                   HANDLE DISTANCE
                 </TableCell>
                 <TableCell sx={{border: "1px solid black", padding: "4px"}}>
-                  SAMPLE DATA
+                  {handleDistance}
                 </TableCell>
               </TableRow>
               <TableRow>
@@ -38,7 +48,7 @@ export default function SpecsTableRight() {
                   SOLDER
                 </TableCell>
                 <TableCell sx={{border: "1px solid black", padding: "4px"}}>
-                  SAMPLE DATA
+                  {solder}
                 </TableCell>
               </TableRow>
               <TableRow>
@@ -46,7 +56,7 @@ export default function SpecsTableRight() {
                   BEADS
                 </TableCell>
                 <TableCell sx={{border: "1px solid black", padding: "4px"}}>
-                  SAMPLE DATA
+                  {beads}
                 </TableCell>
               </TableRow>
               <TableRow>
@@ -54,7 +64,7 @@ export default function SpecsTableRight() {
                   NUMBER OF BEADS
                 </TableCell>
                 <TableCell sx={{border: "1px solid black", padding: "4px"}}>
-                  SAMPLE DATA
+                  {numberOfBeads}
                 </TableCell>
               </TableRow>
               <TableRow>
@@ -62,7 +72,7 @@ export default function SpecsTableRight() {
                   EMBOSS
                 </TableCell>
                 <TableCell sx={{border: "1px solid black", padding: "4px"}}>
-                  SAMPLE DATA
+                  {emboss}
                 </TableCell>
               </TableRow>
               <TableRow>
@@ -70,7 +80,7 @@ export default function SpecsTableRight() {
                   EMBOSS LOCATION
                 </TableCell>
                 <TableCell sx={{border: "1px solid black", padding: "4px"}}>
-                  SAMPLE DATA
+                  {embossLocation}
                 </TableCell>
               </TableRow>
               <TableRow>
@@ -79,14 +89,9 @@ export default function SpecsTableRight() {
                   sx={{
                     border: "1px solid black",
                     padding: "4px",
-                    fontSize: "10px",
                   }}
                 >
-                  REMARKS: Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry. Lorem Ipsum has been the industry's
-                  standard dummy text ever since the 1500s, when an unknown
-                  printer took a galley of type and scrambled it to make a type
-                  specimen book.
+                  REMARKS: {specRemarks}
                 </TableCell>
               </TableRow>
             </TableBody>

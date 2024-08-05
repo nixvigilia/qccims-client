@@ -8,11 +8,13 @@ import Typography from "@mui/material/Typography";
 import AutoCompleteForm from "../auto-complete-form";
 
 export default function ProductSpecsDetails({
-  selectedCustomer,
-  setSelectedCustomer,
-  selectedProducts,
-  setSelectedProducts,
+  selectedProduct,
+  setSelectedProduct,
+  product,
+  canSize,
 }) {
+  const {customerId} = product;
+
   return (
     <Grid item xs={12}>
       <TableContainer sx={{padding: 0, margin: 0}}>
@@ -25,9 +27,10 @@ export default function ProductSpecsDetails({
               <TableCell sx={{padding: "4px"}}>
                 <Typography variant="button">
                   <AutoCompleteForm
-                    selectedDetails={selectedCustomer}
-                    setSelectedDetails={setSelectedCustomer}
-                    columnName="products"
+                    selectedDetails={selectedProduct}
+                    setSelectedDetails={setSelectedProduct}
+                    customerId={customerId}
+                    columnName="productName"
                     title="Product Name"
                     endpoint="/api/production/product-specs/list"
                   />
@@ -35,8 +38,8 @@ export default function ProductSpecsDetails({
               </TableCell>
             </TableRow>
             <TableRow>
-              <TableCell sx={{padding: "4px"}}>
-                <Typography variant="button">CAN SIZE:</Typography>
+              <TableCell sx={{padding: "6px"}}>
+                <Typography>CAN SIZE: {canSize}</Typography>
               </TableCell>
             </TableRow>
           </TableBody>

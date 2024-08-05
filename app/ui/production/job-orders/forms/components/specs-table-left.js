@@ -6,7 +6,16 @@ import Grid from "@mui/material/Grid";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 
-export default function SpecsTableLeft() {
+export default function SpecsTableLeft({productSpecs}) {
+  const {
+    bodyBlankLength,
+    bodyBlankWidth,
+    actualCanHeight,
+    coverSpout,
+    jointInterlocking,
+    handle,
+    handleLocation,
+  } = productSpecs;
   return (
     <Grid container spacing={1}>
       <Grid
@@ -26,31 +35,31 @@ export default function SpecsTableLeft() {
                 <TableCell width="200px" sx={{padding: "4px"}}>
                   BODY BLANK LENGTH
                 </TableCell>
-                <TableCell sx={{padding: "4px"}}>SAMPLE DATA</TableCell>
+                <TableCell sx={{padding: "4px"}}>{bodyBlankLength}</TableCell>
               </TableRow>
               <TableRow>
                 <TableCell sx={{padding: "4px"}}>BODY BLANK WIDTH</TableCell>
-                <TableCell sx={{padding: "4px"}}>SAMPLE DATA</TableCell>
+                <TableCell sx={{padding: "4px"}}>{bodyBlankWidth}</TableCell>
               </TableRow>
               <TableRow>
                 <TableCell sx={{padding: "4px"}}>ACTUAL CAN HEIGHT</TableCell>
-                <TableCell sx={{padding: "4px"}}>SAMPLE DATA</TableCell>
+                <TableCell sx={{padding: "4px"}}>{actualCanHeight}</TableCell>
               </TableRow>
               <TableRow>
                 <TableCell sx={{padding: "4px"}}>COVER / SPOUT</TableCell>
-                <TableCell sx={{padding: "4px"}}>SAMPLE DATA</TableCell>
+                <TableCell sx={{padding: "4px"}}>{coverSpout}</TableCell>
               </TableRow>
               <TableRow>
                 <TableCell sx={{padding: "4px"}}>JOINT INTERLOCKING</TableCell>
-                <TableCell sx={{padding: "4px"}}>SAMPLE DATA</TableCell>
+                <TableCell sx={{padding: "4px"}}>{jointInterlocking}</TableCell>
               </TableRow>
               <TableRow>
                 <TableCell sx={{padding: "4px"}}>HANDLE</TableCell>
-                <TableCell sx={{padding: "4px"}}>SAMPLE DATA</TableCell>
+                <TableCell sx={{padding: "4px"}}>{handle}</TableCell>
               </TableRow>
               <TableRow>
                 <TableCell sx={{padding: "4px"}}>HANDLE LOCATION</TableCell>
-                <TableCell sx={{padding: "4px"}}>SAMPLE DATA</TableCell>
+                <TableCell sx={{padding: "4px"}}>{handleLocation}</TableCell>
               </TableRow>
             </TableBody>
           </Table>

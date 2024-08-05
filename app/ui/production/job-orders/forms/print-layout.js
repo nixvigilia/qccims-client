@@ -2,7 +2,6 @@
 
 import {useState, useEffect} from "react";
 import Box from "@mui/material/Box";
-
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 import Header from "./components/header";
@@ -13,17 +12,37 @@ import ProductSpecsDetails from "./components/product-specs-details";
 import SpecsTableTop from "./components/specs-table-top";
 import SpecsTableLeft from "./components/specs-table-left";
 import SpecsTableRight from "./components/specs-table-right";
+import {getData} from "@/lib/actions/data/getData";
+import useSWR from "swr";
+import {useDebounce} from "use-debounce";
 
 export default function PrintLayout({
   initialData = {},
   itemId,
   isUpdate = false,
-  mutate,
 }) {
   const {jobOrder, product} = initialData;
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [selectedSpecs, setSelectedSpecs] = useState("");
+  const [debouncedInputValue] = useDebounce(selectedSpecs, 300);
 
-  const [selectedCustomer, setSelectedCustomer] = useState(null);
-  const [selectedProducts, setSelectedProducts] = useState(null);
+  const fetcher = (url) => getData(url);
+  const {data, error} = useSWR(
+    `/api/production/product-specs/list?search=${debouncedInputValue}&customerId=${product?.customerId}`,
+    fetcher
+  );
+
+  useEffect(() => {
+    if (selectedProduct) {
+      setSelectedSpecs(selectedProduct.name);
+    }
+  }, [selectedProduct]);
+
+  useEffect(() => {
+    if (error) {
+      console.error("Error fetching data:", error);
+    }
+  }, [error]);
 
   const handlePrint = () => {
     const printContents = document.getElementById("print-section").innerHTML;
@@ -31,8 +50,12 @@ export default function PrintLayout({
     document.body.innerHTML = printContents;
     window.print();
     document.body.innerHTML = originalContents;
-    window.location.reload(); // Reload the page to restore the original state
   };
+
+  const productSpecifications =
+    selectedProduct && data
+      ? data.find((product) => product.id === selectedProduct.id) || []
+      : [];
 
   return (
     <Box mt={4}>
@@ -51,26 +74,33 @@ export default function PrintLayout({
           <ProductInfo product={product} data={initialData} />
           <ProductTable />
           <ProductSpecsDetails
-            selectedCustomer={selectedCustomer}
-            setSelectedCustomer={setSelectedCustomer}
-            selectedProducts={selectedProducts}
-            setSelectedProducts={setSelectedProducts}
+            selectedProduct={selectedProduct}
+            setSelectedProduct={setSelectedProduct}
+            setSelectedSpecs={setSelectedSpecs}
+            product={product}
+            canSize={productSpecifications?.productSpecs?.canSize}
           />
 
           <Grid item xs={12}>
             <Grid container>
               <Grid item xs={12}>
-                <SpecsTableTop />
+                <SpecsTableTop
+                  productSpecs={productSpecifications?.productSpecs || []}
+                />
               </Grid>
             </Grid>
           </Grid>
 
           <Grid item xs={6}>
-            <SpecsTableLeft />
+            <SpecsTableLeft
+              productSpecs={productSpecifications?.productSpecs || []}
+            />
           </Grid>
 
           <Grid item xs={6}>
-            <SpecsTableRight />
+            <SpecsTableRight
+              productSpecs={productSpecifications?.productSpecs || []}
+            />
           </Grid>
         </Grid>
       </Box>
