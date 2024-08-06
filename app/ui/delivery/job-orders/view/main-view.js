@@ -193,17 +193,17 @@ export default function MainView({initialData = {}}) {
                   {fields.map((field, index) => (
                     <TableRow key={index}>
                       <TableCell width="30%">
-                        {field.product.productName}
+                        {field.product?.productName}
                       </TableCell>
-                      <TableCell>{field.salesOrder}</TableCell>
+                      <TableCell>{field?.salesOrder}</TableCell>
                       <TableCell>
                         {field.deliveryDate
                           ? formatISODateToReadable(field.deliveryDate)
                           : ""}
                       </TableCell>
-                      <TableCell>{field.quantity}</TableCell>
-                      <TableCell>{field.unit.abbreviation}</TableCell>
-                      <TableCell>{field.remarks}</TableCell>
+                      <TableCell>{field?.quantity}</TableCell>
+                      <TableCell>{field?.unit?.abbreviation}</TableCell>
+                      <TableCell>{field?.remarks}</TableCell>
                       <TableCell>
                         <Link
                           href={`item/${field.jobOrderItemId}`}

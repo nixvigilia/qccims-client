@@ -104,16 +104,16 @@ const Sidebar = ({
       text: "Quality Control",
       icon: <CheckCircleTwoToneIcon color="primary" />,
       dropdown: true,
-      options: [
-        {name: "Product Entry", path: "/quality/products"},
-        // {name: "Tin Can Specifications", path: "/quality/specifications"},
-      ],
+      options: [{name: "Product Entry", path: "/quality/products"}],
     },
     {
       text: "Production",
       icon: <PrecisionManufacturingTwoToneIcon color="primary" />,
       dropdown: true,
-      options: [{name: "Job Order Printing", path: "/production/printing"}],
+      options: [
+        {name: "Job Order Printing", path: "/production/printing"},
+        {name: "Specification", path: "/production/specification"},
+      ],
     },
     {
       text: "Tinplates",

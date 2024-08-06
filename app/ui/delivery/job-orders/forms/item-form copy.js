@@ -1,6 +1,6 @@
 "use client";
 
-import {useState, useEffect} from "react";
+import {useState} from "react";
 import {useRouter} from "next/navigation";
 import {useForm, FormProvider} from "react-hook-form";
 import {postRequest, updateRequest} from "@/lib/api/requestApi";
@@ -12,6 +12,7 @@ import TextField from "@mui/material/TextField";
 import SubmitButton from "@/components/FormInputs/SubmitButton";
 import formatISODateToReadable from "@/utils/helpers/formatISODateToReadable";
 import dayjs from "dayjs";
+import {useEffect} from "react";
 
 export default function ItemForm({
   initialData = {},
@@ -19,18 +20,22 @@ export default function ItemForm({
   isUpdate = false,
   mutate,
 }) {
+  const router = useRouter();
+  const {jobOrder, product, productSpecs} = initialData;
+  const {customer} = jobOrder;
+
   const formatDate = (date) => (date ? dayjs(date).format("YYYY-MM-DD") : "");
 
-  let formattedProductSpecs;
+  let formattedproductSpecs;
 
-  if (initialData) {
-    formattedProductSpecs = {
-      ...initialData,
-      supersedeDate: formatDate(initialData.supersedeDate),
+  if (productSpecs) {
+    formattedproductSpecs = {
+      ...productSpecs,
+      supersedeDate: formatDate(productSpecs.supersedeDate),
     };
   }
 
-  const methods = useForm({defaultValues: formattedProductSpecs || {}});
+  const methods = useForm({defaultValues: productSpecs || initialData});
   const {
     register,
     handleSubmit,
@@ -39,13 +44,14 @@ export default function ItemForm({
   } = methods;
 
   useEffect(() => {
-    reset(formattedProductSpecs || {});
-  }, [reset]);
+    reset(initialData);
+  }, [initialData, reset]);
 
   const [loading, setLoading] = useState(false);
 
   async function onSubmit(data) {
     const filteredData = {
+      jobOrderItemId: itemId,
       supersedeNumber: data.supersedeNumber || null,
       supersedeDate: new Date(data.supersedeDate) || null,
       canSize: data.canSize || null,
@@ -81,7 +87,7 @@ export default function ItemForm({
       specRemarks: data.specRemarks || null,
     };
 
-    if (isUpdate && itemId) {
+    if (isUpdate) {
       await updateRequest(
         setLoading,
         `api/production/product-specs/${itemId}`,
@@ -89,17 +95,7 @@ export default function ItemForm({
         "Job Order",
         reset
       );
-    } else {
-      await postRequest(
-        setLoading,
-        "api/production/product-specs",
-        filteredData,
-        "Job Order",
-        reset
-      );
-    }
 
-    if (mutate) {
       mutate();
     }
   }
@@ -150,84 +146,77 @@ export default function ItemForm({
                   </Grid>
                 </Grid>
 
-                {/* Remove the disabled fields if there's no itemId */}
-                {itemId && (
-                  <>
-                    <Grid item xs={12} sm={3}>
-                      <TextField
-                        fullWidth
-                        id="jobOrderId"
-                        label="Job Order ID"
-                        size="small"
-                        variant="filled"
-                        InputLabelProps={{shrink: true}}
-                        defaultValue={initialData.jobNumber}
-                        disabled
-                        sx={{
-                          "& .MuiInputBase-input.Mui-disabled": {
-                            WebkitTextFillColor: "#36454F",
-                          },
-                        }}
-                      />
-                    </Grid>
+                <Grid item xs={12} sm={3}>
+                  <TextField
+                    fullWidth
+                    id="jobOrderId"
+                    label="Job Order ID"
+                    size="small"
+                    variant="filled"
+                    InputLabelProps={{shrink: true}}
+                    defaultValue={jobOrder.jobNumber}
+                    disabled
+                    sx={{
+                      "& .MuiInputBase-input.Mui-disabled": {
+                        WebkitTextFillColor: "#36454F",
+                      },
+                    }}
+                  />
+                </Grid>
 
-                    <Grid item xs={12} sm={6}>
-                      <TextField
-                        fullWidth
-                        id="customer"
-                        label="Customer"
-                        size="small"
-                        variant="filled"
-                        InputLabelProps={{shrink: true}}
-                        defaultValue={initialData.companyName}
-                        disabled
-                        sx={{
-                          "& .MuiInputBase-input.Mui-disabled": {
-                            WebkitTextFillColor: "#36454F",
-                          },
-                        }}
-                      />
-                    </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    fullWidth
+                    id="customer"
+                    label="Customer"
+                    size="small"
+                    variant="filled"
+                    InputLabelProps={{shrink: true}}
+                    defaultValue={customer.companyName}
+                    disabled
+                    sx={{
+                      "& .MuiInputBase-input.Mui-disabled": {
+                        WebkitTextFillColor: "#36454F",
+                      },
+                    }}
+                  />
+                </Grid>
 
-                    <Grid item xs={12} sm={3}>
-                      <TextField
-                        fullWidth
-                        id="jobDate"
-                        label="Date Created"
-                        size="small"
-                        variant="filled"
-                        InputLabelProps={{shrink: true}}
-                        defaultValue={formatISODateToReadable(
-                          initialData.jobDate
-                        )}
-                        disabled
-                        sx={{
-                          "& .MuiInputBase-input.Mui-disabled": {
-                            WebkitTextFillColor: "#36454F",
-                          },
-                        }}
-                      />
-                    </Grid>
+                <Grid item xs={12} sm={3}>
+                  <TextField
+                    fullWidth
+                    id="jobDate"
+                    label="Date Created"
+                    size="small"
+                    variant="filled"
+                    InputLabelProps={{shrink: true}}
+                    defaultValue={formatISODateToReadable(jobOrder.jobDate)}
+                    disabled
+                    sx={{
+                      "& .MuiInputBase-input.Mui-disabled": {
+                        WebkitTextFillColor: "#36454F",
+                      },
+                    }}
+                  />
+                </Grid>
 
-                    <Grid item xs={12} sm={6}>
-                      <TextField
-                        fullWidth
-                        id="product"
-                        label="Product"
-                        size="small"
-                        variant="filled"
-                        defaultValue={initialData.productName}
-                        disabled
-                        sx={{
-                          "& .MuiInputBase-input.Mui-disabled": {
-                            WebkitTextFillColor: "#36454F",
-                            fontWeight: "bold",
-                          },
-                        }}
-                      />
-                    </Grid>
-                  </>
-                )}
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    fullWidth
+                    id="product"
+                    label="Product"
+                    size="small"
+                    variant="filled"
+                    defaultValue={product.productName}
+                    disabled
+                    sx={{
+                      "& .MuiInputBase-input.Mui-disabled": {
+                        WebkitTextFillColor: "#36454F",
+                        fontWeight: "bold",
+                      },
+                    }}
+                  />
+                </Grid>
 
                 <Grid item xs={12} sm={6}>
                   <TextField
@@ -510,10 +499,7 @@ export default function ItemForm({
                 p: 2,
               }}
             >
-              <SubmitButton
-                isLoading={loading}
-                title={isUpdate ? "Update Specs" : "Create Specs"}
-              />
+              <SubmitButton isLoading={loading} title="Update Specs" />
             </Box>
           </Paper>
         </Grid>

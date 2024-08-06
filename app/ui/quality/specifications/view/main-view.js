@@ -182,7 +182,7 @@ export default function MainView({initialData = {}}) {
                           : ""}
                       </TableCell>
                       <TableCell>{field.quantity}</TableCell>
-                      <TableCell>{field.unit.abbreviation}</TableCell>
+                      <TableCell>{field.unit?.abbreviation}</TableCell>
                       <TableCell>{field.remarks}</TableCell>
                       <TableCell>
                         <Link

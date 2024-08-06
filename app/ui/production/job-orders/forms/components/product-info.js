@@ -30,7 +30,7 @@ export default function ProductInfo({product, data}) {
               {deliveryDate ? formatISODateToReadable(deliveryDate) : ""}
             </TableCell>
             <TableCell>{quantity}</TableCell>
-            <TableCell>{unit.abbreviation}</TableCell>
+            <TableCell>{unit?.abbreviation}</TableCell>
             <TableCell>{remarks}</TableCell>
           </TableRow>
         </TableBody>
