@@ -12,6 +12,7 @@ const fetcher = (url) => getData(url);
 const AutoCompleteForm = ({
   selectedDetails,
   setSelectedDetails,
+  customerId,
   columnName,
   title,
   variant,
@@ -21,8 +22,10 @@ const AutoCompleteForm = ({
   const [inputValue, setInputValue] = useState("");
   const [debouncedInputValue] = useDebounce(inputValue, 300);
 
+  const hasCustomerId = customerId ? `&customerId=${customerId}` : "";
+
   const {data, error} = useSWR(
-    `${endpoint}/?search=${debouncedInputValue}`,
+    `${endpoint}?search=${debouncedInputValue}${hasCustomerId}`,
     fetcher
   );
 

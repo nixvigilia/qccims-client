@@ -8,7 +8,7 @@ export default function Page({params}) {
   const {id} = params;
   const fetcher = (url) => getData(url);
   const {data, error, mutate} = useSWR(
-    id ? `/api/production/job/items/${parseInt(id)}` : null,
+    id ? `/api/production/product-specs/${parseInt(id)}` : null,
     fetcher
   );
 

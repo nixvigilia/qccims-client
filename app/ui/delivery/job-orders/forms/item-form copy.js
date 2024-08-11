@@ -20,9 +20,7 @@ export default function ItemForm({
   isUpdate = false,
   mutate,
 }) {
-  const router = useRouter();
-  const {jobOrder, product, productSpecs} = initialData;
-  const {customer} = jobOrder;
+
 
   const formatDate = (date) => (date ? dayjs(date).format("YYYY-MM-DD") : "");
 

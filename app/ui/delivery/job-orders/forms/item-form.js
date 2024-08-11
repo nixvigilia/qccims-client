@@ -1,7 +1,6 @@
 "use client";
 
 import {useState, useEffect} from "react";
-import {useRouter} from "next/navigation";
 import {useForm, FormProvider} from "react-hook-form";
 import {postRequest, updateRequest} from "@/lib/api/requestApi";
 import Box from "@mui/material/Box";
@@ -12,6 +11,8 @@ import TextField from "@mui/material/TextField";
 import SubmitButton from "@/components/FormInputs/SubmitButton";
 import formatISODateToReadable from "@/utils/helpers/formatISODateToReadable";
 import dayjs from "dayjs";
+import AutoCompleteForm from "./auto-complete-form";
+import {useRouter} from "next/navigation";
 
 export default function ItemForm({
   initialData = {},
@@ -19,7 +20,16 @@ export default function ItemForm({
   isUpdate = false,
   mutate,
 }) {
+  const router = useRouter();
   const formatDate = (date) => (date ? dayjs(date).format("YYYY-MM-DD") : "");
+
+  const [loading, setLoading] = useState(false);
+  const [selectedCustomer, setSelectedCustomer] = useState(
+    initialData?.products?.[0]?.customer || null
+  );
+  const [selectedProducts, setSelectedProducts] = useState(
+    initialData?.products?.[0] || null
+  );
 
   let formattedProductSpecs;
 
@@ -40,14 +50,14 @@ export default function ItemForm({
 
   useEffect(() => {
     reset(formattedProductSpecs || {});
-  }, [reset]);
-
-  const [loading, setLoading] = useState(false);
+  }, [reset, itemId]);
 
   async function onSubmit(data) {
     const filteredData = {
+      id: itemId,
+      productId: selectedProducts?.id,
       supersedeNumber: data.supersedeNumber || null,
-      supersedeDate: new Date(data.supersedeDate) || null,
+      supersedeDate: data.supersedeDate ? new Date(data.supersedeDate) : null,
       canSize: data.canSize || null,
       body1: data.body1 || null,
       body2: data.body2 || null,
@@ -82,25 +92,31 @@ export default function ItemForm({
     };
 
     if (isUpdate && itemId) {
-      await updateRequest(
+      const response = await updateRequest(
         setLoading,
         `api/production/product-specs/${itemId}`,
         filteredData,
-        "Job Order",
+        "Product Specs",
         reset
       );
-    } else {
-      await postRequest(
-        setLoading,
-        "api/production/product-specs",
-        filteredData,
-        "Job Order",
-        reset
-      );
-    }
 
-    if (mutate) {
-      mutate();
+      if (response.status === 200) {
+        mutate();
+      }
+    } else {
+      const response = await postRequest(
+        setLoading,
+        "api/production/product-specs/new",
+        filteredData,
+        "Product Specs",
+        reset
+      );
+      if (response.status === 201) {
+        router.push("/production/specification");
+        if (mutate) {
+          mutate();
+        }
+      }
     }
   }
 
@@ -114,6 +130,8 @@ export default function ItemForm({
     "Top Ring 4",
   ];
 
+  console.log(initialData);
+
   return (
     <FormProvider {...methods}>
       <Box mt={4} component="form" onSubmit={handleSubmit(onSubmit)} noValidate>
@@ -125,109 +143,84 @@ export default function ItemForm({
               </Typography>
 
               <Grid container spacing={3}>
-                <Grid container justifyContent="flex-end" spacing={2}>
-                  <Grid item xs={12} sm={3}>
-                    <TextField
-                      fullWidth
-                      id="supersedeNumber"
-                      label="Supersede Number"
-                      size="small"
-                      InputLabelProps={{shrink: true}}
-                      {...register("supersedeNumber")}
-                    />
-                  </Grid>
-
-                  <Grid item xs={12} sm={3}>
-                    <TextField
-                      fullWidth
-                      id="supersedeDate"
-                      label="Supersede Date"
-                      size="small"
-                      type="date"
-                      InputLabelProps={{shrink: true}}
-                      {...register("supersedeDate")}
-                    />
-                  </Grid>
-                </Grid>
-
-                {/* Remove the disabled fields if there's no itemId */}
-                {itemId && (
+                {itemId ? (
                   <>
-                    <Grid item xs={12} sm={3}>
-                      <TextField
-                        fullWidth
-                        id="jobOrderId"
-                        label="Job Order ID"
-                        size="small"
-                        variant="filled"
-                        InputLabelProps={{shrink: true}}
-                        defaultValue={initialData.jobNumber}
-                        disabled
-                        sx={{
-                          "& .MuiInputBase-input.Mui-disabled": {
-                            WebkitTextFillColor: "#36454F",
-                          },
-                        }}
-                      />
-                    </Grid>
-
                     <Grid item xs={12} sm={6}>
                       <TextField
                         fullWidth
-                        id="customer"
-                        label="Customer"
+                        label="Can Size"
                         size="small"
                         variant="filled"
-                        InputLabelProps={{shrink: true}}
-                        defaultValue={initialData.companyName}
-                        disabled
-                        sx={{
-                          "& .MuiInputBase-input.Mui-disabled": {
-                            WebkitTextFillColor: "#36454F",
-                          },
+                        defaultValue={
+                          initialData.products[0]?.customer?.companyName
+                        }
+                        InputProps={{
+                          readOnly: true,
                         }}
                       />
                     </Grid>
-
-                    <Grid item xs={12} sm={3}>
-                      <TextField
-                        fullWidth
-                        id="jobDate"
-                        label="Date Created"
-                        size="small"
-                        variant="filled"
-                        InputLabelProps={{shrink: true}}
-                        defaultValue={formatISODateToReadable(
-                          initialData.jobDate
-                        )}
-                        disabled
-                        sx={{
-                          "& .MuiInputBase-input.Mui-disabled": {
-                            WebkitTextFillColor: "#36454F",
-                          },
-                        }}
-                      />
-                    </Grid>
-
                     <Grid item xs={12} sm={6}>
                       <TextField
                         fullWidth
-                        id="product"
-                        label="Product"
+                        label="Can Size"
                         size="small"
                         variant="filled"
-                        defaultValue={initialData.productName}
-                        disabled
-                        sx={{
-                          "& .MuiInputBase-input.Mui-disabled": {
-                            WebkitTextFillColor: "#36454F",
-                            fontWeight: "bold",
-                          },
+                        defaultValue={initialData.products[0]?.productName}
+                        InputProps={{
+                          readOnly: true,
                         }}
                       />
                     </Grid>
                   </>
+                ) : (
+                  <>
+                    <Grid item xs={12} sm={6}>
+                      <AutoCompleteForm
+                        selectedDetails={selectedCustomer}
+                        setSelectedDetails={setSelectedCustomer}
+                        columnName="companyName"
+                        title="Customer Name"
+                        endpoint="/api/customer/list"
+                        category="tin"
+                      />
+                    </Grid>
+
+                    <Grid item xs={12} sm={6}>
+                      <AutoCompleteForm
+                        selectedDetails={selectedProducts}
+                        setSelectedDetails={setSelectedProducts}
+                        customerId={selectedCustomer?.id}
+                        columnName="productName"
+                        title="Product Name"
+                        endpoint="/api/quality/products/list"
+                        category="tin"
+                      />
+                    </Grid>
+                  </>
                 )}
+
+                <Grid item xs={12} sm={3}>
+                  <TextField
+                    fullWidth
+                    id="supersedeNumber"
+                    label="Supersede Number"
+                    size="small"
+                    InputLabelProps={{shrink: true}}
+                    {...register("supersedeNumber")}
+                  />
+                </Grid>
+
+                <Grid item xs={12} sm={3}>
+                  <TextField
+                    fullWidth
+                    id="supersedeDate"
+                    label="Supersede Date"
+                    size="small"
+                    type="date"
+                    InputLabelProps={{shrink: true}}
+                    {...register("supersedeDate")}
+                  />
+                </Grid>
 
                 <Grid item xs={12} sm={6}>
                   <TextField
@@ -235,7 +228,6 @@ export default function ItemForm({
                     id="canSize"
                     label="Can Size"
                     size="small"
-                    variant="filled"
                     InputLabelProps={{shrink: true}}
                     {...register("canSize")}
                     error={!!errors.canSize}

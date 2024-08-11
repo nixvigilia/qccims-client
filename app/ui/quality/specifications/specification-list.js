@@ -22,7 +22,7 @@ const SpecificationList = () => {
 
   const fetcher = (url) => getData(url);
   const {data, error} = useSWR(
-    `/api/delivery/job/orders?status=${status}&search=${debouncedSearch}&page=${page}&limit=${ITEMS_PER_PAGE}`,
+    `/api/production/product-specs/list?search=${debouncedSearch}&page=${page}&limit=${ITEMS_PER_PAGE}&list=${true}`,
     fetcher,
     {revalidateOnFocus: true}
   );
@@ -36,11 +36,8 @@ const SpecificationList = () => {
   }, []);
 
   const tableHeaders = [
-    {label: "Job Order ID"},
-    {label: "Customer"},
-    {label: "Order Date"},
-    {label: "Delivery Date"},
-    {label: "Status"},
+    {label: "Product"},
+    {label: "Customer "},
     {label: "Action", align: "center"},
   ];
 
