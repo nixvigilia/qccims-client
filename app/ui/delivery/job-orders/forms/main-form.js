@@ -1,5 +1,3 @@
-"use client";
-
 import {useState, useEffect} from "react";
 import {useRouter} from "next/navigation";
 import {useForm, useFieldArray, FormProvider} from "react-hook-form";
@@ -22,12 +20,18 @@ import AutoCompleteForm from "./auto-complete-form";
 
 export default function MainForm({initialData = {}, mutate, isUpdate = false}) {
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
+  const [selectedCustomer, setSelectedCustomer] = useState(null);
+  const [selectedProducts, setSelectedProducts] = useState([]);
+  const [unit, setUnit] = useState([]);
+  const [errors, setErrors] = useState({}); // State for tracking validation errors
 
   const formatDate = (date) => (date ? dayjs(date).format("YYYY-MM-DD") : "");
+  const today = dayjs().format("YYYY-MM-DD");
 
   const formattedInitialData = {
     ...initialData,
-    jobDate: formatDate(initialData.jobDate),
+    jobDate: today,
     jobOrderItems: initialData.jobOrderItems?.map((item) => ({
       ...item,
       deliveryDate: formatDate(item.deliveryDate),
@@ -50,18 +54,13 @@ export default function MainForm({initialData = {}, mutate, isUpdate = false}) {
     handleSubmit,
     control,
     reset,
-    formState: {errors},
+    formState: {errors: formErrors},
   } = useForm({defaultValues: formattedInitialData});
 
   const {fields, append, remove} = useFieldArray({
     control,
     name: "jobOrderItems",
   });
-
-  const [loading, setLoading] = useState(false);
-  const [selectedCustomer, setSelectedCustomer] = useState(null);
-  const [selectedProducts, setSelectedProducts] = useState([]);
-  const [unit, setUnit] = useState([]);
 
   useEffect(() => {
     if (isUpdate && initialData.customer) {
@@ -85,10 +84,34 @@ export default function MainForm({initialData = {}, mutate, isUpdate = false}) {
   }, [initialData, isUpdate]);
 
   function redirect() {
-    router.push("/production/job-orders");
+    router.push("/production/printing");
   }
 
+  // Validation function
+  const validateForm = () => {
+    const newErrors = {};
+    if (!selectedCustomer) {
+      newErrors.customer = "Customer is required";
+    }
+
+    fields.forEach((field, index) => {
+      if (!selectedProducts[index] || !selectedProducts[index].id) {
+        newErrors[`product-${index}`] = "Product is required";
+      }
+      if (!unit[index] || !unit[index].id) {
+        newErrors[`unit-${index}`] = "Unit is required";
+      }
+    });
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   async function onSubmit(data) {
+    if (!validateForm()) {
+      return;
+    }
+
     data.customerId = selectedCustomer?.id || null;
     data.jobOrderItems = data.jobOrderItems.map((item, index) => ({
       ...item,
@@ -101,7 +124,6 @@ export default function MainForm({initialData = {}, mutate, isUpdate = false}) {
 
     const updatePayload = {
       ...data,
-      category: "tin",
       jobOrderItemsToUpdate: itemsToUpdate,
       jobOrderItemsToCreate: itemsToCreate,
     };
@@ -126,7 +148,7 @@ export default function MainForm({initialData = {}, mutate, isUpdate = false}) {
       );
 
       if (response.status === 201) {
-        router.push(`${response.data.id}`);
+        router.push("/production/printing");
       }
     }
   }
@@ -169,6 +191,9 @@ export default function MainForm({initialData = {}, mutate, isUpdate = false}) {
                       title="Customer Name"
                       endpoint="/api/customer/list"
                     />
+                    {errors.customer && (
+                      <Typography color="error">{errors.customer}</Typography>
+                    )}
                   </Box>
                 </Grid>
 
@@ -181,11 +206,13 @@ export default function MainForm({initialData = {}, mutate, isUpdate = false}) {
                     name="jobDate"
                     type="date"
                     InputLabelProps={{shrink: true}}
+                    value={today} // Set to today's date
+                    disabled // Disable the input field
                     {...register("jobDate", {
                       required: "Job Date is required",
                     })}
-                    error={!!errors.jobDate}
-                    helperText={errors.jobDate?.message}
+                    error={!!formErrors.jobDate}
+                    helperText={formErrors.jobDate?.message}
                   />
                 </Grid>
 
@@ -199,8 +226,8 @@ export default function MainForm({initialData = {}, mutate, isUpdate = false}) {
                     rows={3}
                     InputLabelProps={{shrink: true}}
                     {...register("remarks")}
-                    error={!!errors.remarks}
-                    helperText={errors.remarks?.message}
+                    error={!!formErrors.remarks}
+                    helperText={formErrors.remarks?.message}
                   />
                 </Grid>
               </Grid>
@@ -221,12 +248,18 @@ export default function MainForm({initialData = {}, mutate, isUpdate = false}) {
                           updatedProducts[index] = newValue;
                           setSelectedProducts(updatedProducts);
                         }}
+                        customerId={selectedCustomer?.id}
                         columnName="productName"
                         variant="outlined"
                         title="Product Name"
                         endpoint="/api/quality/products/list"
                         size="small"
                       />
+                      {errors[`product-${index}`] && (
+                        <Typography color="error">
+                          {errors[`product-${index}`]}
+                        </Typography>
+                      )}
                     </Grid>
 
                     <Grid item xs={12} sm={3}>
@@ -239,9 +272,9 @@ export default function MainForm({initialData = {}, mutate, isUpdate = false}) {
                         InputLabelProps={{shrink: true}}
                         name={`jobOrderItems[${index}].salesOrder`}
                         {...register(`jobOrderItems[${index}].salesOrder`)}
-                        error={!!errors.jobOrderItems?.[index]?.salesOrder}
+                        error={!!formErrors.jobOrderItems?.[index]?.salesOrder}
                         helperText={
-                          errors.jobOrderItems?.[index]?.salesOrder?.message
+                          formErrors.jobOrderItems?.[index]?.salesOrder?.message
                         }
                       />
                     </Grid>
@@ -257,9 +290,12 @@ export default function MainForm({initialData = {}, mutate, isUpdate = false}) {
                         variant="outlined"
                         InputLabelProps={{shrink: true}}
                         {...register(`jobOrderItems[${index}].deliveryDate`)}
-                        error={!!errors.jobOrderItems?.[index]?.deliveryDate}
+                        error={
+                          !!formErrors.jobOrderItems?.[index]?.deliveryDate
+                        }
                         helperText={
-                          errors.jobOrderItems?.[index]?.deliveryDate?.message
+                          formErrors.jobOrderItems?.[index]?.deliveryDate
+                            ?.message
                         }
                       />
                     </Grid>
@@ -278,12 +314,18 @@ export default function MainForm({initialData = {}, mutate, isUpdate = false}) {
                         {...register(`jobOrderItems[${index}].quantity`, {
                           required: "Quantity is required",
                         })}
-                        error={!!errors.jobOrderItems?.[index]?.quantity}
+                        error={!!formErrors.jobOrderItems?.[index]?.quantity}
                         helperText={
-                          errors.jobOrderItems?.[index]?.quantity?.message
+                          formErrors.jobOrderItems?.[index]?.quantity?.message
                         }
                       />
+                      {errors[`quantity-${index}`] && (
+                        <Typography color="error">
+                          {errors[`quantity-${index}`]}
+                        </Typography>
+                      )}
                     </Grid>
+
                     <Grid item xs={12} sm={3}>
                       <AutoCompleteForm
                         selectedDetails={unit[index]}
@@ -298,6 +340,11 @@ export default function MainForm({initialData = {}, mutate, isUpdate = false}) {
                         endpoint="/api/units/list"
                         size="small"
                       />
+                      {errors[`unit-${index}`] && (
+                        <Typography color="error">
+                          {errors[`unit-${index}`]}
+                        </Typography>
+                      )}
                     </Grid>
                     <Grid item xs={12} sm={6}>
                       <TextField
@@ -309,9 +356,9 @@ export default function MainForm({initialData = {}, mutate, isUpdate = false}) {
                         variant="outlined"
                         InputLabelProps={{shrink: true}}
                         {...register(`jobOrderItems[${index}].remarks`)}
-                        error={!!errors.jobOrderItems?.[index]?.remarks}
+                        error={!!formErrors.jobOrderItems?.[index]?.remarks}
                         helperText={
-                          errors.jobOrderItems?.[index]?.remarks?.message
+                          formErrors.jobOrderItems?.[index]?.remarks?.message
                         }
                       />
                     </Grid>

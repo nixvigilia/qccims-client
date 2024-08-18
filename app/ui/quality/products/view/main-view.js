@@ -18,12 +18,13 @@ import MenuItem from "@mui/material/MenuItem";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import DownloadIcon from "@mui/icons-material/Download";
 import {PDFDownloadLink} from "@react-pdf/renderer";
-import PurchaseOrderPdf from "../pdf/PurchaseOrderPdf";
+import JobOrderPdf from "../pdf/job-order-pdf";
 import Swal from "sweetalert2";
 import NextLink from "next/link";
 import Link from "@mui/material/Link";
 import formatISODateToReadable from "@/utils/helpers/formatISODateToReadable";
 import PrintTwoToneIcon from "@mui/icons-material/PrintTwoTone";
+import {PDFViewer} from "@react-pdf/renderer";
 
 export default function MainView({initialData = {}}) {
   const formattedInitialData = {
@@ -71,6 +72,8 @@ export default function MainView({initialData = {}}) {
       }
     });
   };
+
+  console.log(initialData);
 
   return (
     <FormProvider>
@@ -129,8 +132,8 @@ export default function MainView({initialData = {}}) {
                 </MenuItem>
               </Link>
               <PDFDownloadLink
-                document={<PurchaseOrderPdf data={initialData} />}
-                fileName={`PO${initialData.id}.pdf`}
+                document={<JobOrderPdf data={initialData} />}
+                fileName={`${initialData.jobNumber}.pdf`}
                 style={{textDecoration: "none", color: "inherit"}}
               >
                 {({loading}) => (
@@ -152,11 +155,14 @@ export default function MainView({initialData = {}}) {
                 <strong>Customer Name:</strong>{" "}
                 {initialData.customer.companyName}
               </Typography>
-            </Grid>
-            <Grid item xs={12} sm={4}>
               <Typography variant="body1">
                 <strong>Date:</strong>{" "}
                 {formatISODateToReadable(initialData.jobDate)}
+              </Typography>
+            </Grid>
+            <Grid item xs={12} sm={4}>
+              <Typography variant="body1">
+                <strong>Remarks:</strong> {initialData.customer.remarks}
               </Typography>
             </Grid>
           </Grid>
