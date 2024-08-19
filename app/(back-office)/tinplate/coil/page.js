@@ -5,7 +5,7 @@ import Button from "@mui/material/Button";
 import AddIcon from "@mui/icons-material/Add";
 import Box from "@mui/material/Box";
 import PageBreadCrumbs from "@/app/ui/tinplate/coil/page-bread-crumbs";
-import CoilList from "@/app/ui/tinplate/coil/coil-list";
+import WholeList from "@/app/ui/tinplate/coil/coil-list";
 
 const Page = () => {
   return (
@@ -49,7 +49,7 @@ const Page = () => {
           </Link>
         </Grid>
       </Grid>
-      <CoilList />
+      <WholeList />
     </>
   );
 };

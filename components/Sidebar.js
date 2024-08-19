@@ -266,9 +266,9 @@ const Sidebar = ({
                         color="inherit"
                         variant="body2"
                         key={index}
-                        style={{textDecoration: "none"}}
+                        style={{textDecoration: "none", }}
                         passHref
-                        sx={{fontSize: ".9rem", textDecoration: "none"}}
+                        sx={{fontSize: ".8rem", textDecoration: "none"}}
                       >
                         <ListItemButton
                           sx={{
@@ -279,7 +279,8 @@ const Sidebar = ({
                           }}
                         >
                           <ListItemText
-                            primary={<Typography>{option.name}</Typography>}
+                            primary={<Typography sx={{fontSize: ".92rem"}}>{option.name}</Typography>}
+                            
                           />
                         </ListItemButton>
                       </Link>

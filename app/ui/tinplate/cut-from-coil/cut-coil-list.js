@@ -1,16 +1,17 @@
 "use client";
-import React, { useState, useCallback } from "react";
+import React, {useState, useCallback} from "react";
 import FilterForm from "./forms/filter-form";
-import { fetchWithToken } from "@/lib/actions/data/getData";
+import {getData} from "@/lib/actions/data/getData";
 import useSWR from "swr";
-import { useSearchParams } from "next/navigation";
-import { useDebounce } from "use-debounce";
+// import HorizontalNav from "./nav/horizontal-nav";
+import {useSearchParams} from "next/navigation";
+import {useDebounce} from "use-debounce";
 import TableSkeleton from "./skeletons/table-skeleton";
 import MainTable from "./tables/main-table";
 
 const ITEMS_PER_PAGE = 20;
 
-const CutCoilList = () => {
+const WholeList = () => {
   const searchParams = useSearchParams();
   const status = searchParams.get("status") || "";
   const initialSearch = searchParams.get("search") || "";
@@ -19,10 +20,12 @@ const CutCoilList = () => {
   const [debouncedSearch] = useDebounce(search, 300);
   const [page, setPage] = useState(1);
 
-  // const { data, error, mutate } = useSWR(
-  //   `/api/quality/products/list?status=${status}&search=${debouncedSearch}&page=${page}&limit=${ITEMS_PER_PAGE}`,
-  //   fetchWithToken
-  // );
+  const fetcher = (url) => getData(url);
+  const {data, error} = useSWR(
+    `/api/tinplate/cut/list?search=${debouncedSearch}&page=${page}&limit=${ITEMS_PER_PAGE}&list=${true}`,
+    fetcher,
+    {revalidateOnFocus: true}
+  );
 
   const handleSearchChange = useCallback((e) => {
     setSearch(e.target.value);
@@ -36,36 +39,33 @@ const CutCoilList = () => {
     { label: "Contract No." },
     { label: "Supplier Name" },
     { label: "Vessel Name" },
-    { label: "Coil No." },
+    { label: "Skid" },
     { label: "Type of Material" },
-    { label: "Action", align: "center" },
+    { label: "Date Received" },
+    {label: "Action", align: "center"},
   ];
 
   return (
     <>
       <FilterForm onSearchChange={handleSearchChange} />
-      {/* {error && */}
-      <div className="p-6">Failed to load</div>
-      {/* } */}
-      {/* {!data && !error && ( */}
-      <div className="p-6">
-        <TableSkeleton rowsNum={6} tableHeaders={tableHeaders} />
-      </div>
-      {/* )} */}
-      {/* {data && ( */}
-      <MainTable
-        tableHeaders={tableHeaders}
-        // data={data}
-        // mutate={mutate}
-        totalCount=""
-        // {data.totalCount}
-        itemsPerPage={ITEMS_PER_PAGE}
-        page={page}
-        onPageChange={handlePageChange}
-      />
-      {/* )} */}
+      {error && <div className="p-6">Failed to load</div>}
+      {!data && !error && (
+        <div className="p-6">
+          <TableSkeleton rowsNum={6} tableHeaders={tableHeaders} />
+        </div>
+      )}
+      {data && (
+        <MainTable
+          tableHeaders={tableHeaders}
+          data={data}
+          totalCount={data.totalCount}
+          itemsPerPage={ITEMS_PER_PAGE}
+          page={page}
+          onPageChange={handlePageChange}
+        />
+      )}
     </>
   );
 };
 
-export default CutCoilList;
+export default WholeList;

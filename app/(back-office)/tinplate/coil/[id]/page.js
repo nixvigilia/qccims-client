@@ -7,10 +7,10 @@ import MainView from "@/app/ui/tinplate/coil/view/main-view";
 export default function Page({ params }) {
   const { id } = params;
   const fetcher = (url) => getData(url);
-  // const { data, error } = useSWR(
-  //   id ? `/api/delivery/job/orders/${id}` : null,
-  //   fetcher
-  // );
+  const { data, error } = useSWR(
+    id ? `/api/tinplate/whole/${id}` : null,
+    fetcher
+  );
 
   if (error) return <div>Failed to load</div>;
   if (!data) return <div>Loading...</div>;
@@ -18,7 +18,7 @@ export default function Page({ params }) {
   return (
     <>
       <PageBreadCrumbs
-      // lastPathName={data?.jobNumber}
+      lastPathName={data?.jobNumber}
       />
       <MainView initialData={data} />
     </>

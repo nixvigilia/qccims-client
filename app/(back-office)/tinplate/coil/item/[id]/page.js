@@ -1,14 +1,18 @@
 "use client";
 import useSWR from "swr";
-import { getData } from "@/lib/actions/data/getData";
+import { fetchWithToken } from "@/lib/actions/data/getData"; // Adjust the path if needed
 import PageBreadCrumbs from "@/app/ui/tinplate/coil/page-bread-crumbs";
-import ItemForm from "@/app/ui/tinplate/coil/forms/item-form";
+import MainView from "@/app/ui/tinplate/coil/view/main-view";
 
 export default function Page({ params }) {
   const { id } = params;
-  const fetcher = (url) => getData(url);
-  const { data, error, mutate } = useSWR(
-    id ? `/api/production/job/items/${parseInt(id)}` : null,
+
+  // Define the fetcher function
+  const fetcher = (url) => fetchWithToken(url);
+
+  // Fetch data from the API using SWR
+  const { data, error } = useSWR(
+    id ? `/api/tinplate/whole/${id}` : null,
     fetcher
   );
 
@@ -17,13 +21,10 @@ export default function Page({ params }) {
 
   return (
     <>
-      <PageBreadCrumbs lastPathName={data?.product.productName} />
-      <ItemForm
-        initialData={data}
-        itemId={parseInt(id)}
-        isUpdate
-        mutate={mutate}
+      <PageBreadCrumbs
+        lastPathName={data?.contract} // Adjust the breadcrumb's last path name as needed
       />
+      <MainView initialData={data} />
     </>
   );
 }
